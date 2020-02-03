@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Heading from '../atoms/Heading/Heading';
 import Text from '../atoms/Text/Text';
 import CommentsIcon from '../../assets/comments.svg';
 import HeartIcon from '../../assets/heart.svg';
-import UserImage from '../../assets/photo.jpeg';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -19,6 +19,13 @@ const StyledCommentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 1100px) {
+    width: 80%;
+    max-width: 980px;
+    flex-direction: row;
+    justify-content: space-around;
+  }
 `;
 
 const StyledAuthorWrapper = styled.div`
@@ -33,6 +40,10 @@ const StyledAuthorImage = styled.figure`
   width: 5.5rem;
   height: 5.5rem;
   margin-right: 2rem;
+  @media (min-width: 1500px) {
+    width: 6rem;
+    height: 6rem;
+  }
 
   img {
     width: 100%;
@@ -52,6 +63,11 @@ const StyledInfoWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  @media (min-width: 1100px) {
+    margin-top: 5rem;
+    z-index: 8;
+    transform: translateX(-6rem);
+  }
 `;
 
 const StyledIconWrapper = styled.div`
@@ -68,8 +84,8 @@ const StyledQuantity = styled.span`
 `;
 
 const StyledIcon = styled.div`
-  width: 5rem;
-  height: 5rem;
+  width: 4rem;
+  height: 4rem;
   background-image: url(${({ icon }) => icon});
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -85,31 +101,39 @@ const StyledButton = styled.button`
   border-radius: 30px;
   padding: 0.6rem 1.6rem;
 `;
-const Comment = () => (
+const Comment = ({ url, title, author, likes, comments }) => (
   <StyledWrapper>
     <StyledCommentWrapper>
       <StyledAuthorWrapper>
         <StyledAuthorImage>
-          <img src={UserImage} alt="author" />
+          <img src={url} alt="author" />
         </StyledAuthorImage>
         <StyledTitleWrapper>
-          <Heading>My new post!</Heading>
-          <Text>Reviewing awsome book, check it out!</Text>
+          <Heading>{author}</Heading>
+          <Text>{title}</Text>
         </StyledTitleWrapper>
       </StyledAuthorWrapper>
       <StyledInfoWrapper>
         <StyledIconWrapper>
           <StyledIcon icon={CommentsIcon} />
-          <StyledQuantity>3</StyledQuantity>
+          <StyledQuantity>{comments}</StyledQuantity>
         </StyledIconWrapper>
         <StyledIconWrapper>
           <StyledIcon icon={HeartIcon} />
-          <StyledQuantity>2</StyledQuantity>
+          <StyledQuantity>{likes}</StyledQuantity>
         </StyledIconWrapper>
         <StyledButton>Comment</StyledButton>
       </StyledInfoWrapper>
     </StyledCommentWrapper>
   </StyledWrapper>
 );
+
+Comment.propTypes = {
+  url: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
+  likes: PropTypes.number.isRequired,
+  comments: PropTypes.number.isRequired,
+};
 
 export default Comment;

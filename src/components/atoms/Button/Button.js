@@ -20,19 +20,23 @@ const StyledIcon = styled.button`
     css`
       width: 5rem;
       height: 5rem;
-      position: absolute;
+      position: fixed;
       top: 80%;
       right: 5%;
       border-radius: 50px;
       background-color: ${({ theme }) => theme.buttonColor};
       background-size: 50% 50%;
+
+      @media (min-width: 650px) {
+        top: 87%;
+      }
     `}
       ${({ close }) =>
         close &&
         css`
           width: 5rem;
           height: 5rem;
-          position: absolute;
+          position: fixed;
           top: 85%;
           right: 5%;
           border-radius: 50px;
