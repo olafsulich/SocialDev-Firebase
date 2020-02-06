@@ -11,7 +11,6 @@ const StyledWrapper = styled.aside`
   width: 100%;
   height: 10vh;
   position: fixed;
-  z-index: 12;
   background: #fff;
   display: flex;
   align-items: center;

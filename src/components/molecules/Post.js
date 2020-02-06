@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Heading from '../atoms/Heading/Heading';
+import Button from '../atoms/Button/Button';
 import Text from '../atoms/Text/Text';
 import CommentsIcon from '../../assets/comments.svg';
 import HeartIcon from '../../assets/heart.svg';
+import RemoveIcon from '../../assets/delete.svg';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -93,47 +95,52 @@ const StyledIcon = styled.div`
   background-color: #fff;
 `;
 
-const StyledButton = styled.button`
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.regular};
-  color: ${({ theme }) => theme.fontColorText};
-  background-color: ${({ theme }) => theme.primaryColor};
-  border-radius: 30px;
-  padding: 0.6rem 1.6rem;
-`;
-const Comment = ({ url, title, author, likes, comments }) => (
-  <StyledWrapper>
-    <StyledCommentWrapper>
-      <StyledAuthorWrapper>
-        <StyledAuthorImage>
-          <img src={url} alt="author" />
-        </StyledAuthorImage>
-        <StyledTitleWrapper>
-          <Heading>{author}</Heading>
-          <Text>{title}</Text>
-        </StyledTitleWrapper>
-      </StyledAuthorWrapper>
-      <StyledInfoWrapper>
-        <StyledIconWrapper>
-          <StyledIcon icon={CommentsIcon} />
-          <StyledQuantity>{comments}</StyledQuantity>
-        </StyledIconWrapper>
-        <StyledIconWrapper>
-          <StyledIcon icon={HeartIcon} />
-          <StyledQuantity>{likes}</StyledQuantity>
-        </StyledIconWrapper>
-        <StyledButton>Comment</StyledButton>
-      </StyledInfoWrapper>
-    </StyledCommentWrapper>
-  </StyledWrapper>
-);
+// const StyledButton = styled.button`
+//   font-size: 1.4rem;
+//   font-weight: ${({ theme }) => theme.regular};
+//   color: ${({ theme }) => theme.fontColorText};
+//   background-color: ${({ theme }) => theme.primaryColor};
+//   border-radius: 30px;
+//   padding: 0.6rem 1.6rem;
+// `;
+const Post = ({ url, title, author, likes, comments, onRemove, id }) => {
+  console.log(id);
+  return (
+    <StyledWrapper>
+      <StyledCommentWrapper>
+        <StyledAuthorWrapper>
+          <StyledAuthorImage>
+            <img src={url} alt="author" />
+          </StyledAuthorImage>
+          <StyledTitleWrapper>
+            <Heading>{author}</Heading>
+            <Text>{title}</Text>
+          </StyledTitleWrapper>
+        </StyledAuthorWrapper>
+        <StyledInfoWrapper>
+          <StyledIconWrapper>
+            <StyledIcon icon={CommentsIcon} />
+            <StyledQuantity>{comments}</StyledQuantity>
+          </StyledIconWrapper>
+          <StyledIconWrapper>
+            <StyledIcon icon={HeartIcon} />
+            <StyledQuantity>{likes}</StyledQuantity>
+          </StyledIconWrapper>
+          <Button remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+        </StyledInfoWrapper>
+      </StyledCommentWrapper>
+    </StyledWrapper>
+  );
+};
 
-Comment.propTypes = {
+Post.propTypes = {
   url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   comments: PropTypes.number.isRequired,
+  onRemove: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-export default Comment;
+export default Post;

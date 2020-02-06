@@ -44,6 +44,19 @@ const StyledIcon = styled.button`
           background-size: 50% 50%;
           transform: rotate(45deg);
         `}
+           ${({ remove }) =>
+             remove &&
+             css`
+               width: 4rem;
+               height: 4rem;
+               background-image: url(${({ icon }) => icon});
+               background-repeat: no-repeat;
+               background-position: 50% 50%;
+               background-size: 60% 60%;
+               background-color: #fff;
+               z-index: 10;
+             `}
+        
 `;
 
 export default StyledIcon;

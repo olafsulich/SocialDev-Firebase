@@ -90,14 +90,8 @@ const Sidebar = ({ isVisible, handleSidebar, handleCreate }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  const handleTitleChange = e => {
-    const { value } = e.target;
-    setTitle(value);
-  };
-  const handleContentChange = e => {
-    const { value } = e.target;
-    setContent(value);
-  };
+  const handleTitleChange = ({ target: { value } }) => setTitle(value);
+  const handleContentChange = ({ target: { value } }) => setContent(value);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -110,6 +104,7 @@ const Sidebar = ({ isVisible, handleSidebar, handleCreate }) => {
         'https://avatars3.githubusercontent.com/u/46969484?s=400&u=a7ded4b53b28bb0897465ed54662385b2d0ab55d&v=4',
       likes: 4,
       comments: 3,
+      createdAt: new Date(),
     };
     handleCreate(post);
     setTitle('');

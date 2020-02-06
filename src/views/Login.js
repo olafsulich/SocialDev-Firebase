@@ -17,7 +17,7 @@ const StyledWrapper = styled.section`
 
 const StyledForm = styled.form`
   width: 28rem;
-  height: 28rem;
+  height: 34rem;
   padding: 4.5rem 0 1rem 0;
   border-radius: 20px;
   background-color: #fff;
@@ -143,11 +143,15 @@ const Login = () => {
       <StyledForm>
         <StyledInputsWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="email" />
+            <StyledInput placeholder="name" type="text" />
+            <StyledLabel>Name</StyledLabel>
+          </StyledInputLabelWrapper>
+          <StyledInputLabelWrapper>
+            <StyledInput placeholder="email" type="email" />
             <StyledLabel>Email</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="password" />
+            <StyledInput placeholder="password" type="password" />
             <StyledLabel>Password</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledButton>{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>

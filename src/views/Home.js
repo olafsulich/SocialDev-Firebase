@@ -4,9 +4,9 @@ import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import Button from '../components/atoms/Button/Button';
 import PlusIcon from '../assets/plus.svg';
-import Comment from '../components/molecules/Comment';
+import Post from '../components/molecules/Post';
 import Sidebar from '../components/molecules/Sidebar';
-import data from '../data';
+import GridTemplate from '../templates/GridTemplate';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -18,41 +18,50 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const StyledGrid = styled.div`
-  width: 100%;
-  height: 85%;
-  grid-column: 2/3;
-  margin-top: 3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: 5rem;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 1rem 2rem 0 2rem;
-  margin-bottom: 10vh;
-`;
 const Home = () => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
-  const [posts, setPosts] = useState(data);
+  const [posts, setPosts] = useState([]);
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
-  const handleCreate = post => setPosts([post, ...posts]);
+
+  const handleCreate = postToAdd => {
+    firestore.collection('posts').add(postToAdd);
+    setPosts([postToAdd, ...posts]);
+  };
+  const handleRemove = id => {
+    firestore
+      .collection('posts')
+      .doc(id)
+      .delete();
+  };
+  useEffect(() => {
+    const unsubscribe = firestore.collection('posts').onSnapshot(snapshot => {
+      const newPosts = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPosts(newPosts);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <StyledWrapper>
       <Navigation />
-      <StyledGrid>
+      <GridTemplate>
         {posts.map(({ author, title, url, content, likes, comments, id }) => (
-          <Comment
+          <Post
+            key={title}
             author={author}
             title={title}
             url={url}
             content={content}
             likes={likes}
             comments={comments}
-            key={id}
+            onRemove={handleRemove}
+            id={id}
           />
         ))}
-      </StyledGrid>
+      </GridTemplate>
       <Button icon={PlusIcon} add onClick={handleSidebarOpen} />
       <Sidebar
         isVisible={SidebarOpen}
