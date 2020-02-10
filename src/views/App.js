@@ -4,7 +4,7 @@ import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
-import AppProvider, { Context } from '../context/context';
+import AppProvider from '../context/context';
 import { auth } from '../firebase/firebase';
 
 const App = () => {

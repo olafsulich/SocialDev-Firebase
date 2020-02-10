@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
@@ -131,9 +131,6 @@ const StyledButtonSecondary = styled.button`
 
 const Login = () => {
   const {
-    email,
-    password,
-    displayName,
     newAccount,
     handleEmailChange,
     handlePasswordChange,
