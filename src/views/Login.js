@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
-
+import { Context } from '../context/context';
 const StyledWrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -130,31 +130,37 @@ const StyledButtonSecondary = styled.button`
 `;
 
 const Login = () => {
-  const [newAccount, setNewAccount] = useState(false);
-
-  const handleNewAccount = e => {
-    e.preventDefault();
-    setNewAccount(prevNewAccount => !prevNewAccount);
-  };
+  const {
+    email,
+    password,
+    displayName,
+    newAccount,
+    handleEmailChange,
+    handlePasswordChange,
+    handleDisplayNameChange,
+    handleNewAccount,
+    handleSignin,
+    handleSignup,
+  } = useContext(Context);
 
   return (
     <StyledWrapper>
       <StyledHeading>Social Dev</StyledHeading>
-      <StyledForm>
+      <StyledForm onSubmit={newAccount ? handleSignup : handleSignin}>
         <StyledInputsWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="name" type="text" />
+            <StyledInput placeholder="name" type="text" onChange={handleDisplayNameChange} />
             <StyledLabel>Name</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="email" type="email" />
+            <StyledInput placeholder="email" type="email" onChange={handleEmailChange} />
             <StyledLabel>Email</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="password" type="password" />
+            <StyledInput placeholder="password" type="password" onChange={handlePasswordChange} />
             <StyledLabel>Password</StyledLabel>
           </StyledInputLabelWrapper>
-          <StyledButton>{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
+          <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
         </StyledInputsWrapper>
         <StyledText>
           {newAccount ? 'Have account?' : "Haven't got account?"}

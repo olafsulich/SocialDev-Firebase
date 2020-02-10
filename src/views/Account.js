@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Navigation from '../components/organisms/Navigation';
 import Button from '../components/atoms/Button/Button';
@@ -9,6 +9,7 @@ import Text from '../components/atoms/Text/Text';
 import UserProfileIcon from '../assets/userProfile.svg';
 import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
+import { Context } from '../context/context';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -95,6 +96,7 @@ const StyledButtonLogut = styled.button`
   margin-top: 2rem;
 `;
 const Account = () => {
+  const { handleLogout, email, displayName } = useContext(Context);
   return (
     <StyledWrapper>
       <Navigation />
@@ -107,11 +109,11 @@ const Account = () => {
             />
           </StyledImageWrapper>
           <StyledInfoWrapper>
-            <StyledHeading>Dani Versache</StyledHeading>
-            <StyledText icon={EmailIcon}>daniversache@gmail.com</StyledText>
+            <StyledHeading>{displayName}</StyledHeading>
+            <StyledText icon={EmailIcon}>{email}</StyledText>
             <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
           </StyledInfoWrapper>
-          <StyledButtonLogut>Log out</StyledButtonLogut>
+          <StyledButtonLogut onClick={handleLogout}>Log out</StyledButtonLogut>
         </StyledAccountWrapper>
       </GridTemplate>
       <StyledButton icon={PensilIcon} add />

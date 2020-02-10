@@ -8,6 +8,7 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     margin:0;
     padding:0;
+    outline:none;
   }
 
   button{
@@ -54,6 +55,7 @@ const GlobalStyle = createGlobalStyle`
     position:relative;
     margin:0;
     padding:0;
+    
 
         ::-webkit-scrollbar {
     width: 10px;

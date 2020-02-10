@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../atoms/Button/Button';
 import HomeIcon from '../../assets/home.svg';
@@ -48,6 +49,12 @@ const StyledIconsWrapper = styled.nav`
 const StyledHeading = styled(Heading)`
   margin-bottom: 1rem;
 `;
+
+const StyledLink = styled(Link)`
+  margin-bottom: 1rem;
+  text-decoration: none;
+`;
+
 const Navigation = () => {
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
   const updateDimensions = () => {
@@ -63,21 +70,26 @@ const Navigation = () => {
   return (
     <StyledWrapper>
       <StyledIconsWrapper>
-        {pageWidth >= 650 ? (
-          <>
+        <StyledLink to="/">
+          {pageWidth >= 650 ? (
             <StyledHeading active>Home</StyledHeading>
-            <StyledHeading>Messenger</StyledHeading>
-            <StyledHeading>Notifications</StyledHeading>
-            <StyledHeading>Account</StyledHeading>
-          </>
-        ) : (
-          <>
+          ) : (
             <Button icon={HomeIcon} active />
-            <Button icon={ChatIcon} />
+          )}
+        </StyledLink>
+        <StyledLink to="/messenger">
+          {pageWidth >= 650 ? <StyledHeading>Messenger</StyledHeading> : <Button icon={ChatIcon} />}
+        </StyledLink>
+        <StyledLink to="/notifications">
+          {pageWidth >= 650 ? (
+            <StyledHeading>Notifications</StyledHeading>
+          ) : (
             <Button icon={NotificationIcon} />
-            <Button icon={UserIcon} />
-          </>
-        )}
+          )}
+        </StyledLink>
+        <StyledLink to="/account">
+          {pageWidth >= 650 ? <StyledHeading>Account</StyledHeading> : <Button icon={UserIcon} />}
+        </StyledLink>
       </StyledIconsWrapper>
     </StyledWrapper>
   );

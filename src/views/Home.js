@@ -51,12 +51,11 @@ const Home = () => {
     <StyledWrapper>
       <Navigation />
       <GridTemplate>
-        {posts.map(({ author, title, url, content, likes, comments, id }) => (
+        {posts.map(({ user, title, content, likes, comments, id }) => (
           <Post
             key={title}
-            author={author}
+            user={user}
             title={title}
-            url={url}
             content={content}
             likes={likes}
             comments={comments}

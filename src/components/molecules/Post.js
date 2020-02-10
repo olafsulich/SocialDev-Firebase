@@ -103,17 +103,16 @@ const StyledIcon = styled.div`
 //   border-radius: 30px;
 //   padding: 0.6rem 1.6rem;
 // `;
-const Post = ({ url, title, author, likes, comments, onRemove, id }) => {
-  console.log(id);
+const Post = ({ title, likes, comments, onRemove, id, user: { name, profilePic } }) => {
   return (
     <StyledWrapper>
       <StyledCommentWrapper>
         <StyledAuthorWrapper>
           <StyledAuthorImage>
-            <img src={url} alt="author" />
+            <img src={profilePic} alt="author" />
           </StyledAuthorImage>
           <StyledTitleWrapper>
-            <Heading>{author}</Heading>
+            <Heading>{name}</Heading>
             <Text>{title}</Text>
           </StyledTitleWrapper>
         </StyledAuthorWrapper>
@@ -134,13 +133,12 @@ const Post = ({ url, title, author, likes, comments, onRemove, id }) => {
 };
 
 Post.propTypes = {
-  url: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   comments: PropTypes.number.isRequired,
   onRemove: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default Post;
