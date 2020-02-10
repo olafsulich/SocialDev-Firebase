@@ -34,13 +34,16 @@ const Home = () => {
       .delete();
   };
   useEffect(() => {
-    const unsubscribe = firestore.collection('posts').onSnapshot(snapshot => {
-      const newPosts = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPosts(newPosts);
-    });
+    const unsubscribe = firestore
+      .collection('posts')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const newPosts = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setPosts(newPosts);
+      });
     return () => unsubscribe();
   }, []);
 
