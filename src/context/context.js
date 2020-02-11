@@ -1,19 +1,19 @@
 import React, { createContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { auth } from '../firebase/firebase';
+import { auth, createUserDoc } from '../firebase/firebase';
 
 export const Context = createContext({
   email: '',
   password: '',
   displayName: '',
   newAccount: false,
+  currentUser: {},
   handleEmailChange: () => {},
   handlePasswordChange: () => {},
   handleDisplayNameChange: () => {},
   handleNewAccount: () => {},
   handleSignup: () => {},
   handleSignin: () => {},
-  handleLogout: () => {},
 });
 
 const Provider = ({ children }) => {
@@ -45,15 +45,20 @@ const Provider = ({ children }) => {
       .catch(error => alert(`Your email or password is incorrect, please check your data`));
   };
 
-  const handleSignup = e => {
+  const handleSignup = async e => {
     e.preventDefault();
-
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .catch(error => alert(`Email is already in use, sign in or use other email`));
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      createUserDoc(user, displayName);
+    } catch (error) {
+      alert('error!!!!');
+    }
   };
 
-  const handleLogout = () => auth.signOut();
+  const handleLogout = () => {
+    auth.signOut();
+  };
+
   return (
     <Context.Provider
       value={{

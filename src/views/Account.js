@@ -10,7 +10,6 @@ import UserProfileIcon from '../assets/userProfile.svg';
 import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
 import { Context } from '../context/context';
-
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -96,7 +95,9 @@ const StyledButtonLogut = styled.button`
   margin-top: 2rem;
 `;
 const Account = () => {
-  const { handleLogout, email, displayName } = useContext(Context);
+  const { currentUser, handleLogout } = useContext(Context);
+  console.log(currentUser);
+
   return (
     <StyledWrapper>
       <Navigation />
@@ -104,13 +105,13 @@ const Account = () => {
         <StyledAccountWrapper>
           <StyledImageWrapper>
             <img
-              src="https://upload.wikimedia.org/wikipedia/en/thumb/9/98/Gianni_Versace.jpg/220px-Gianni_Versace.jpg"
-              alt="user"
+              src="https://capenetworks.com/static/images/testimonials/user-icon.svg"
+              alt="sdadsa"
             />
           </StyledImageWrapper>
           <StyledInfoWrapper>
-            <StyledHeading>{displayName}</StyledHeading>
-            <StyledText icon={EmailIcon}>{email}</StyledText>
+            <StyledHeading>{}</StyledHeading>
+            <StyledText icon={EmailIcon}>{}</StyledText>
             <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
           </StyledInfoWrapper>
           <StyledButtonLogut onClick={handleLogout}>Log out</StyledButtonLogut>

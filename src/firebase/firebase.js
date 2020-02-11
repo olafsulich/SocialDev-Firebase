@@ -16,4 +16,42 @@ firebase.initializeApp(firebaseConfig);
 
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
+
+/* eslint-disable */
+export const getUserDoc = async uid => {
+  if (!uid) return null;
+  try {
+    const userDoc = await firestore
+      .collection('users')
+      .doc(uid)
+      .get();
+    return { uid, ...userDoc.data() };
+  } catch (error) {
+    console.log('Error with firebase getUserDoc :OOOO!!!!', error);
+  }
+};
+
+export const createUserDoc = async (user, userName) => {
+  const userRef = await firestore.collection('users').doc(user.uid);
+  const snapshot = await userRef.get();
+  if (!snapshot.exists) {
+    const { displayName, email, photoURL, uid } = user;
+    const createdAt = new Date();
+    try {
+      await userRef.set({
+        displayName,
+        uid,
+        email,
+        photoURL,
+        createdAt,
+        userName,
+      });
+    } catch (error) {
+      console.log('Error with firebase oh no :O!!!!!', error);
+    }
+  }
+  return getUserDoc(user.uid);
+};
+window.firebase = firebase;
+
 export default firebase;

@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Button from '../atoms/Button/Button';
 import PlusIcon from '../../assets/plus.svg';
 import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
-
+import { auth } from '../../firebase/firebase';
+import { Context } from '../../context/context';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -89,22 +90,21 @@ const StyledTextArea = styled(Input)`
 const Sidebar = ({ isVisible, handleSidebar, handleCreate }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-
+  const { displayName } = useContext(Context);
   const handleTitleChange = ({ target: { value } }) => setTitle(value);
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
   const handleSubmit = e => {
     e.preventDefault();
-
+    const { uid, photoURL, email } = auth.currentUser || {};
     const post = {
       title,
       content,
       user: {
-        name: 'Olaf Sulich',
-        uid: '1111',
-        email: 'olafsulich@gmail.com',
-        profilePic:
-          'https://avatars3.githubusercontent.com/u/46969484?s=400&u=a7ded4b53b28bb0897465ed54662385b2d0ab55d&v=4',
+        name: displayName,
+        uid,
+        email,
+        profilePic: photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg',
       },
       likes: 4,
       comments: 3,

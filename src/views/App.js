@@ -4,23 +4,18 @@ import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
-import AppProvider from '../context/context';
 import { auth } from '../firebase/firebase';
-
+import AppProvider from '../context/context';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
     auth.onAuthStateChanged(user => {
-      if (!currentUser) {
-        setCurrentUser(user);
-        localStorage.setItem('user', user.uid);
-      } else {
-        setCurrentUser(null);
-        localStorage.removeItem('user');
-      }
+      // const authUser = createUserDoc(user);
+      console.log(user);
+      setCurrentUser(user);
+      console.log(currentUser);
     });
   }, []);
-
   return (
     <AppProvider>
       <MainTemplate>
