@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
-import { auth } from '../firebase/firebase';
-import AppProvider from '../context/context';
+import { auth, createUserDoc } from '../firebase/firebase';
+import AppProvider, { Context } from '../context/context';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
+
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
-      // const authUser = createUserDoc(user);
-      console.log(user);
-      setCurrentUser(user);
-      console.log(currentUser);
+    auth.onAuthStateChanged(async user => {
+      const authUser = await createUserDoc(user);
+      console.log(authUser);
+      setCurrentUser({ authUser });
     });
   }, []);
   return (
@@ -24,9 +24,17 @@ const App = () => {
             <Login />
           ) : (
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route
+                exact
+                path="/"
+                render={props => <Home {...props} currentUser={currentUser} />}
+              />
               <Route exact path="/login" component={Login} />
-              <Route exact path="/account" component={Account} />
+              <Route
+                exact
+                path="/account"
+                render={props => <Account {...props} user={currentUser} />}
+              />
             </Switch>
           )}
         </BrowserRouter>

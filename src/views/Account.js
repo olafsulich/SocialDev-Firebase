@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Navigation from '../components/organisms/Navigation';
 import Button from '../components/atoms/Button/Button';
 import GridTemplate from '../templates/GridTemplate';
@@ -10,6 +11,8 @@ import UserProfileIcon from '../assets/userProfile.svg';
 import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
 import { Context } from '../context/context';
+import { auth, createUserDoc } from '../firebase/firebase';
+import EditProfile from '../components/molecules/EditProfile';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -92,11 +95,12 @@ const StyledButtonLogut = styled.button`
   background-color: ${({ theme }) => theme.primaryColor};
   border-radius: 30px;
   padding: 0.7rem 4rem;
-  margin-top: 2rem;
+  margin: 2rem 0 0 2rem;
 `;
-const Account = () => {
-  const { currentUser, handleLogout } = useContext(Context);
-  console.log(currentUser);
+const Account = ({ user }) => {
+  const [SidebarOpen, setSidebarOpen] = useState(false);
+  const { userName, email, photoURL } = user.authUser;
+  const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   return (
     <StyledWrapper>
@@ -105,20 +109,24 @@ const Account = () => {
         <StyledAccountWrapper>
           <StyledImageWrapper>
             <img
-              src="https://capenetworks.com/static/images/testimonials/user-icon.svg"
-              alt="sdadsa"
+              src={photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg'}
+              alt={userName}
             />
           </StyledImageWrapper>
           <StyledInfoWrapper>
-            <StyledHeading>{}</StyledHeading>
-            <StyledText icon={EmailIcon}>{}</StyledText>
+            <StyledHeading>{userName}</StyledHeading>
+            <StyledText icon={EmailIcon}>{email}</StyledText>
             <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
           </StyledInfoWrapper>
-          <StyledButtonLogut onClick={handleLogout}>Log out</StyledButtonLogut>
+          <StyledButtonLogut onClick={() => auth.signOut()}>Log out</StyledButtonLogut>
         </StyledAccountWrapper>
+        <StyledButton icon={PensilIcon} add onClick={handleSidebarOpen} />
       </GridTemplate>
-      <StyledButton icon={PensilIcon} add />
+      <EditProfile isVisible={SidebarOpen} handleAddPost={handleSidebarOpen} user={user} />
     </StyledWrapper>
   );
+};
+Account.propTypes = {
+  user: PropTypes.object.isRequired,
 };
 export default Account;

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import Button from '../components/atoms/Button/Button';
 import PlusIcon from '../assets/plus.svg';
 import Post from '../components/molecules/Post';
-import Sidebar from '../components/molecules/Sidebar';
+import AddPost from '../components/molecules/AddPost';
 import GridTemplate from '../templates/GridTemplate';
 
 const StyledWrapper = styled.div`
@@ -18,9 +19,10 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const Home = () => {
+const Home = ({ currentUser }) => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
   const [posts, setPosts] = useState([]);
+  window.posts = posts;
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   const handleCreate = postToAdd => {
@@ -65,12 +67,19 @@ const Home = () => {
         ))}
       </GridTemplate>
       <Button icon={PlusIcon} add onClick={handleSidebarOpen} />
-      <Sidebar
+      <AddPost
         isVisible={SidebarOpen}
-        handleSidebar={handleSidebarOpen}
+        handleAddPost={handleSidebarOpen}
         handleCreate={handleCreate}
+        user={currentUser}
       />
     </StyledWrapper>
   );
+};
+Home.propTypes = {
+  currentUser: PropTypes.object,
+};
+Home.defaultProps = {
+  currentUser: {},
 };
 export default Home;

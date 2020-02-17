@@ -1,7 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
-
+import 'firebase/storage';
 const firebaseConfig = {
   apiKey: 'AIzaSyAO3f-YAKCeZUKsEGrzIrTp5mu67tICYNE',
   authDomain: 'social-dev-dcf2d.firebaseapp.com',
@@ -16,7 +16,7 @@ firebase.initializeApp(firebaseConfig);
 
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
-
+export const storage = firebase.storage();
 /* eslint-disable */
 export const getUserDoc = async uid => {
   if (!uid) return null;
@@ -32,10 +32,10 @@ export const getUserDoc = async uid => {
 };
 
 export const createUserDoc = async (user, userName) => {
-  const userRef = await firestore.collection('users').doc(user.uid);
+  const userRef = await firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
-    const { displayName, email, photoURL, uid } = user;
+    const { displayName, email, photoURL } = user;
     const createdAt = new Date();
     try {
       await userRef.set({

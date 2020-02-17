@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Button from '../atoms/Button/Button';
 import PlusIcon from '../../assets/plus.svg';
 import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
-import { auth } from '../../firebase/firebase';
+import { auth, firestore, storage } from '../../firebase/firebase';
 import { Context } from '../../context/context';
 const StyledWrapper = styled.div`
   width: 100%;
@@ -76,73 +76,80 @@ const StyledForm = styled.form`
   flex-direction: column;
   justify-content: space-around;
 `;
-
-const StyledTextArea = styled(Input)`
-  height: 40vh;
-  border-radius: 20px;
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.regular};
+const StyledInput = styled(Input)`
   margin-top: 2rem;
-  padding: 15px 20px;
-  resize: none;
+`;
+const StyledInputTypeFile = styled(Input)`
+  margin: 2rem 0 10rem 0;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 7px;
+  width: 50%;
+  ::before {
+    width: 100%;
+    height: 100%;
+    content: 'update picture';
+    display: inline-block;
+  }
+  ::-webkit-file-upload-button {
+    display: none;
+  }
 `;
 
-const Sidebar = ({ isVisible, handleSidebar, handleCreate }) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const { displayName } = useContext(Context);
-  const handleTitleChange = ({ target: { value } }) => setTitle(value);
-  const handleContentChange = ({ target: { value } }) => setContent(value);
-
+const EditProfile = ({ isVisible, handleAddPost, user }) => {
+  const [userName, setUserName] = useState('');
+  const handleUserNameChange = ({ target: { value } }) => setUserName(value);
+  const imgRef = null;
   const handleSubmit = e => {
     e.preventDefault();
-    const { uid, photoURL, email } = auth.currentUser || {};
-    const post = {
-      title,
-      content,
-      user: {
-        name: displayName,
-        uid,
-        email,
-        profilePic: photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg',
-      },
-      likes: 4,
-      comments: 3,
-      createdAt: new Date(),
-    };
-    handleCreate(post);
-    setTitle('');
-    setContent('');
+    const file = imgRef && imgRef.files[0];
+
+    if (userName) {
+      firestore.doc(`users/${auth.currentUser.uid}`).update({ userName });
+    }
+    if (file) {
+      storage
+        .ref()
+        .child('user-profiles')
+        .child(auth.currentUser.uid)
+        .child(file.name)
+        .put(file)
+        .then(res => {
+          res.ref.getDownloadURL();
+        })
+        .then(photoURL => firestore.doc(`users/${auth.currentUser.uid}`).update({ photoURL }));
+    }
   };
 
   return (
     <StyledWrapper isVisible={isVisible}>
       <StyledFormWrapper>
         <StyledHeadingWrapper>
-          <StyledHeading>Add post</StyledHeading>
+          <StyledHeading>Edit Profile</StyledHeading>
         </StyledHeadingWrapper>
         <StyledForm onSubmit={handleSubmit}>
-          <Input placeholder="text" value={title} name="title" onChange={handleTitleChange} />
-          <StyledTextArea
-            as="textarea"
-            placeholder="content"
-            value={content}
-            name="content"
-            onChange={handleContentChange}
+          <StyledInput
+            placeholder="user name"
+            value={userName}
+            name="user name"
+            onChange={handleUserNameChange}
           />
+          <StyledInputTypeFile type="file" placeholder="user name" name="file" ref={imgRef} />
         </StyledForm>
         <StyledButtonWrapper>
-          <StyledButton onClick={handleSubmit}>Post</StyledButton>
+          <StyledButton onClick={handleSubmit}>Edit</StyledButton>
         </StyledButtonWrapper>
       </StyledFormWrapper>
-      <Button close icon={PlusIcon} onClick={handleSidebar} />
+      <Button close icon={PlusIcon} onClick={handleAddPost} />
     </StyledWrapper>
   );
 };
-Sidebar.propTypes = {
+EditProfile.propTypes = {
   isVisible: PropTypes.bool.isRequired,
-  handleSidebar: PropTypes.func.isRequired,
-  handleCreate: PropTypes.func.isRequired,
+  handleAddPost: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
-
-export default Sidebar;
+EditProfile.defaultProps = {
+  user: {},
+};
+export default EditProfile;
