@@ -7,6 +7,7 @@ import Text from '../atoms/Text/Text';
 import CommentsIcon from '../../assets/comments.svg';
 import HeartIcon from '../../assets/heart.svg';
 import RemoveIcon from '../../assets/delete.svg';
+import UserPic from '../../assets/userPic.jpg';
 import { firestore, auth } from '../../firebase/firebase';
 
 const StyledWrapper = styled.section`
@@ -101,26 +102,26 @@ const StyledButton = styled.button`
   font-weight: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.fontColorText};
   background-color: ${({ theme }) => theme.primaryColor};
-  border-radius: 30px;
+  border-radius: 12px;
   padding: 0.6rem 1.6rem;
 `;
 const Post = ({ title, likes, comments, onRemove, id, user }) => {
   const postRef = firestore.doc(`posts/${id}`);
+
   const like = () => postRef.update({ likes: likes + 1 });
+
   const isUserPost = (currentUser, postAuthor) => {
     if (!currentUser) return false;
     return currentUser.uid === postAuthor.uid;
   };
   const currentUser = auth.currentUser;
-  console.log(`Post User: ${user}`);
-  console.log(`Current User: ${currentUser}`);
 
   return (
     <StyledWrapper>
       <StyledCommentWrapper>
         <StyledAuthorWrapper>
           <StyledAuthorImage>
-            <img src={user.profilePic} alt="author" />
+            <img src={user.photoURL || UserPic} alt="author" />
           </StyledAuthorImage>
           <StyledTitleWrapper>
             <Heading>{user.name}</Heading>

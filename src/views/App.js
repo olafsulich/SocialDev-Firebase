@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
+import AppProvider from '../context/context';
 import { auth, createUserDoc } from '../firebase/firebase';
-import AppProvider, { Context } from '../context/context';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 

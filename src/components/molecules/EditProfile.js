@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Button from '../atoms/Button/Button';
@@ -6,7 +6,7 @@ import PlusIcon from '../../assets/plus.svg';
 import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
 import { auth, firestore, storage } from '../../firebase/firebase';
-import { Context } from '../../context/context';
+import Text from '../atoms/Text/Text';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -98,26 +98,56 @@ const StyledInputTypeFile = styled(Input)`
 
 const EditProfile = ({ isVisible, handleAddPost, user }) => {
   const [userName, setUserName] = useState('');
-  const handleUserNameChange = ({ target: { value } }) => setUserName(value);
-  const imgRef = null;
-  const handleSubmit = e => {
-    e.preventDefault();
-    const file = imgRef && imgRef.files[0];
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState('');
+  const [error, setError] = useState('');
 
+  const handleUserNameChange = ({ target: { value } }) => setUserName(value);
+
+  const handChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const fileType = file.type;
+      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
+      if (validImageTypes.includes(fileType)) {
+        setError('');
+        setImage(file);
+      } else {
+        setError('Please select an image to upload');
+      }
+    }
+  };
+
+  const handleUpdate = () => {
     if (userName) {
       firestore.doc(`users/${auth.currentUser.uid}`).update({ userName });
     }
-    if (file) {
-      storage
+    if (image) {
+      const uploadTask = storage
         .ref()
-        .child('user-profiles')
+        .child(`user-profiles`)
         .child(auth.currentUser.uid)
-        .child(file.name)
-        .put(file)
-        .then(res => {
-          res.ref.getDownloadURL();
-        })
-        .then(photoURL => firestore.doc(`users/${auth.currentUser.uid}`).update({ photoURL }));
+        .child(image.name)
+        .put(image);
+
+      uploadTask.on(
+        'state_changed',
+
+        () => {
+          storage
+            .ref()
+            .child(`user-profiles`)
+            .child(auth.currentUser.uid)
+            .child(image.name)
+            .getDownloadURL()
+            .then(urlPath => {
+              setUrl(urlPath);
+              firestore.doc(`users/${auth.currentUser.uid}`).update({ photoURL: urlPath });
+            });
+        },
+      );
+    } else {
+      setError('Error please choose an image to upload');
     }
   };
 
@@ -127,23 +157,30 @@ const EditProfile = ({ isVisible, handleAddPost, user }) => {
         <StyledHeadingWrapper>
           <StyledHeading>Edit Profile</StyledHeading>
         </StyledHeadingWrapper>
-        <StyledForm onSubmit={handleSubmit}>
+        <StyledForm onSubmit={handleUpdate}>
           <StyledInput
             placeholder="user name"
             value={userName}
             name="user name"
             onChange={handleUserNameChange}
           />
-          <StyledInputTypeFile type="file" placeholder="user name" name="file" ref={imgRef} />
+          <Text>{error}</Text>
+          <StyledInputTypeFile
+            type="file"
+            placeholder="user name"
+            name="file"
+            onChange={handChange}
+          />
         </StyledForm>
         <StyledButtonWrapper>
-          <StyledButton onClick={handleSubmit}>Edit</StyledButton>
+          <StyledButton onClick={handleUpdate}>Edit</StyledButton>
         </StyledButtonWrapper>
       </StyledFormWrapper>
       <Button close icon={PlusIcon} onClick={handleAddPost} />
     </StyledWrapper>
   );
 };
+
 EditProfile.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   handleAddPost: PropTypes.func.isRequired,

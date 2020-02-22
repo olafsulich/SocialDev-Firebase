@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Navigation from '../components/organisms/Navigation';
@@ -10,8 +10,7 @@ import Text from '../components/atoms/Text/Text';
 import UserProfileIcon from '../assets/userProfile.svg';
 import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
-import { Context } from '../context/context';
-import { auth, createUserDoc } from '../firebase/firebase';
+import { auth } from '../firebase/firebase';
 import EditProfile from '../components/molecules/EditProfile';
 const StyledWrapper = styled.div`
   width: 100%;
@@ -109,7 +108,10 @@ const Account = ({ user }) => {
         <StyledAccountWrapper>
           <StyledImageWrapper>
             <img
-              src={photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg'}
+              src={
+                photoURL ||
+                'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/032/square_480/oapgW_Fp_400x400.jpg'
+              }
               alt={userName}
             />
           </StyledImageWrapper>
@@ -126,6 +128,87 @@ const Account = ({ user }) => {
     </StyledWrapper>
   );
 };
+// class Account extends React.Component {
+//   state = {
+//     SidebarOpen: false,
+//   };
+
+//   imageInput = null;
+
+//   get uid() {
+//     return auth.currentUser.uid;
+//   }
+
+//   get useRef() {
+//     return firestore.doc(`users/${this.uid}`);
+//   }
+
+//   get file() {
+//     return this.imageInput && this.imageInput.files[0];
+//   }
+
+//   handleSidebarOpen = () => {
+//     this.setState(prevState => ({
+//       SidebarOpen: !prevState.SidebarOpen,
+//     }));
+//   };
+
+//   handleSubmit = e => {
+//     e.preventDefault();
+//     const {
+//       user: {
+//         authUser: { userName },
+//       },
+//     } = this.props;
+
+//     if (userName) {
+//       this.userRef.update({ userName });
+//     }
+//     if (this.file) {
+//       storage
+//         .ref()
+//         .child('user-profiles')
+//         .child(this.uid)
+//         .child(this.file.name)
+//         .put(this.file)
+//         .then(res => {
+//           res.ref.getDownloadURL();
+//         })
+//         .then(photoURL => this.userRef.update({ photoURL }));
+//     }
+//   };
+
+//   render() {
+//     const { user } = this.props;
+//     const { userName, email, photoURL } = user.authUser;
+//     const { SidebarOpen } = this.state;
+//     return (
+//       <StyledWrapper>
+//         <Navigation />
+//         <GridTemplate>
+//           <StyledAccountWrapper>
+//             <StyledImageWrapper>
+//               <img
+//                 src={
+//                   photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg'
+//                 }
+//                 alt={userName}
+//               />
+//             </StyledImageWrapper>
+//             <StyledInfoWrapper>
+//               <StyledHeading>{userName}</StyledHeading>
+//               <StyledText icon={EmailIcon}>{email}</StyledText>
+//               <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
+//             </StyledInfoWrapper>
+//             <StyledButtonLogut onClick={() => auth.signOut()}>Log out</StyledButtonLogut>
+//           </StyledAccountWrapper>
+//           <StyledButton icon={PensilIcon} add onClick={this.handleSidebarOpen} />
+//         </GridTemplate>
+//         <EditProfile isVisible={SidebarOpen} handleAddPost={this.handleSidebarOpen} user={user} />
+//       </StyledWrapper>
+//     );
+//   }
+// }
 Account.propTypes = {
   user: PropTypes.object.isRequired,
 };

@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Button from '../atoms/Button/Button';
 import PlusIcon from '../../assets/plus.svg';
 import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
-import { auth } from '../../firebase/firebase';
-import { Context } from '../../context/context';
+import UserPic from '../../assets/userPic.jpg';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -90,7 +89,6 @@ const StyledTextArea = styled(Input)`
 const AddPost = ({ isVisible, handleAddPost, handleCreate, user }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const { displayName } = useContext(Context);
   const handleTitleChange = ({ target: { value } }) => setTitle(value);
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
@@ -104,7 +102,7 @@ const AddPost = ({ isVisible, handleAddPost, handleCreate, user }) => {
         name: userName,
         uid,
         email,
-        profilePic: photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg',
+        photoURL: photoURL || UserPic,
       },
       likes: 0,
       comments: 0,
