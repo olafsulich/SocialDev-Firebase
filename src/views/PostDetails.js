@@ -59,7 +59,7 @@ class PostDetails extends React.Component {
   }
 
   get commentsRef() {
-    return this.postRef.collection(`comments`);
+    return this.postRef.collection(`usersComments`);
   }
 
   documentsCollection = doc => {
@@ -67,7 +67,7 @@ class PostDetails extends React.Component {
   };
 
   createComment = comment => {
-    console.log(comment);
+    this.commentsRef.add({ comment });
   };
 
   render() {
@@ -77,10 +77,10 @@ class PostDetails extends React.Component {
         <Navigation />
         <GridTemplate>
           {post && <Post {...post} />}
-          <AddComment onCreate={this.createComment} />
           {comments.map(comment => (
-            <Comment {...comment} key={comment.id} />
+            <Comment content={comment.comment} key={comment.id} />
           ))}
+          <AddComment onCreate={this.createComment} />
         </GridTemplate>
       </StyledWrapper>
     );
