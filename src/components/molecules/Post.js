@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Heading from '../atoms/Heading/Heading';
 import Button from '../atoms/Button/Button';
@@ -105,6 +106,13 @@ const StyledButton = styled.button`
   border-radius: 12px;
   padding: 0.6rem 1.6rem;
 `;
+const StyledRemoveButton = styled(Button)`
+  z-index: 13;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  z-index: 12;
+`;
 const Post = ({ title, likes, comments, onRemove, id, user }) => {
   const postRef = firestore.doc(`posts/${id}`);
 
@@ -117,34 +125,36 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
   const currentUser = auth.currentUser;
 
   return (
-    <StyledWrapper>
-      <StyledCommentWrapper>
-        <StyledAuthorWrapper>
-          <StyledAuthorImage>
-            <img src={user.photoURL || UserPic} alt="author" />
-          </StyledAuthorImage>
-          <StyledTitleWrapper>
-            <Heading>{user.name}</Heading>
-            <Text>{title}</Text>
-          </StyledTitleWrapper>
-        </StyledAuthorWrapper>
-        <StyledInfoWrapper>
-          <StyledIconWrapper>
-            <StyledIcon icon={CommentsIcon} />
-            <StyledQuantity>{comments}</StyledQuantity>
-          </StyledIconWrapper>
-          <StyledIconWrapper>
-            <StyledIcon icon={HeartIcon} onClick={() => like()} />
-            <StyledQuantity>{likes}</StyledQuantity>
-          </StyledIconWrapper>
-          {isUserPost(currentUser, user) ? (
-            <Button remove icon={RemoveIcon} onClick={() => onRemove(id)} />
-          ) : (
-            <StyledButton>Comment</StyledButton>
-          )}
-        </StyledInfoWrapper>
-      </StyledCommentWrapper>
-    </StyledWrapper>
+    <StyledLink to={`posts/${id}`}>
+      <StyledWrapper>
+        <StyledCommentWrapper>
+          <StyledAuthorWrapper>
+            <StyledAuthorImage>
+              <img src={user.photoURL || UserPic} alt="author" />
+            </StyledAuthorImage>
+            <StyledTitleWrapper>
+              <Heading>{user.name}</Heading>
+              <Text>{title}</Text>
+            </StyledTitleWrapper>
+          </StyledAuthorWrapper>
+          <StyledInfoWrapper>
+            <StyledIconWrapper>
+              <StyledIcon icon={CommentsIcon} />
+              <StyledQuantity>{comments}</StyledQuantity>
+            </StyledIconWrapper>
+            <StyledIconWrapper>
+              <StyledIcon icon={HeartIcon} onClick={() => like()} />
+              <StyledQuantity>{likes}</StyledQuantity>
+            </StyledIconWrapper>
+            {isUserPost(currentUser, user) ? (
+              <StyledRemoveButton remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+            ) : (
+              <StyledButton>Comment</StyledButton>
+            )}
+          </StyledInfoWrapper>
+        </StyledCommentWrapper>
+      </StyledWrapper>
+    </StyledLink>
   );
 };
 

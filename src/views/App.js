@@ -4,6 +4,7 @@ import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
 import Account from './Account';
+import PostDetails from './PostDetails';
 import AppProvider from '../context/context';
 import { auth, createUserDoc } from '../firebase/firebase';
 const App = () => {
@@ -29,12 +30,12 @@ const App = () => {
                 path="/"
                 render={props => <Home {...props} currentUser={currentUser} />}
               />
-              <Route exact path="/login" component={Login} />
               <Route
                 exact
                 path="/account"
                 render={props => <Account {...props} user={currentUser} />}
               />
+              <Route exact path="/posts/:id" component={PostDetails} />
             </Switch>
           )}
         </BrowserRouter>

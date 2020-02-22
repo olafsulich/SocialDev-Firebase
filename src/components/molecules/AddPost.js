@@ -23,11 +23,9 @@ const StyledWrapper = styled.div`
   align-items: center;
   justify-content: center;
   max-width: 50rem;
-
   @media (min-width: 750px) {
     width: 60%;
   }
-
   @media (min-width: 1000px) {
     max-width: 40rem;
   }
