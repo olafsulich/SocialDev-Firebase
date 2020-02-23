@@ -66,21 +66,24 @@ class PostDetails extends React.Component {
     return { id: doc.id, ...doc.data() };
   };
 
-  createComment = comment => {
-    this.commentsRef.add({ comment });
+  createComment = (comment, author) => {
+    this.commentsRef.add({ comment, author });
   };
 
   render() {
     const { post, comments } = this.state;
+    const {
+      user: { authUser },
+    } = this.props;
     return (
       <StyledWrapper>
         <Navigation />
         <GridTemplate>
           {post && <Post {...post} />}
-          {comments.map(comment => (
-            <Comment content={comment.comment} key={comment.id} />
+          {comments.map(({ comment, id, author }) => (
+            <Comment content={comment} userName={author} key={id} />
           ))}
-          <AddComment onCreate={this.createComment} />
+          <AddComment onCreate={this.createComment} user={authUser} />
         </GridTemplate>
       </StyledWrapper>
     );
@@ -88,6 +91,7 @@ class PostDetails extends React.Component {
 }
 PostDetails.propTypes = {
   match: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 export default withRouter(PostDetails);

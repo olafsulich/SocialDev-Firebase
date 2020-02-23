@@ -34,13 +34,14 @@ const StyledForm = styled.form`
   justify-content: space-around;
 `;
 
-const AddComment = ({ onCreate }) => {
+const AddComment = ({ onCreate, user }) => {
   const [content, setContent] = useState('');
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
   const handleSubmit = e => {
     e.preventDefault();
-    onCreate(content);
+    const { userName } = user;
+    onCreate(content, userName);
     setContent('');
   };
 
@@ -64,5 +65,6 @@ const AddComment = ({ onCreate }) => {
 
 AddComment.propTypes = {
   onCreate: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 };
 export default AddComment;

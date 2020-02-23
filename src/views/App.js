@@ -35,7 +35,11 @@ const App = () => {
                 path="/account"
                 render={props => <Account {...props} user={currentUser} />}
               />
-              <Route exact path="/posts/:id" component={PostDetails} />
+              <Route
+                exact
+                path="/posts/:id"
+                render={props => <PostDetails {...props} user={currentUser} />}
+              />
             </Switch>
           )}
         </BrowserRouter>
