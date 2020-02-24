@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../atoms/Button/Button';
 import HomeIcon from '../../assets/home.svg';
@@ -50,7 +50,7 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 1rem;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(NavLink)`
   margin-bottom: 1rem;
   text-decoration: none;
 `;
@@ -70,26 +70,39 @@ const Navigation = () => {
   return (
     <StyledWrapper>
       <StyledIconsWrapper>
-        <StyledLink to="/">
-          {pageWidth >= 650 ? (
-            <StyledHeading active>Home</StyledHeading>
-          ) : (
-            <Button icon={HomeIcon} active />
-          )}
-        </StyledLink>
-        <StyledLink to="/messenger">
-          {pageWidth >= 650 ? <StyledHeading>Messenger</StyledHeading> : <Button icon={ChatIcon} />}
-        </StyledLink>
-        <StyledLink to="/notifications">
-          {pageWidth >= 650 ? (
-            <StyledHeading>Notifications</StyledHeading>
-          ) : (
-            <Button icon={NotificationIcon} />
-          )}
-        </StyledLink>
-        <StyledLink to="/account">
-          {pageWidth >= 650 ? <StyledHeading>Account</StyledHeading> : <Button icon={UserIcon} />}
-        </StyledLink>
+        {pageWidth >= 650 ? (
+          <StyledHeading as={StyledLink} to="/" exact activeclass="active">
+            Home
+          </StyledHeading>
+        ) : (
+          <Button icon={HomeIcon} as={StyledLink} to="/" activeclass="active" />
+        )}
+        {pageWidth >= 650 ? (
+          <StyledHeading as={StyledLink} to="/messenger" activeclass="active">
+            Messenger
+          </StyledHeading>
+        ) : (
+          <Button icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
+        )}
+        {pageWidth >= 650 ? (
+          <StyledHeading as={StyledLink} to="/notifications" activeclass="active">
+            Notifications
+          </StyledHeading>
+        ) : (
+          <Button
+            icon={NotificationIcon}
+            as={StyledLink}
+            to="/notifications"
+            activeclass="active"
+          />
+        )}
+        {pageWidth >= 650 ? (
+          <StyledHeading as={StyledLink} to="/account" activeclass="active">
+            Account
+          </StyledHeading>
+        ) : (
+          <Button icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
+        )}
       </StyledIconsWrapper>
     </StyledWrapper>
   );

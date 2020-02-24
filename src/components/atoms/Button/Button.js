@@ -9,12 +9,12 @@ const StyledIcon = styled.button`
   background-size: 60% 60%;
   background-color: #fff;
   border: none;
-  ${({ active }) =>
-    active &&
-    css`
-      border-radius: 15px;
-      background-color: ${({ theme }) => theme.primaryColor};
-    `}
+
+&.active{
+  border-radius: 15px;
+  background-color: ${({ theme }) => theme.primaryColor};
+}
+
   ${({ add }) =>
     add &&
     css`

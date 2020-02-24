@@ -57,7 +57,9 @@ const AddComment = ({ onCreate, user }) => {
             onChange={handleContentChange}
           />
         </StyledForm>
-        <StyledButton type="submit">Comment</StyledButton>
+        <StyledButton type="submit" onClick={handleSubmit}>
+          Comment
+        </StyledButton>
       </StyledCommentWrapper>
     </StyledFormWrapper>
   );
