@@ -7,7 +7,6 @@ import ChatIcon from '../../assets/messages.svg';
 import NotificationIcon from '../../assets/notifications.svg';
 import UserIcon from '../../assets/user.svg';
 import Heading from '../atoms/Heading/Heading';
-
 const StyledWrapper = styled.aside`
   width: 100%;
   height: 10vh;
@@ -17,7 +16,7 @@ const StyledWrapper = styled.aside`
   align-items: center;
   justify-content: center;
   top: 90%;
-  border-top: 2px solid ${({ theme }) => theme.thirdaryColor};
+  border-top: 2px solid ${({ theme }) => theme.tertiaryColor};
 
   @media (min-width: 650px) {
     flex-direction: column;

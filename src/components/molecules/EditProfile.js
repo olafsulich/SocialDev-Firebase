@@ -96,7 +96,7 @@ const StyledInputTypeFile = styled(Input)`
   }
 `;
 
-const EditProfile = ({ isVisible, handleAddPost, user }) => {
+const EditProfile = ({ isVisible, handleAddPost }) => {
   const [userName, setUserName] = useState('');
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState('');
@@ -184,9 +184,5 @@ const EditProfile = ({ isVisible, handleAddPost, user }) => {
 EditProfile.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   handleAddPost: PropTypes.func.isRequired,
-  user: PropTypes.object,
-};
-EditProfile.defaultProps = {
-  user: {},
 };
 export default EditProfile;

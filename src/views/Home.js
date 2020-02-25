@@ -8,6 +8,7 @@ import PlusIcon from '../assets/plus.svg';
 import Post from '../components/molecules/Post';
 import AddPost from '../components/molecules/AddPost';
 import GridTemplate from '../templates/GridTemplate';
+import useUser from '../hooks/useUser';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -19,10 +20,13 @@ const StyledWrapper = styled.div`
   }
 `;
 
-const Home = ({ currentUser }) => {
+const Home = () => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
   window.posts = posts;
+  useUser(setCurrentUser);
+
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   const handleCreate = postToAdd => {
@@ -76,10 +80,5 @@ const Home = ({ currentUser }) => {
     </StyledWrapper>
   );
 };
-Home.propTypes = {
-  currentUser: PropTypes.object,
-};
-Home.defaultProps = {
-  currentUser: {},
-};
+
 export default Home;

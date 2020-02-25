@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useReducer, useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
-import { Context } from '../context/context';
+import { auth, createUserDoc } from '../firebase/firebase';
+
 const StyledWrapper = styled.section`
   width: 100%;
   height: 100vh;
@@ -130,31 +131,77 @@ const StyledButtonSecondary = styled.button`
 `;
 
 const Login = () => {
-  const {
-    newAccount,
-    handleEmailChange,
-    handlePasswordChange,
-    handleDisplayNameChange,
-    handleNewAccount,
-    handleSignin,
-    handleSignup,
-  } = useContext(Context);
+  const [newAccount, setNewAccount] = useState(false);
+  const [inputsContent, setInputsContent] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      email: '',
+      password: '',
+      displayName: '',
+    },
+  );
+  const { email, password, displayName } = inputsContent;
 
+  const handleInputChange = e => {
+    setInputsContent({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleNewAccount = e => {
+    e.preventDefault();
+    setNewAccount(prevNewAccount => !prevNewAccount);
+  };
+  const handleSignIn = e => {
+    e.preventDefault();
+    auth
+      .signInWithEmailAndPassword(email, password)
+      /* eslint-disable */
+      .catch(error => alert(`Your email or password is incorrect, please check your data`));
+  };
+
+  const handleSignUp = async e => {
+    e.preventDefault();
+    try {
+      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      createUserDoc(user, displayName);
+    } catch (error) {
+      alert('error!!!!');
+    }
+  };
   return (
     <StyledWrapper>
       <StyledHeading>Social Dev</StyledHeading>
-      <StyledForm onSubmit={newAccount ? handleSignup : handleSignin}>
+      <StyledForm onSubmit={newAccount ? handleSignUp : handleSignIn}>
         <StyledInputsWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="name" type="text" onChange={handleDisplayNameChange} />
+            <StyledInput
+              placeholder="name"
+              type="text"
+              onChange={handleInputChange}
+              name="displayName"
+              value={displayName}
+            />
             <StyledLabel>Name</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="email" type="email" onChange={handleEmailChange} />
+            <StyledInput
+              placeholder="email"
+              type="email"
+              onChange={handleInputChange}
+              name="email"
+              value={email}
+            />
             <StyledLabel>Email</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledInputLabelWrapper>
-            <StyledInput placeholder="password" type="password" onChange={handlePasswordChange} />
+            <StyledInput
+              placeholder="password"
+              type="password"
+              onChange={handleInputChange}
+              name="password"
+              value={password}
+            />
             <StyledLabel>Password</StyledLabel>
           </StyledInputLabelWrapper>
           <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>

@@ -12,6 +12,8 @@ import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
 import { auth } from '../firebase/firebase';
 import EditProfile from '../components/molecules/EditProfile';
+import useUser from '../hooks/useUser';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -87,7 +89,7 @@ const StyledText = styled(Text)`
     top: -0.4rem;
   }
 `;
-const StyledButtonLogut = styled.button`
+const StyledButtonLogout = styled.button`
   font-size: 1.4rem;
   font-weight: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.fontColorText};
@@ -96,9 +98,10 @@ const StyledButtonLogut = styled.button`
   padding: 0.7rem 4rem;
   margin: 2rem 0 0 2rem;
 `;
-const Account = ({ user }) => {
+const Account = ({ currentUser }) => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
-  const { userName, email, photoURL } = user.authUser;
+  const { userName, email, photoURL } = currentUser.authUser;
+
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   return (
@@ -120,96 +123,17 @@ const Account = ({ user }) => {
             <StyledText icon={EmailIcon}>{email}</StyledText>
             <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
           </StyledInfoWrapper>
-          <StyledButtonLogut onClick={() => auth.signOut()}>Log out</StyledButtonLogut>
+          <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
         </StyledAccountWrapper>
         <StyledButton icon={PensilIcon} add onClick={handleSidebarOpen} />
       </GridTemplate>
-      <EditProfile isVisible={SidebarOpen} handleAddPost={handleSidebarOpen} user={user} />
+      <EditProfile isVisible={SidebarOpen} handleAddPost={handleSidebarOpen} />
     </StyledWrapper>
   );
 };
-// class Account extends React.Component {
-//   state = {
-//     SidebarOpen: false,
-//   };
 
-//   imageInput = null;
-
-//   get uid() {
-//     return auth.currentUser.uid;
-//   }
-
-//   get useRef() {
-//     return firestore.doc(`users/${this.uid}`);
-//   }
-
-//   get file() {
-//     return this.imageInput && this.imageInput.files[0];
-//   }
-
-//   handleSidebarOpen = () => {
-//     this.setState(prevState => ({
-//       SidebarOpen: !prevState.SidebarOpen,
-//     }));
-//   };
-
-//   handleSubmit = e => {
-//     e.preventDefault();
-//     const {
-//       user: {
-//         authUser: { userName },
-//       },
-//     } = this.props;
-
-//     if (userName) {
-//       this.userRef.update({ userName });
-//     }
-//     if (this.file) {
-//       storage
-//         .ref()
-//         .child('user-profiles')
-//         .child(this.uid)
-//         .child(this.file.name)
-//         .put(this.file)
-//         .then(res => {
-//           res.ref.getDownloadURL();
-//         })
-//         .then(photoURL => this.userRef.update({ photoURL }));
-//     }
-//   };
-
-//   render() {
-//     const { user } = this.props;
-//     const { userName, email, photoURL } = user.authUser;
-//     const { SidebarOpen } = this.state;
-//     return (
-//       <StyledWrapper>
-//         <Navigation />
-//         <GridTemplate>
-//           <StyledAccountWrapper>
-//             <StyledImageWrapper>
-//               <img
-//                 src={
-//                   photoURL || 'https://capenetworks.com/static/images/testimonials/user-icon.svg'
-//                 }
-//                 alt={userName}
-//               />
-//             </StyledImageWrapper>
-//             <StyledInfoWrapper>
-//               <StyledHeading>{userName}</StyledHeading>
-//               <StyledText icon={EmailIcon}>{email}</StyledText>
-//               <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
-//             </StyledInfoWrapper>
-//             <StyledButtonLogut onClick={() => auth.signOut()}>Log out</StyledButtonLogut>
-//           </StyledAccountWrapper>
-//           <StyledButton icon={PensilIcon} add onClick={this.handleSidebarOpen} />
-//         </GridTemplate>
-//         <EditProfile isVisible={SidebarOpen} handleAddPost={this.handleSidebarOpen} user={user} />
-//       </StyledWrapper>
-//     );
-//   }
-// }
 Account.propTypes = {
-  user: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
+
 export default Account;

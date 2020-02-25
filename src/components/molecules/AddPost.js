@@ -6,6 +6,7 @@ import PlusIcon from '../../assets/plus.svg';
 import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
 import UserPic from '../../assets/userPic.jpg';
+import useUser from '../../hooks/useUser';
 const StyledWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -84,15 +85,18 @@ const StyledTextArea = styled(Input)`
   resize: none;
 `;
 
-const AddPost = ({ isVisible, handleAddPost, handleCreate, user }) => {
+const AddPost = ({ isVisible, handleAddPost, handleCreate }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  useUser(setCurrentUser);
+
   const handleTitleChange = ({ target: { value } }) => setTitle(value);
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
   const handleSubmit = e => {
     e.preventDefault();
-    const { uid, photoURL, email, userName } = user.authUser;
+    const { uid, photoURL, email, userName } = currentUser.authUser;
     const post = {
       title,
       content,
@@ -139,11 +143,6 @@ AddPost.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   handleAddPost: PropTypes.func.isRequired,
   handleCreate: PropTypes.func.isRequired,
-  user: PropTypes.object,
-};
-
-AddPost.defaultProps = {
-  user: {},
 };
 
 export default AddPost;

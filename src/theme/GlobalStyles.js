@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     outline:none;
   }
 
+
   button{
   border:none;
   background:none;
@@ -55,9 +56,11 @@ const GlobalStyle = createGlobalStyle`
     position:relative;
     margin:0;
     padding:0;
+    outline:none;
+
     
 
-        ::-webkit-scrollbar {
+ ::-webkit-scrollbar {
     width: 10px;
   }
   ::-webkit-scrollbar-track {
@@ -74,7 +77,7 @@ const GlobalStyle = createGlobalStyle`
   display: none;
 }
     *:focus {
-    outline-color:transparent;
+    outline:none;
    } 
 `;
 

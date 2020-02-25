@@ -8,6 +8,8 @@ import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
 import Comment from '../components/molecules/Comment';
 import Post from '../components/molecules/Post';
+import useUser from '../hooks/useUser';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;

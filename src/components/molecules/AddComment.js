@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
+import useUser from '../../hooks/useUser';
 
 const StyledFormWrapper = styled.div`
   display: flex;
@@ -34,13 +35,21 @@ const StyledForm = styled.form`
   justify-content: space-around;
 `;
 
-const AddComment = ({ onCreate, user }) => {
+const AddComment = ({ onCreate }) => {
   const [content, setContent] = useState('');
+  const [currentUser, setCurrentUser] = useState(null);
+  const inputRef = useRef(null);
+  useUser(setCurrentUser);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
   const handleSubmit = e => {
     e.preventDefault();
-    const { userName } = user;
+    const { userName } = currentUser.authUser;
     onCreate(content, userName);
     setContent('');
   };
@@ -55,6 +64,7 @@ const AddComment = ({ onCreate, user }) => {
             value={content}
             name="content"
             onChange={handleContentChange}
+            ref={inputRef}
           />
         </StyledForm>
         <StyledButton type="submit" onClick={handleSubmit}>
@@ -67,6 +77,5 @@ const AddComment = ({ onCreate, user }) => {
 
 AddComment.propTypes = {
   onCreate: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
 };
 export default AddComment;
