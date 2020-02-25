@@ -34,7 +34,10 @@ export const getUserDoc = async uid => {
 export const createUserDoc = async (user, userName) => {
   const userRef = await firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
+  console.log(user);
+  window.snapshot = snapshot.exists;
   if (!snapshot.exists) {
+    console.log(user);
     const { displayName, email, photoURL } = user;
     const createdAt = new Date();
     try {
@@ -47,7 +50,7 @@ export const createUserDoc = async (user, userName) => {
         userName,
       });
     } catch (error) {
-      console.log('Error with firebase oh no :O!!!!!', error);
+      alert('Error with firebase oh no :O!!!!!', error);
     }
   }
   return getUserDoc(user.uid);
