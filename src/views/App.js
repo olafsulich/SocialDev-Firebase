@@ -3,12 +3,16 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import MainTemplate from '../templates/MainTemplate';
 import Home from './Home';
 import Login from './Login';
+import Notifications from './Notifications';
+import Messenger from './Messenger';
 import Account from './Account';
 import PostDetails from './PostDetails';
 import useUser from '../hooks/useUser';
+import { routes } from '../routes/routes';
+
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-
+  const { home, account, notifications, messenger, post } = routes;
   useUser(setCurrentUser);
   return (
     <MainTemplate>
@@ -17,15 +21,17 @@ const App = () => {
           <Login />
         ) : (
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path={home} component={Home} />
+            <Route exact path={notifications} component={Notifications} />
+            <Route exact path={messenger} component={Messenger} />
             <Route
               exact
-              path="/account"
+              path={account}
               render={props => <Account {...props} currentUser={currentUser} />}
             />
             <Route
               exact
-              path="/posts/:id"
+              path={post}
               render={props => <PostDetails {...props} user={currentUser} />}
             />
           </Switch>
