@@ -11,9 +11,11 @@ const StyledIcon = styled.button`
   border: none;
 
 &.active{
-  border-radius: 15px;
-  background-color: ${({ theme }) => theme.primaryColor};
+   border-radius: 15px;
+  background-color: ${({ theme }) => theme.primaryColor}; 
 }
+
+
 
   ${({ add }) =>
     add &&

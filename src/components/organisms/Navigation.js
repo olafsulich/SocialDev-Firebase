@@ -17,8 +17,11 @@ const StyledWrapper = styled.aside`
   justify-content: center;
   top: 90%;
   border-top: 2px solid ${({ theme }) => theme.tertiaryColor};
+  /* background-color: #eef4f8; */
 
   @media (min-width: 650px) {
+    width: auto;
+    height: auto;
     flex-direction: column;
     margin-top: 5rem;
     justify-content: flex-start;
@@ -70,21 +73,26 @@ const Navigation = () => {
     <StyledWrapper>
       <StyledIconsWrapper>
         {pageWidth >= 650 ? (
-          <StyledHeading as={StyledLink} to="/" exact activeclass="active">
+          <StyledHeading as={StyledLink} icon={HomeIcon} to="/" exact activeClass="active">
             Home
           </StyledHeading>
         ) : (
-          <Button icon={HomeIcon} as={StyledLink} to="/" activeclass="active" />
+          <Button icon={HomeIcon} as={StyledLink} to="/" exact activeClass="active" />
         )}
         {pageWidth >= 650 ? (
-          <StyledHeading as={StyledLink} to="/messenger" activeclass="active">
+          <StyledHeading as={StyledLink} icon={ChatIcon} to="/messenger" activeClass="active">
             Messenger
           </StyledHeading>
         ) : (
-          <Button icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
+          <Button icon={ChatIcon} as={StyledLink} to="/messenger" activeClass="active" />
         )}
         {pageWidth >= 650 ? (
-          <StyledHeading as={StyledLink} to="/notifications" activeclass="active">
+          <StyledHeading
+            icon={NotificationIcon}
+            as={StyledLink}
+            to="/notifications"
+            activeClass="active"
+          >
             Notifications
           </StyledHeading>
         ) : (
@@ -92,15 +100,15 @@ const Navigation = () => {
             icon={NotificationIcon}
             as={StyledLink}
             to="/notifications"
-            activeclass="active"
+            activeClass="active"
           />
         )}
         {pageWidth >= 650 ? (
-          <StyledHeading as={StyledLink} to="/account" activeclass="active">
+          <StyledHeading as={StyledLink} icon={UserIcon} to="/account" activeClass="active">
             Account
           </StyledHeading>
         ) : (
-          <Button icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
+          <Button icon={UserIcon} as={StyledLink} to="/account" activeClass="active" />
         )}
       </StyledIconsWrapper>
     </StyledWrapper>
