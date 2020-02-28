@@ -49,8 +49,8 @@ const StyledIcon = styled.button`
            ${({ remove }) =>
              remove &&
              css`
-               width: 4rem;
-               height: 4rem;
+               width: 3rem;
+               height: 3rem;
                background-image: url(${({ icon }) => icon});
                background-repeat: no-repeat;
                background-position: 50% 50%;

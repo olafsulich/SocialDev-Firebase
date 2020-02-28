@@ -5,6 +5,7 @@ const StyledText = styled.p`
   font-size: 1.1rem;
   font-weight: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.fontColorText};
+  line-height: 1.7rem;
 `;
 
 export default StyledText;

@@ -12,47 +12,45 @@ import UserPic from '../../assets/userPic.jpg';
 import { firestore, auth } from '../../firebase/firebase';
 
 const StyledWrapper = styled.section`
-  width: 100%;
+  width: 45rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  border: 1px solid #e6ecf1;
+  padding: 2rem 6rem;
 `;
 
 const StyledCommentWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-
-  @media (min-width: 1100px) {
-    width: 80%;
-    max-width: 980px;
-    flex-direction: row;
-    justify-content: space-around;
-  }
+  flex-direction: row;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+  position: relative;
 `;
 
 const StyledAuthorWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
 `;
 
 const StyledAuthorImage = styled.figure`
-  width: 5.5rem;
-  height: 5.5rem;
-  margin-right: 2rem;
-  @media (min-width: 1500px) {
-    width: 6rem;
-    height: 6rem;
-  }
+  display: flex;
+  height: 100%;
+  width: 4rem;
+  position: absolute;
+  top: -0.5rem;
+  left: -13%;
 
   img {
-    width: 100%;
-    height: 100%;
+    width: 3rem;
+    height: 3rem;
     border-radius: 100px;
   }
 `;
@@ -67,19 +65,15 @@ const StyledInfoWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
   @media (min-width: 1100px) {
-    margin-top: 5rem;
     z-index: 8;
-    transform: translateX(-6rem);
   }
 `;
 
 const StyledIconWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  margin-right: 1.5rem;
 `;
 
 const StyledQuantity = styled.span`
@@ -89,8 +83,8 @@ const StyledQuantity = styled.span`
 `;
 
 const StyledIcon = styled.div`
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   background-image: url(${({ icon }) => icon});
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -128,30 +122,28 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
     <StyledLink to={`posts/${id}`}>
       <StyledWrapper>
         <StyledCommentWrapper>
+          <StyledAuthorImage>
+            <img src={user.photoURL || UserPic} alt="author" />
+          </StyledAuthorImage>
           <StyledAuthorWrapper>
-            <StyledAuthorImage>
-              <img src={user.photoURL || UserPic} alt="author" />
-            </StyledAuthorImage>
             <StyledTitleWrapper>
               <Heading>{user.name}</Heading>
               <Text>{title}</Text>
             </StyledTitleWrapper>
+            <StyledInfoWrapper>
+              <StyledIconWrapper>
+                <StyledIcon icon={CommentsIcon} />
+                <StyledQuantity>{comments}</StyledQuantity>
+              </StyledIconWrapper>
+              <StyledIconWrapper>
+                <StyledIcon icon={HeartIcon} onClick={() => like()} />
+                <StyledQuantity>{likes}</StyledQuantity>
+              </StyledIconWrapper>
+              {isUserPost(currentUser, user) ? (
+                <StyledRemoveButton remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+              ) : null}
+            </StyledInfoWrapper>
           </StyledAuthorWrapper>
-          <StyledInfoWrapper>
-            <StyledIconWrapper>
-              <StyledIcon icon={CommentsIcon} />
-              <StyledQuantity>{comments}</StyledQuantity>
-            </StyledIconWrapper>
-            <StyledIconWrapper>
-              <StyledIcon icon={HeartIcon} onClick={() => like()} />
-              <StyledQuantity>{likes}</StyledQuantity>
-            </StyledIconWrapper>
-            {isUserPost(currentUser, user) ? (
-              <StyledRemoveButton remove icon={RemoveIcon} onClick={() => onRemove(id)} />
-            ) : (
-              <StyledButton>Comment</StyledButton>
-            )}
-          </StyledInfoWrapper>
         </StyledCommentWrapper>
       </StyledWrapper>
     </StyledLink>
