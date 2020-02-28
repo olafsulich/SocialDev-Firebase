@@ -74,7 +74,8 @@ const StyledIconWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-right: 1rem;
+  margin: 1rem 1rem 0 0;
+  transform: translateX(-15px);
 `;
 
 const StyledQuantity = styled.span`
@@ -156,9 +157,11 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
               <StyledIcon icon={HeartIcon} onClick={() => like()} />
               <StyledQuantity>{likes}</StyledQuantity>
             </StyledIconWrapper>
-            {isUserPost(currentUser, user) ? (
-              <StyledIcon remove icon={RemoveIcon} onClick={() => onRemove(id)} />
-            ) : null}
+            <StyledIconWrapper>
+              {isUserPost(currentUser, user) ? (
+                <StyledIcon remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+              ) : null}
+            </StyledIconWrapper>
           </StyledInfoWrapper>
         </StyledAuthorWrapper>
       </StyledCommentWrapper>

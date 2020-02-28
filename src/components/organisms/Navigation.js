@@ -17,7 +17,6 @@ const StyledWrapper = styled.aside`
   justify-content: center;
   top: 90%;
   border-top: 2px solid ${({ theme }) => theme.tertiaryColor};
-  /* background-color: #eef4f8; */
 
   @media (min-width: 650px) {
     width: auto;
@@ -50,7 +49,7 @@ const StyledIconsWrapper = styled.nav`
 
 const StyledHeading = styled(Heading)`
   margin-bottom: 1rem;
-  padding: 0.5rem 1rem 0.3rem 3rem;
+  padding: 0.5rem 1rem 0.5rem 3rem;
   margin: 0 0 0.3rem 0;
   position: relative;
 
