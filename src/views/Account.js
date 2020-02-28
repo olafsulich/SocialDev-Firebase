@@ -90,13 +90,12 @@ const StyledText = styled(Text)`
   }
 `;
 const StyledButtonLogout = styled.button`
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: ${({ theme }) => theme.regular};
-  color: ${({ theme }) => theme.fontColorText};
-  background-color: ${({ theme }) => theme.primaryColor};
+  color: #fff;
+  background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
-  padding: 0.7rem 4rem;
-  margin: 2rem 0 0 2rem;
+  padding: 0.4rem 3rem;
 `;
 const Account = ({ currentUser }) => {
   const [SidebarOpen, setSidebarOpen] = useState(false);

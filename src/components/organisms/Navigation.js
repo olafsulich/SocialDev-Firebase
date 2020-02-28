@@ -17,6 +17,7 @@ const StyledWrapper = styled.aside`
   justify-content: center;
   top: 90%;
   border-top: 2px solid ${({ theme }) => theme.tertiaryColor};
+  z-index: 20;
 
   @media (min-width: 650px) {
     width: auto;

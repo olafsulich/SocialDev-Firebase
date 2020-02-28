@@ -57,11 +57,12 @@ const Home = () => {
     <StyledWrapper>
       <Navigation />
       <GridTemplate>
+        <AddPost user={currentUser} handleAddPost={handleSidebarOpen} handleCreate={handleCreate} />
         {posts.map(({ user, title, content, likes, comments, id }) => (
           <Post
+            title={title}
             key={title}
             user={user}
-            title={title}
             content={content}
             likes={likes}
             comments={comments}
@@ -70,13 +71,6 @@ const Home = () => {
           />
         ))}
       </GridTemplate>
-      <Button icon={PlusIcon} add onClick={handleSidebarOpen} />
-      <AddPost
-        isVisible={SidebarOpen}
-        handleAddPost={handleSidebarOpen}
-        handleCreate={handleCreate}
-        user={currentUser}
-      />
     </StyledWrapper>
   );
 };
