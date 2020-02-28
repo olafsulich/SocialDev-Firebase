@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Heading from '../atoms/Heading/Heading';
@@ -74,6 +74,7 @@ const StyledIconWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-right: 1rem;
 `;
 
 const StyledQuantity = styled.span`
@@ -90,19 +91,32 @@ const StyledIcon = styled.div`
   background-position: 50% 50%;
   background-size: 60% 60%;
   background-color: #fff;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-right: 5px;
+
+  :hover {
+    border-radius: 30px;
+    background-color: ${({ theme }) => theme.primaryColor};
+  }
+
+  ${({ remove }) =>
+    remove &&
+    css`
+      :hover {
+        background-color: hsla(341, 75%, 51%, 0.2);
+      }
+    `}
+
+  ${({ comments }) =>
+    comments &&
+    css`
+      :hover {
+        background-color: hsla(146, 72%, 44%, 0.2);
+      }
+    `}
 `;
 
-const StyledButton = styled.button`
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.regular};
-  color: ${({ theme }) => theme.fontColorText};
-  background-color: ${({ theme }) => theme.primaryColor};
-  border-radius: 12px;
-  padding: 0.6rem 1.6rem;
-`;
-const StyledRemoveButton = styled(Button)`
-  z-index: 13;
-`;
 const StyledLink = styled(Link)`
   text-decoration: none;
   z-index: 12;
@@ -119,34 +133,36 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
   const currentUser = auth.currentUser;
 
   return (
-    <StyledLink to={`posts/${id}`}>
-      <StyledWrapper>
-        <StyledCommentWrapper>
+    <StyledWrapper>
+      <StyledCommentWrapper>
+        <StyledLink to={`posts/${id}`}>
           <StyledAuthorImage>
-            <img src={user.photoURL || UserPic} alt="author" />
+            <img src={user.photoURL || UserPic} alt={user.name} />
           </StyledAuthorImage>
-          <StyledAuthorWrapper>
+        </StyledLink>
+        <StyledAuthorWrapper>
+          <StyledLink to={`posts/${id}`}>
             <StyledTitleWrapper>
               <Heading>{user.name}</Heading>
               <Text>{title}</Text>
             </StyledTitleWrapper>
-            <StyledInfoWrapper>
-              <StyledIconWrapper>
-                <StyledIcon icon={CommentsIcon} />
-                <StyledQuantity>{comments}</StyledQuantity>
-              </StyledIconWrapper>
-              <StyledIconWrapper>
-                <StyledIcon icon={HeartIcon} onClick={() => like()} />
-                <StyledQuantity>{likes}</StyledQuantity>
-              </StyledIconWrapper>
-              {isUserPost(currentUser, user) ? (
-                <StyledRemoveButton remove icon={RemoveIcon} onClick={() => onRemove(id)} />
-              ) : null}
-            </StyledInfoWrapper>
-          </StyledAuthorWrapper>
-        </StyledCommentWrapper>
-      </StyledWrapper>
-    </StyledLink>
+          </StyledLink>
+          <StyledInfoWrapper>
+            <StyledIconWrapper>
+              <StyledIcon comments icon={CommentsIcon} />
+              <StyledQuantity>{comments}</StyledQuantity>
+            </StyledIconWrapper>
+            <StyledIconWrapper>
+              <StyledIcon icon={HeartIcon} onClick={() => like()} />
+              <StyledQuantity>{likes}</StyledQuantity>
+            </StyledIconWrapper>
+            {isUserPost(currentUser, user) ? (
+              <StyledIcon remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+            ) : null}
+          </StyledInfoWrapper>
+        </StyledAuthorWrapper>
+      </StyledCommentWrapper>
+    </StyledWrapper>
   );
 };
 
