@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
 import Comment from '../components/molecules/Comment';
 import Post from '../components/molecules/Post';
-import useUser from '../hooks/useUser';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -20,77 +19,54 @@ const StyledWrapper = styled.div`
   }
 `;
 
-class PostDetails extends React.Component {
-  state = {
-    post: null,
-    comments: [],
-  };
+const PostDetails = ({ user: { authUser } }) => {
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
+  const { id } = useParams();
 
-  unsubscribeFromPost = null;
+  const postRef = firestore.doc(`posts/${id}`);
+  const commentRef = postRef.collection(`usersComments`);
 
-  unsubscribeFromComments = null;
+  let unsubscribeFromPost = null;
+  let unsubscribeFromComments = null;
 
-  componentDidMount() {
-    this.unsubscribeFromPost = this.postRef.onSnapshot(snapshot => {
-      const post = this.documentsCollection(snapshot);
-      this.setState({ post });
+  useEffect(() => {
+    const documentsCollection = doc => {
+      return { id: doc.id, ...doc.data() };
+    };
+
+    unsubscribeFromPost = postRef.onSnapshot(snapshot => {
+      const detailPost = documentsCollection(snapshot);
+      setPost(detailPost);
     });
 
-    this.unsubscribeFromComments = this.commentsRef.onSnapshot(snapshot => {
-      const comments = snapshot.docs.map(this.documentsCollection);
-      this.setState({ comments });
+    unsubscribeFromComments = commentRef.onSnapshot(snapshot => {
+      const detailComments = snapshot.docs.map(documentsCollection);
+      setComments(detailComments);
     });
-  }
 
-  componentWillUnmount() {
-    this.unsubscribeFromPost();
-    this.unsubscribeFromComments();
-  }
+    return () => {
+      unsubscribeFromPost();
+      unsubscribeFromComments();
+    };
+  }, []);
 
-  get postId() {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    return id;
-  }
+  const createComment = (comment, author) => commentRef.add({ comment, author });
 
-  get postRef() {
-    return firestore.doc(`posts/${this.postId}`);
-  }
+  return (
+    <StyledWrapper>
+      <Navigation />
+      <GridTemplate>
+        {post && <Post {...post} />}
+        {comments.map(comment => (
+          <Comment content={comment.comment} userName={comment.author} key={comment.id} />
+        ))}
+        <AddComment onCreate={createComment} user={authUser} />
+      </GridTemplate>
+    </StyledWrapper>
+  );
+};
 
-  get commentsRef() {
-    return this.postRef.collection(`usersComments`);
-  }
-
-  documentsCollection = doc => {
-    return { id: doc.id, ...doc.data() };
-  };
-
-  createComment = (comment, author) => {
-    this.commentsRef.add({ comment, author });
-  };
-
-  render() {
-    const { post, comments } = this.state;
-    const {
-      user: { authUser },
-    } = this.props;
-    return (
-      <StyledWrapper>
-        <Navigation />
-        <GridTemplate>
-          {post && <Post {...post} />}
-          {comments.map(({ comment, id, author }) => (
-            <Comment content={comment} userName={author} key={id} />
-          ))}
-          <AddComment onCreate={this.createComment} user={authUser} />
-        </GridTemplate>
-      </StyledWrapper>
-    );
-  }
-}
 PostDetails.propTypes = {
   match: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
