@@ -173,9 +173,12 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   comments: PropTypes.number.isRequired,
-  onRemove: PropTypes.func.isRequired,
+  onRemove: PropTypes.func,
   id: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+};
+Post.defaultProps = {
+  onRemove: () => {},
 };
 
 export default Post;

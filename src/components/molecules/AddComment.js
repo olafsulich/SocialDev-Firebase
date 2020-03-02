@@ -9,7 +9,7 @@ const StyledFormWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-right: 10rem;
+  margin-top: 2rem;
 `;
 
 const StyledCommentWrapper = styled.div`
@@ -20,12 +20,12 @@ const StyledCommentWrapper = styled.div`
 `;
 
 const StyledButton = styled.button`
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: ${({ theme }) => theme.regular};
-  color: ${({ theme }) => theme.fontColorText};
-  background-color: ${({ theme }) => theme.primaryColor};
+  color: #fff;
+  background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
-  padding: 0.7rem 4rem;
+  padding: 0.6rem 2.5rem;
   margin-left: 2rem;
 `;
 
@@ -33,6 +33,12 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+`;
+
+const StyledInput = styled(Input)`
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: ${({ theme }) => theme.regular};
 `;
 
 const AddComment = ({ onCreate }) => {
@@ -58,9 +64,9 @@ const AddComment = ({ onCreate }) => {
     <StyledFormWrapper>
       <StyledCommentWrapper>
         <StyledForm onSubmit={handleSubmit}>
-          <Input
+          <StyledInput
             type="text"
-            placeholder="content"
+            placeholder="answer"
             value={content}
             name="content"
             onChange={handleContentChange}

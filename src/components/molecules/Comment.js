@@ -1,37 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Heading from '../atoms/Heading/Heading';
+import Text from '../atoms/Text/Text';
 
-const StyledArticle = styled.article`
-  display: grid;
-  grid-template-columns: 3rem 70%;
+const StyledWrapper = styled.div`
+  width: 45rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 80%;
-  margin: 0 3rem;
-  padding: 2rem 4rem;
+  justify-content: space-around;
+  border: 1px solid #e6ecf1;
+  padding: 2rem 3rem;
 `;
 
-const StyledAuthor = styled.span`
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.bold};
-  margin-right: 3rem;
+const StyledCommentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 100%;
+  width: 100%;
+  position: relative;
 `;
 
-const StyledComment = styled.span`
-  font-size: 1.2rem;
-  justify-self: end;
-  align-self: end;
-  font-weight: ${({ theme }) => theme.light};
-  padding-left: 2rem;
+const StyledAuthorWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+const StyledTitleWrapper = styled.article`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 80%;
+`;
+
+const StyledHeaing = styled(Heading)`
+  margin-right: 2rem;
+`;
+
+const StyledText = styled(Text)`
+  padding-right: 3rem;
 `;
 
 const Comment = ({ content, userName }) => {
   return (
-    <StyledArticle>
-      <StyledAuthor>{userName}</StyledAuthor>
-      <StyledComment>{content}</StyledComment>
-    </StyledArticle>
+    <StyledWrapper>
+      <StyledCommentWrapper>
+        <StyledAuthorWrapper>
+          <StyledTitleWrapper>
+            <StyledHeaing>{userName}</StyledHeaing>
+            <StyledText>{content}</StyledText>
+          </StyledTitleWrapper>
+        </StyledAuthorWrapper>
+      </StyledCommentWrapper>
+    </StyledWrapper>
   );
 };
 
