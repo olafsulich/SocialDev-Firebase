@@ -15,6 +15,6 @@ const useUser = handler => {
     });
 
     return () => unsubscribe();
-  });
+  }, []);
 };
 export default useUser;

@@ -19,7 +19,7 @@ const StyledWrapper = styled.aside`
   border-top: 2px solid ${({ theme }) => theme.tertiaryColor};
   z-index: 20;
 
-  @media (min-width: 650px) {
+  @media (min-width: 850px) {
     width: auto;
     height: auto;
     flex-direction: column;
@@ -39,7 +39,7 @@ const StyledIconsWrapper = styled.nav`
   justify-content: space-around;
   padding: 1rem 1.5rem 0 1.5rem;
 
-  @media (min-width: 650px) {
+  @media (min-width: 850px) {
     align-items: flex-start;
     flex-direction: column;
     justify-content: space-between;
@@ -97,21 +97,21 @@ const Navigation = () => {
   return (
     <StyledWrapper>
       <StyledIconsWrapper>
-        {pageWidth >= 650 ? (
+        {pageWidth >= 850 ? (
           <StyledHeading as={StyledLink} icon={HomeIcon} to="/" exact activeclass="active">
             Home
           </StyledHeading>
         ) : (
           <Button icon={HomeIcon} as={StyledLink} to="/" exact activeclass="active" />
         )}
-        {pageWidth >= 650 ? (
+        {pageWidth >= 850 ? (
           <StyledHeading as={StyledLink} icon={ChatIcon} to="/messenger" activeclass="active">
             Messenger
           </StyledHeading>
         ) : (
           <Button icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
         )}
-        {pageWidth >= 650 ? (
+        {pageWidth >= 850 ? (
           <StyledHeading
             icon={NotificationIcon}
             as={StyledLink}
@@ -128,7 +128,7 @@ const Navigation = () => {
             activeclass="active"
           />
         )}
-        {pageWidth >= 650 ? (
+        {pageWidth >= 850 ? (
           <StyledHeading as={StyledLink} icon={UserIcon} to="/account" activeclass="active">
             Account
           </StyledHeading>

@@ -13,6 +13,7 @@ import { routes } from '../routes/routes';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const { home, account, notifications, messenger, post } = routes;
+
   useUser(setCurrentUser);
   return (
     <MainTemplate>
