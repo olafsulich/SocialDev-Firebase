@@ -66,11 +66,12 @@ const AddComment = ({ onCreate }) => {
         <StyledForm onSubmit={handleSubmit}>
           <StyledInput
             type="text"
-            placeholder="answer"
+            placeholder="Write a comment..."
             value={content}
             name="content"
             onChange={handleContentChange}
             ref={inputRef}
+            aria-label="Write a comment..."
           />
         </StyledForm>
         <StyledButton type="submit" onClick={handleSubmit}>

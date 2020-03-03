@@ -118,7 +118,8 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
     }
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = e => {
+    e.preventDefault();
     if (userName) {
       firestore.doc(`users/${auth.currentUser.uid}`).update({ userName });
     }
@@ -146,8 +147,6 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
             });
         },
       );
-    } else {
-      setError('Error please choose an image to upload');
     }
   };
 
@@ -163,13 +162,15 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
             value={userName}
             name="user name"
             onChange={handleUserNameChange}
+            aria-label="Change your user name"
           />
           <Text>{error}</Text>
           <StyledInputTypeFile
             type="file"
-            placeholder="user name"
+            placeholder="upload picture"
             name="file"
             onChange={handChange}
+            aria-label="Change user profile picture"
           />
         </StyledForm>
         <StyledButtonWrapper>

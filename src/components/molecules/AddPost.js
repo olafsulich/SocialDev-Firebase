@@ -127,6 +127,9 @@ const PostToAdd = ({ handleCreate }) => {
             }?`}
             name="title"
             onChange={handleContentChange}
+            aria-label={`What's on your mind, ${
+              currentUser ? currentUser.authUser.userName : null
+            }?`}
           />
         </StyledForm>
       </StyledContainer>

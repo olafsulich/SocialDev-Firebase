@@ -68,7 +68,6 @@ const PostDetails = ({ user: { authUser } }) => {
 };
 
 PostDetails.propTypes = {
-  match: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
 };
 
