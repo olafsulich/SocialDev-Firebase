@@ -85,7 +85,7 @@ const StyledQuantity = styled.span`
   font-weight: ${({ theme }) => theme.regular};
 `;
 
-const StyledIcon = styled.div`
+const StyledIcon = styled.button`
   width: 3rem;
   height: 3rem;
   background-image: url(${({ icon }) => icon});
@@ -115,6 +115,7 @@ const StyledIcon = styled.div`
     css`
       :hover {
         background-color: hsla(146, 72%, 44%, 0.2);
+        cursor: auto;
       }
     `}
 `;

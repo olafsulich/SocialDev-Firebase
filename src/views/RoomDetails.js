@@ -8,7 +8,6 @@ import Heading from '../components/atoms/Heading/Heading';
 import Text from '../components/atoms/Text/Text';
 import AddMessage from '../components/molecules/AddMessage';
 import documentsCollection from '../utils/documentsCollection';
-import isUserOwnerShip from '../utils/isUserOwnerShip';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -46,6 +45,7 @@ const StyledChatWrapper = styled.div`
   align-items: center;
   justify-items: space-between;
   overflow: scroll;
+  position: relative;
 `;
 
 const StyledMessageWrapper = styled.article`
@@ -104,6 +104,7 @@ const StyledMessage = styled(Text)`
 const RoomDetails = () => {
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
+
   const { id } = useParams();
 
   const roomRef = firestore.doc(`rooms/${id}`);
@@ -128,6 +129,7 @@ const RoomDetails = () => {
       unsubscribeFromMessages();
     };
   }, []);
+
   const createMessage = messageToAdd => messageRef.add(messageToAdd);
 
   const isUserMessage = (authUser, messageAuthor, message) => {

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { auth, createUserDoc } from '../firebase/firebase';
 
-const useUser = handler => {
+const useUser = (handler, currentUser) => {
   let unsubscribe = null;
   useEffect(() => {
     unsubscribe = auth.onAuthStateChanged(async user => {
@@ -15,6 +15,6 @@ const useUser = handler => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [currentUser]);
 };
 export default useUser;

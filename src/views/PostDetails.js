@@ -31,9 +31,7 @@ const PostDetails = ({ user: { authUser } }) => {
   let unsubscribeFromComments;
 
   useEffect(() => {
-    postRef.update({ comments: comments.length });
-
-    unsubscribeFromComments = commentRef.onSnapshot(snapshot => {
+    unsubscribeFromComments = commentRef.orderBy('createdAt', 'asc').onSnapshot(snapshot => {
       const detailComments = snapshot.docs.map(documentsCollection);
       setComments(detailComments);
     });
@@ -47,9 +45,13 @@ const PostDetails = ({ user: { authUser } }) => {
       unsubscribeFromPost();
       unsubscribeFromComments();
     };
+  }, []);
+
+  useEffect(() => {
+    postRef.update({ comments: comments.length });
   }, [comments]);
 
-  const createComment = (comment, author) => commentRef.add({ comment, author });
+  const createComment = newComment => commentRef.add(newComment);
 
   return (
     <StyledWrapper>
@@ -58,8 +60,8 @@ const PostDetails = ({ user: { authUser } }) => {
         {post && <Post {...post} />}
         {comments.map(comment => (
           <Comment
-            content={comment.comment}
-            userName={comment.author}
+            content={comment.content}
+            userName={comment.user.name}
             key={comment.id}
             comments={comments.length}
           />

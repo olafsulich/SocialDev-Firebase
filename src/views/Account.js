@@ -49,30 +49,13 @@ const StyledInfoWrapper = styled.article`
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
 `;
 
 const StyledButton = styled(Button)`
   background-size: 35% 35%;
 `;
 
-const StyledHeading = styled(Heading)`
-  margin: 2rem 0;
-  position: relative;
-
-  ::before {
-    width: 2rem;
-    height: 2rem;
-    position: absolute;
-    content: '';
-    background-image: url(${UserProfileIcon});
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-size: 90% 90%;
-    left: -3rem;
-    top: 0.4rem;
-  }
-`;
 const StyledText = styled(Text)`
   margin: 2rem 0;
   position: relative;
@@ -118,7 +101,7 @@ const Account = ({ currentUser }) => {
             />
           </StyledImageWrapper>
           <StyledInfoWrapper>
-            <StyledHeading>{userName}</StyledHeading>
+            <StyledText icon={UserProfileIcon}>{userName}</StyledText>
             <StyledText icon={EmailIcon}>{email}</StyledText>
             <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
           </StyledInfoWrapper>

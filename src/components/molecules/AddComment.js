@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
+import EmojiIcon from '../../assets/emoji.svg';
 
 const StyledFormWrapper = styled.div`
   display: flex;
@@ -10,6 +13,7 @@ const StyledFormWrapper = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 2rem;
+  position: relative;
 `;
 
 const StyledCommentWrapper = styled.div`
@@ -17,6 +21,8 @@ const StyledCommentWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  margin-top: 7rem;
 `;
 
 const StyledButton = styled.button`
@@ -33,17 +39,39 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  position: relative;
 `;
 
 const StyledInput = styled(Input)`
   padding: 0.8rem 2rem;
   font-size: 1rem;
   font-weight: ${({ theme }) => theme.regular};
+
+  ::placeholder {
+    color: #bec3c9;
+  }
+`;
+
+const StyledEmojiButton = styled.input`
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  background-image: url(${({ icon }) => icon});
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 60% 60%;
+  position: absolute;
+  right: 5%;
+  top: 3px;
+  cursor: pointer;
 `;
 
 const AddComment = ({ onCreate }) => {
   const [content, setContent] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [pickerVisability, setPickerVisability] = useState(false);
+
   const inputRef = useRef(null);
   useUser(setCurrentUser);
 
@@ -53,15 +81,42 @@ const AddComment = ({ onCreate }) => {
 
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
+  const handleAddEmoji = ({ native }) => {
+    setContent(prevState => prevState + native);
+  };
+
+  const handlePickerVisability = () => {
+    setPickerVisability(prevState => !prevState);
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    const { userName } = currentUser.authUser;
-    onCreate(content, userName);
+    const { userName, uid } = currentUser.authUser;
+    const newComment = {
+      content,
+      user: {
+        name: userName,
+        uid,
+      },
+      createdAt: new Date(),
+    };
+    onCreate(newComment);
     setContent('');
   };
 
   return (
     <StyledFormWrapper>
+      {pickerVisability ? (
+        <Picker
+          set="messenger"
+          style={{ position: 'absolute', bottom: '0', right: '-75%' }}
+          darkMode={false}
+          onSelect={handleAddEmoji}
+          showSkinTones={false}
+          showPreview={false}
+          color="#1ca0f2"
+        />
+      ) : null}
       <StyledCommentWrapper>
         <StyledForm onSubmit={handleSubmit}>
           <StyledInput
@@ -73,6 +128,7 @@ const AddComment = ({ onCreate }) => {
             ref={inputRef}
             aria-label="Write a comment..."
           />
+          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
         </StyledForm>
         <StyledButton type="submit" onClick={handleSubmit}>
           Comment

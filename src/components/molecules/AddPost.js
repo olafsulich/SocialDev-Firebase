@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 import PropTypes from 'prop-types';
 import useUser from '../../hooks/useUser';
 import UserPic from '../../assets/userPic.jpg';
 import StyledHeading from '../atoms/Heading/Heading';
+import EmojiIcon from '../../assets/emoji.svg';
+
 const StyledWrapper = styled.div`
   width: 45rem;
   height: 100%;
@@ -84,13 +88,37 @@ const StyledButton = styled.button`
   padding: 0.4rem 3rem;
 `;
 
+const StyledEmojiButton = styled.input`
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  background-image: url(${({ icon }) => icon});
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-size: 60% 60%;
+  position: absolute;
+  right: 5%;
+  top: 75%;
+  cursor: pointer;
+`;
+
 const PostToAdd = ({ handleCreate }) => {
   const [title, setTitle] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
+  const [pickerVisability, setPickerVisability] = useState(false);
 
   useUser(setCurrentUser);
 
   const handleContentChange = ({ target: { value } }) => setTitle(value);
+
+  const handleAddEmoji = ({ native }) => {
+    setTitle(prevState => prevState + native);
+  };
+
+  const handlePickerVisability = () => {
+    setPickerVisability(prevState => !prevState);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -111,34 +139,48 @@ const PostToAdd = ({ handleCreate }) => {
     setTitle('');
   };
   return (
-    <StyledWrapper>
-      <StyledContainer>
-        <StyledAuthorImage>
-          <img
-            src={currentUser ? currentUser.authUser.photoURL : null}
-            alt={currentUser ? currentUser.authUser.userName : null}
+    <>
+      <StyledWrapper>
+        {pickerVisability ? (
+          <Picker
+            set="messenger"
+            style={{ position: 'absolute', top: '10%', right: '-50%' }}
+            darkMode={false}
+            onSelect={handleAddEmoji}
+            showSkinTones={false}
+            showPreview={false}
+            color="#1ca0f2"
           />
-        </StyledAuthorImage>
-        <StyledForm onSubmit={handleSubmit}>
-          <StyledTextArea
-            value={title}
-            placeholder={`What's on your mind, ${
-              currentUser ? currentUser.authUser.userName : null
-            }?`}
-            name="title"
-            onChange={handleContentChange}
-            aria-label={`What's on your mind, ${
-              currentUser ? currentUser.authUser.userName : null
-            }?`}
-          />
-        </StyledForm>
-      </StyledContainer>
-      <StyledButtonWrapper>
-        <StyledButton type="submit" onClick={handleSubmit}>
-          Post
-        </StyledButton>
-      </StyledButtonWrapper>
-    </StyledWrapper>
+        ) : null}
+        <StyledContainer>
+          <StyledAuthorImage>
+            <img
+              src={currentUser ? currentUser.authUser.photoURL : null}
+              alt={currentUser ? currentUser.authUser.userName : null}
+            />
+          </StyledAuthorImage>
+          <StyledForm onSubmit={handleSubmit}>
+            <StyledTextArea
+              value={title}
+              placeholder={`What's on your mind, ${
+                currentUser ? currentUser.authUser.userName : null
+              }?`}
+              name="title"
+              onChange={handleContentChange}
+              aria-label={`What's on your mind, ${
+                currentUser ? currentUser.authUser.userName : null
+              }?`}
+            />
+          </StyledForm>
+        </StyledContainer>
+        <StyledButtonWrapper>
+          <StyledButton type="submit" onClick={handleSubmit}>
+            Post
+          </StyledButton>
+          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
+        </StyledButtonWrapper>
+      </StyledWrapper>
+    </>
   );
 };
 

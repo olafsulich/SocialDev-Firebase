@@ -14,8 +14,8 @@ import { routes } from '../routes/routes';
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const { home, account, notifications, messenger, post, room } = routes;
+  useUser(setCurrentUser, currentUser);
 
-  useUser(setCurrentUser);
   return (
     <MainTemplate>
       <BrowserRouter>
