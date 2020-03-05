@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { firestore } from '../firebase/firebase';
+import { firestore, auth } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import Heading from '../components/atoms/Heading/Heading';
@@ -108,7 +108,7 @@ const RoomDetails = () => {
 
   const roomRef = firestore.doc(`rooms/${id}`);
   const messageRef = roomRef.collection(`messages`);
-
+  const currentUser = auth.currentUser;
   let unsubscribeFromRoom = null;
   let unsubscribeFromMessages = null;
 
@@ -128,8 +128,29 @@ const RoomDetails = () => {
       unsubscribeFromMessages();
     };
   }, []);
-  const createMessage = (message, userName, photoURL, createdAt) =>
-    messageRef.add({ message, userName, photoURL, createdAt });
+  const createMessage = messageToAdd => messageRef.add(messageToAdd);
+
+  const isUserMessage = (authUser, messageAuthor, message) => {
+    if (authUser.uid === messageAuthor.uid) {
+      return (
+        <StyledMessageWrapper fromCurrentUser>
+          <StyledAuthorImage fromCurrentUser>
+            <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
+          </StyledAuthorImage>
+          <StyledMessage fromCurrentUser>{message}</StyledMessage>
+        </StyledMessageWrapper>
+      );
+    }
+    return (
+      <StyledMessageWrapper>
+        <StyledAuthorImage>
+          <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
+        </StyledAuthorImage>
+        <StyledMessage>{message}</StyledMessage>
+      </StyledMessageWrapper>
+    );
+  };
+
   return (
     <StyledWrapper>
       <Navigation />
@@ -139,23 +160,7 @@ const RoomDetails = () => {
             <Heading>{room ? room.title : ''}</Heading>
           </StyledHeadingWrapper>
           <StyledChatWrapper>
-            {messages.map(({ photoURL, userName, message }) => (
-              <StyledMessageWrapper key={id}>
-                <StyledAuthorImage>
-                  <img src={photoURL} alt={userName} />
-                </StyledAuthorImage>
-                <StyledMessage>{message}</StyledMessage>
-              </StyledMessageWrapper>
-            ))}
-            {/* <StyledMessageWrapper fromCurrentUser>
-              <StyledAuthorImage fromCurrentUser>
-                <img src={UserPic} alt="user pic" />
-              </StyledAuthorImage>
-              <StyledMessage fromCurrentUser>
-                Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
-                industries for previewing layouts and visual mockups.
-              </StyledMessage>
-            </StyledMessageWrapper> */}
+            {messages.map(({ user, message }) => isUserMessage(currentUser, user, message))}
           </StyledChatWrapper>
           <AddMessage onCreate={createMessage} />
         </StyledDiv>

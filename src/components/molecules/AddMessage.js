@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
-
+import UserPic from '../../assets/userPic.jpg';
 const StyledButton = styled.button`
   font-size: 1.1rem;
   font-weight: ${({ theme }) => theme.regular};
@@ -38,9 +38,17 @@ const AddMessage = ({ onCreate }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const { userName, photoURL } = currentUser.authUser;
-    const createdAt = new Date();
-    onCreate(message, userName, photoURL, createdAt);
+    const { userName, photoURL, uid } = currentUser.authUser;
+    const newMessage = {
+      message,
+      user: {
+        name: userName,
+        uid,
+        photoURL: photoURL || UserPic,
+      },
+      createdAt: new Date(),
+    };
+    onCreate(newMessage);
     setMessage('');
   };
   return (
