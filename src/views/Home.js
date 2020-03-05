@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import Post from '../components/molecules/Post';
@@ -23,9 +24,11 @@ const Home = () => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  useUser(setCurrentUser);
 
+  useUser(setCurrentUser);
   const postRef = firestore.collection('posts');
+
+  let unsubscribe = null;
 
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
@@ -33,11 +36,13 @@ const Home = () => {
     postRef.add(postToAdd);
     setPosts([postToAdd, ...posts]);
   };
+
   const handleRemove = id => {
     postRef.doc(id).delete();
   };
+
   useEffect(() => {
-    const unsubscribe = postRef.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+    unsubscribe = postRef.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
       const newPosts = snapshot.docs.map(documentsCollection);
       setPosts(newPosts);
     });

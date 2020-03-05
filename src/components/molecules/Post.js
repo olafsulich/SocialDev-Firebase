@@ -10,6 +10,7 @@ import HeartIcon from '../../assets/heart.svg';
 import RemoveIcon from '../../assets/delete.svg';
 import UserPic from '../../assets/userPic.jpg';
 import { firestore, auth } from '../../firebase/firebase';
+import isUserOwnerShip from '../../utils/isUserOwnerShip';
 
 const StyledWrapper = styled.section`
   width: 45rem;
@@ -127,10 +128,6 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
 
   const like = () => postRef.update({ likes: likes + 1 });
 
-  const isUserPost = (currentUser, postAuthor) => {
-    if (!currentUser) return false;
-    return currentUser.uid === postAuthor.uid;
-  };
   const currentUser = auth.currentUser;
 
   return (
@@ -158,7 +155,7 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
               <StyledQuantity>{likes}</StyledQuantity>
             </StyledIconWrapper>
             <StyledIconWrapper>
-              {isUserPost(currentUser, user) ? (
+              {isUserOwnerShip(currentUser, user) ? (
                 <StyledIcon remove icon={RemoveIcon} onClick={() => onRemove(id)} />
               ) : null}
             </StyledIconWrapper>

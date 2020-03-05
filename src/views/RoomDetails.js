@@ -8,6 +8,8 @@ import Heading from '../components/atoms/Heading/Heading';
 import Text from '../components/atoms/Text/Text';
 import AddMessage from '../components/molecules/AddMessage';
 import documentsCollection from '../utils/documentsCollection';
+import isUserOwnerShip from '../utils/isUserOwnerShip';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;

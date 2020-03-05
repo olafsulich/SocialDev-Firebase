@@ -8,7 +8,7 @@ import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
 import Comment from '../components/molecules/Comment';
 import Post from '../components/molecules/Post';
-
+import documentsCollection from '../utils/documentsCollection';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -28,28 +28,26 @@ const PostDetails = ({ user: { authUser } }) => {
   const commentRef = postRef.collection(`usersComments`);
 
   let unsubscribeFromPost = null;
-  let unsubscribeFromComments = null;
+  let unsubscribeFromComments;
 
   useEffect(() => {
-    const documentsCollection = doc => {
-      return { id: doc.id, ...doc.data() };
-    };
-
-    unsubscribeFromPost = postRef.onSnapshot(snapshot => {
-      const detailPost = documentsCollection(snapshot);
-      setPost(detailPost);
-    });
+    postRef.update({ comments: comments.length });
 
     unsubscribeFromComments = commentRef.onSnapshot(snapshot => {
       const detailComments = snapshot.docs.map(documentsCollection);
       setComments(detailComments);
     });
 
+    unsubscribeFromPost = postRef.onSnapshot(snapshot => {
+      const detailPost = documentsCollection(snapshot);
+      setPost(detailPost);
+    });
+
     return () => {
       unsubscribeFromPost();
       unsubscribeFromComments();
     };
-  }, []);
+  }, [comments]);
 
   const createComment = (comment, author) => commentRef.add({ comment, author });
 
@@ -59,7 +57,12 @@ const PostDetails = ({ user: { authUser } }) => {
       <GridTemplate>
         {post && <Post {...post} />}
         {comments.map(comment => (
-          <Comment content={comment.comment} userName={comment.author} key={comment.id} />
+          <Comment
+            content={comment.comment}
+            userName={comment.author}
+            key={comment.id}
+            comments={comments.length}
+          />
         ))}
         <AddComment onCreate={createComment} user={authUser} />
       </GridTemplate>

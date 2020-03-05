@@ -34,7 +34,6 @@ export const getUserDoc = async uid => {
 export const createUserDoc = async (user, userName) => {
   const userRef = await firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
-  console.log(user);
   window.snapshot = snapshot.exists;
   if (!snapshot.exists) {
     console.log(user);

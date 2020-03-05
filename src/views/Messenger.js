@@ -10,6 +10,8 @@ import Text from '../components/atoms/Text/Text';
 import useUser from '../hooks/useUser';
 import AddRoom from '../components/molecules/AddRoom';
 import documentsCollection from '../utils/documentsCollection';
+import Room from '../components/molecules/Room';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -78,7 +80,6 @@ const Messenger = () => {
     return () => unsubscribeFromRooms();
   }, []);
 
-  console.log(rooms);
   return (
     <StyledWrapper>
       <Navigation />
@@ -88,12 +89,8 @@ const Messenger = () => {
             <StyledHeading>Rooms</StyledHeading>
           </StyledRoomWrapper>
           <AddRoom handleCreate={handleCreate} />
-          {rooms.map(({ title, id }) => (
-            <StyledLink to={`/rooms/${id}`}>
-              <StyledRoomWrapper key={id}>
-                <Text>{title}</Text>
-              </StyledRoomWrapper>
-            </StyledLink>
+          {rooms.map(({ title, id, user }) => (
+            <Room title={title} id={id} key={id} user={user} />
           ))}
         </StyledDiv>
       </GridTemplate>
