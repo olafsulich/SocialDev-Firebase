@@ -10,7 +10,7 @@ const StyledWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
-  border: 1px solid #e6ecf1;
+  border: 2px solid #e6ecf1;
   border-top: none;
   padding: 1rem 6rem;
   position: relative;

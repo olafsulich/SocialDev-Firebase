@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
@@ -8,6 +9,7 @@ import StyledHeading from '../components/atoms/Heading/Heading';
 import Text from '../components/atoms/Text/Text';
 import useUser from '../hooks/useUser';
 import AddRoom from '../components/molecules/AddRoom';
+import documentsCollection from '../utils/documentsCollection';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -22,7 +24,6 @@ const StyledDiv = styled.div`
   width: 100%;
   height: 90vh;
   max-height: 90vh;
-  border: 1px solid #e6ecf1;
 `;
 
 const StyledRoomWrapper = styled.div`
@@ -31,7 +32,8 @@ const StyledRoomWrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  border: 1px solid #e6ecf1;
+  border: 2px solid #e6ecf1;
+  border-top: none;
   padding: 2rem 3rem;
 
   ${({ heading }) =>
@@ -47,35 +49,32 @@ const StyledRoomWrapper = styled.div`
     `}
 `;
 
+const StyledLink = styled(Link)`
+  text-decoration: none;
+`;
+
 const Messenger = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [rooms, setRooms] = useState([]);
   useUser(setCurrentUser);
 
+  const roomRef = firestore.collection('rooms');
+
   const handleCreate = roomToAdd => {
-    firestore.collection('rooms').add(roomToAdd);
+    roomRef.add(roomToAdd);
     setRooms([roomToAdd, ...rooms]);
   };
   const handleRemove = id => {
-    firestore
-      .collection('rooms')
-      .doc(id)
-      .delete();
+    roomRef.doc(id).delete();
   };
 
   let unsubscribeFromRooms = null;
 
   useEffect(() => {
-    unsubscribeFromRooms = firestore
-      .collection('rooms')
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(snapshot => {
-        const newRooms = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setRooms(newRooms);
-      });
+    unsubscribeFromRooms = roomRef.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+      const newRooms = snapshot.docs.map(documentsCollection);
+      setRooms(newRooms);
+    });
     return () => unsubscribeFromRooms();
   }, []);
 
@@ -90,9 +89,11 @@ const Messenger = () => {
           </StyledRoomWrapper>
           <AddRoom handleCreate={handleCreate} />
           {rooms.map(({ title, id }) => (
-            <StyledRoomWrapper key={id}>
-              <Text>{title}</Text>
-            </StyledRoomWrapper>
+            <StyledLink to={`/rooms/${id}`}>
+              <StyledRoomWrapper key={id}>
+                <Text>{title}</Text>
+              </StyledRoomWrapper>
+            </StyledLink>
           ))}
         </StyledDiv>
       </GridTemplate>

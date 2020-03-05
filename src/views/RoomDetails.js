@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
+import { useParams } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import Heading from '../components/atoms/Heading/Heading';
 import Text from '../components/atoms/Text/Text';
-import UserPic from '../assets/userPic.jpg';
-import Input from '../components/atoms/Input/Input';
+import AddMessage from '../components/molecules/AddMessage';
+import documentsCollection from '../utils/documentsCollection';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -42,6 +43,7 @@ const StyledChatWrapper = styled.div`
   grid-template-columns: 1fr;
   align-items: center;
   justify-items: space-between;
+  overflow: scroll;
 `;
 
 const StyledMessageWrapper = styled.article`
@@ -97,70 +99,66 @@ const StyledMessage = styled(Text)`
     `}
 `;
 
-const StyledButton = styled.button`
-  font-size: 1.1rem;
-  font-weight: ${({ theme }) => theme.regular};
-  color: #fff;
-  background-color: hsla(203, 89%, 53%, 0.8);
-  border-radius: 30px;
-  padding: 0.6rem 2.5rem;
-  margin-left: 2rem;
-`;
-
-const StyledForm = styled.form`
-  margin: 2rem auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 80%;
-`;
-
-const StyledInput = styled(Input)`
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  font-weight: ${({ theme }) => theme.regular};
-  width: 50%;
-`;
-
 const RoomDetails = () => {
+  const [room, setRoom] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const { id } = useParams();
+
+  const roomRef = firestore.doc(`rooms/${id}`);
+  const messageRef = roomRef.collection(`messages`);
+
+  let unsubscribeFromRoom = null;
+  let unsubscribeFromMessages = null;
+
+  useEffect(() => {
+    unsubscribeFromRoom = roomRef.onSnapshot(snapshot => {
+      const detailRoom = documentsCollection(snapshot);
+      setRoom(detailRoom);
+    });
+
+    unsubscribeFromMessages = messageRef.orderBy('createdAt', 'asc').onSnapshot(snapshot => {
+      const detailMessages = snapshot.docs.map(documentsCollection);
+      setMessages(detailMessages);
+    });
+
+    return () => {
+      unsubscribeFromRoom();
+      unsubscribeFromMessages();
+    };
+  }, []);
+  const createMessage = (message, userName, photoURL, createdAt) =>
+    messageRef.add({ message, userName, photoURL, createdAt });
   return (
-    <StyledDiv>
-      <StyledHeadingWrapper>
-        <Heading>React room</Heading>
-      </StyledHeadingWrapper>
-      <StyledChatWrapper>
-        <StyledMessageWrapper>
-          <StyledAuthorImage>
-            <img src={UserPic} alt="user pic" />
-          </StyledAuthorImage>
-          <StyledMessage>
-            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
-            industries for previewing layouts and visual mockups.
-          </StyledMessage>
-        </StyledMessageWrapper>
-        <StyledMessageWrapper fromCurrentUser>
-          <StyledAuthorImage fromCurrentUser>
-            <img src={UserPic} alt="user pic" />
-          </StyledAuthorImage>
-          <StyledMessage fromCurrentUser>
-            Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
-            industries for previewing layouts and visual mockups.
-          </StyledMessage>
-        </StyledMessageWrapper>
-        <StyledMessageWrapper>
-          <StyledMessage>message</StyledMessage>
-        </StyledMessageWrapper>
-      </StyledChatWrapper>
-      <StyledForm>
-        <StyledInput
-          type="text"
-          placeholder="Write a something..."
-          name="message"
-          aria-label="Write a something..."
-        />
-        <StyledButton type="submit">Send</StyledButton>{' '}
-      </StyledForm>
-    </StyledDiv>
+    <StyledWrapper>
+      <Navigation />
+      <GridTemplate>
+        <StyledDiv>
+          <StyledHeadingWrapper>
+            <Heading>{room ? room.title : ''}</Heading>
+          </StyledHeadingWrapper>
+          <StyledChatWrapper>
+            {messages.map(({ photoURL, userName, message }) => (
+              <StyledMessageWrapper key={id}>
+                <StyledAuthorImage>
+                  <img src={photoURL} alt={userName} />
+                </StyledAuthorImage>
+                <StyledMessage>{message}</StyledMessage>
+              </StyledMessageWrapper>
+            ))}
+            {/* <StyledMessageWrapper fromCurrentUser>
+              <StyledAuthorImage fromCurrentUser>
+                <img src={UserPic} alt="user pic" />
+              </StyledAuthorImage>
+              <StyledMessage fromCurrentUser>
+                Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing
+                industries for previewing layouts and visual mockups.
+              </StyledMessage>
+            </StyledMessageWrapper> */}
+          </StyledChatWrapper>
+          <AddMessage onCreate={createMessage} />
+        </StyledDiv>
+      </GridTemplate>
+    </StyledWrapper>
   );
 };
 
