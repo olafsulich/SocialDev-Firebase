@@ -4,4 +4,5 @@ export const routes = {
   notifications: '/notifications',
   account: '/account',
   post: '/posts/:id',
+  room: '/rooms/:id',
 };

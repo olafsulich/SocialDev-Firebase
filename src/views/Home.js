@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
-import Button from '../components/atoms/Button/Button';
-import PlusIcon from '../assets/plus.svg';
 import Post from '../components/molecules/Post';
 import AddPost from '../components/molecules/AddPost';
 import GridTemplate from '../templates/GridTemplate';

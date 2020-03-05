@@ -7,12 +7,13 @@ import Notifications from './Notifications';
 import Messenger from './Messenger';
 import Account from './Account';
 import PostDetails from './PostDetails';
+import RoomDetails from './RoomDetails';
 import useUser from '../hooks/useUser';
 import { routes } from '../routes/routes';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const { home, account, notifications, messenger, post } = routes;
+  const { home, account, notifications, messenger, post, room } = routes;
 
   useUser(setCurrentUser);
   return (
@@ -34,6 +35,11 @@ const App = () => {
               exact
               path={post}
               render={props => <PostDetails {...props} user={currentUser} />}
+            />
+            <Route
+              exact
+              path={room}
+              render={props => <RoomDetails {...props} user={currentUser} />}
             />
           </Switch>
         )}
