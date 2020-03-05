@@ -48,9 +48,34 @@ const StyledRoomWrapper = styled.div`
 
 const Messenger = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [rooms, setRooms] = useState([]);
   useUser(setCurrentUser);
 
+  const handleCreate = roomToAdd => {
+    firestore.collection('rooms').add(roomToAdd);
+    setRooms([roomToAdd, ...rooms]);
+  };
+  const handleRemove = id => {
+    firestore
+      .collection('rooms')
+      .doc(id)
+      .delete();
+  };
+
+  let unsubscribeFromRooms = null;
+
+  useEffect(() => {
+    unsubscribeFromRooms = firestore.collection('rooms').onSnapshot(snapshot => {
+      const newRooms = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setRooms(newRooms);
+    });
+    return () => unsubscribeFromRooms();
+  }, []);
+
+  console.log(rooms);
   return (
     <StyledWrapper>
       <Navigation />
@@ -59,18 +84,11 @@ const Messenger = () => {
           <StyledRoomWrapper heading>
             <StyledHeading>Rooms</StyledHeading>
           </StyledRoomWrapper>
-          <StyledRoomWrapper>
-            <Text>React</Text>
-          </StyledRoomWrapper>
-          <StyledRoomWrapper>
-            <Text>Vue</Text>
-          </StyledRoomWrapper>
-          <StyledRoomWrapper>
-            <Text>Html</Text>
-          </StyledRoomWrapper>
-          <StyledRoomWrapper>
-            <Text>Node.js</Text>
-          </StyledRoomWrapper>
+          {rooms.map(({ title, id }) => (
+            <StyledRoomWrapper key={id}>
+              <Text>{title}</Text>
+            </StyledRoomWrapper>
+          ))}
         </StyledDiv>
       </GridTemplate>
     </StyledWrapper>
