@@ -7,6 +7,7 @@ import RoomDetails from './RoomDetails';
 import StyledHeading from '../components/atoms/Heading/Heading';
 import Text from '../components/atoms/Text/Text';
 import useUser from '../hooks/useUser';
+import AddRoom from '../components/molecules/AddRoom';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -65,13 +66,16 @@ const Messenger = () => {
   let unsubscribeFromRooms = null;
 
   useEffect(() => {
-    unsubscribeFromRooms = firestore.collection('rooms').onSnapshot(snapshot => {
-      const newRooms = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRooms(newRooms);
-    });
+    unsubscribeFromRooms = firestore
+      .collection('rooms')
+      .orderBy('createdAt', 'desc')
+      .onSnapshot(snapshot => {
+        const newRooms = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRooms(newRooms);
+      });
     return () => unsubscribeFromRooms();
   }, []);
 
@@ -84,6 +88,7 @@ const Messenger = () => {
           <StyledRoomWrapper heading>
             <StyledHeading>Rooms</StyledHeading>
           </StyledRoomWrapper>
+          <AddRoom handleCreate={handleCreate} />
           {rooms.map(({ title, id }) => (
             <StyledRoomWrapper key={id}>
               <Text>{title}</Text>
