@@ -140,7 +140,7 @@ const StyledLink = styled(Link)`
 const StyledText = styled(Text)`
   margin-top: 1rem;
 `;
-const Post = ({ title, likes, comments, onRemove, id, user, createdAt }) => {
+const Post = ({ title, likes, comments, onRemove, id, user, createdAt, isLink }) => {
   const postRef = firestore.doc(`posts/${id}`);
 
   const like = () => postRef.update({ likes: likes + 1 });
@@ -150,13 +150,29 @@ const Post = ({ title, likes, comments, onRemove, id, user, createdAt }) => {
   return (
     <StyledWrapper>
       <StyledCommentWrapper>
-        <StyledLink to={`posts/${id}`}>
+        {isLink ? (
+          <StyledLink to={`posts/${id}`}>
+            <StyledAuthorImage>
+              <img src={user.photoURL || UserPic} alt={user.name} />
+            </StyledAuthorImage>
+          </StyledLink>
+        ) : (
           <StyledAuthorImage>
             <img src={user.photoURL || UserPic} alt={user.name} />
           </StyledAuthorImage>
-        </StyledLink>
+        )}
         <StyledAuthorWrapper>
-          <StyledLink to={`posts/${id}`}>
+          {isLink ? (
+            <StyledLink to={`posts/${id}`}>
+              <StyledArticle>
+                <StyledHeading>{user.name}</StyledHeading>
+                <StyledDate>
+                  {createdAt.toDate ? moment(createdAt.toDate()).calendar() : 'date'}
+                </StyledDate>
+                <StyledText>{title}</StyledText>
+              </StyledArticle>
+            </StyledLink>
+          ) : (
             <StyledArticle>
               <StyledHeading>{user.name}</StyledHeading>
               <StyledDate>
@@ -164,7 +180,7 @@ const Post = ({ title, likes, comments, onRemove, id, user, createdAt }) => {
               </StyledDate>
               <StyledText>{title}</StyledText>
             </StyledArticle>
-          </StyledLink>
+          )}
           <StyledInfoWrapper>
             <StyledIconWrapper>
               <StyledIcon comments icon={CommentsIcon} />
@@ -194,9 +210,11 @@ Post.propTypes = {
   id: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   createdAt: PropTypes.any.isRequired,
+  isLink: PropTypes.bool,
 };
 Post.defaultProps = {
   onRemove: () => {},
+  isLink: null,
 };
 
 export default Post;

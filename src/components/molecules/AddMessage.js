@@ -42,6 +42,7 @@ const StyledInput = styled(Input)`
 
   ::placeholder {
     color: #bec3c9;
+    padding-right: 1rem;
   }
 `;
 
@@ -55,7 +56,7 @@ const StyledEmojiButton = styled.input`
   background-position: 50% 50%;
   background-size: 60% 60%;
   position: absolute;
-  right: 43%;
+  right: 35%;
   top: 3px;
   cursor: pointer;
 `;
@@ -97,7 +98,7 @@ const AddMessage = ({ onCreate }) => {
       {pickerVisability ? (
         <Picker
           set="messenger"
-          style={{ position: 'absolute', bottom: '18%', right: '25%' }}
+          style={{ position: 'absolute', bottom: '85%', right: '15%', zIndex: '10' }}
           darkMode={false}
           onSelect={handleAddEmoji}
           showSkinTones={false}

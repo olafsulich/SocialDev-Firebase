@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { firestore, auth } from '../firebase/firebase';
@@ -92,6 +92,7 @@ const StyledMessage = styled(Text)`
   padding: 0.6rem 1.5rem;
   border-radius: 2rem;
   max-width: 60%;
+  min-height: 3rem;
   margin-left: 3rem;
 
   ${({ fromCurrentUser }) =>
@@ -108,6 +109,7 @@ const RoomDetails = () => {
   const [messages, setMessages] = useState([]);
 
   const { id } = useParams();
+  const chatRef = useRef(null);
 
   const roomRef = firestore.doc(`rooms/${id}`);
   const messageRef = roomRef.collection(`messages`);
@@ -131,6 +133,11 @@ const RoomDetails = () => {
       unsubscribeFromMessages();
     };
   }, []);
+
+  useEffect(() => {
+    const currentRef = chatRef.current;
+    currentRef.scrollTop = currentRef.scrollHeight;
+  }, [messages]);
 
   const createMessage = messageToAdd => messageRef.add(messageToAdd);
 
@@ -163,7 +170,7 @@ const RoomDetails = () => {
           <StyledHeadingWrapper>
             <Heading>{room ? room.title : ''}</Heading>
           </StyledHeadingWrapper>
-          <StyledChatWrapper>
+          <StyledChatWrapper ref={chatRef}>
             {messages.map(({ user, message }) => isUserMessage(currentUser, user, message))}
           </StyledChatWrapper>
           <AddMessage onCreate={createMessage} />

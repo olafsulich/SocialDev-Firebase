@@ -32,7 +32,7 @@ const StyledButton = styled.button`
   background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
   padding: 0.6rem 2.5rem;
-  margin-left: 2rem;
+  margin-left: 8rem;
 `;
 
 const StyledForm = styled.form`
@@ -62,7 +62,7 @@ const StyledEmojiButton = styled.input`
   background-position: 50% 50%;
   background-size: 60% 60%;
   position: absolute;
-  right: 5%;
+  right: -15%;
   top: 3px;
   cursor: pointer;
 `;
@@ -109,7 +109,7 @@ const AddComment = ({ onCreate }) => {
       {pickerVisability ? (
         <Picker
           set="messenger"
-          style={{ position: 'absolute', bottom: '0', right: '-75%' }}
+          style={{ position: 'absolute', bottom: '0', right: '-60%' }}
           darkMode={false}
           onSelect={handleAddEmoji}
           showSkinTones={false}
@@ -127,6 +127,7 @@ const AddComment = ({ onCreate }) => {
             onChange={handleContentChange}
             ref={inputRef}
             aria-label="Write a comment..."
+            isRequired
           />
           <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
         </StyledForm>

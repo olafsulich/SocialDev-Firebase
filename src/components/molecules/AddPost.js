@@ -170,6 +170,7 @@ const PostToAdd = ({ handleCreate }) => {
               aria-label={`What's on your mind, ${
                 currentUser ? currentUser.authUser.userName : null
               }?`}
+              isRequired
             />
           </StyledForm>
         </StyledContainer>

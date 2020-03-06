@@ -67,6 +67,7 @@ const Home = () => {
               onRemove={handleRemove}
               id={id}
               createdAt={createdAt}
+              isLink
             />
           );
         })}

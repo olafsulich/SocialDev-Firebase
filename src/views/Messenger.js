@@ -88,7 +88,7 @@ const Messenger = () => {
           </StyledRoomWrapper>
           <AddRoom handleCreate={handleCreate} />
           {rooms.map(({ title, id, user }) => (
-            <Room title={title} id={id} key={id} user={user} />
+            <Room title={title} id={id} key={id} user={user} handleRemove={handleRemove} />
           ))}
         </StyledDiv>
       </GridTemplate>

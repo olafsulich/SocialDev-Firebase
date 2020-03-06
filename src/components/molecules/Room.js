@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Text from '../atoms/Text/Text';
-import { auth } from '../../firebase/firebase';
+import { auth, firestore } from '../../firebase/firebase';
 import RemoveIcon from '../../assets/delete.svg';
 import isUserOwnerShip from '../../utils/isUserOwnerShip';
 
@@ -12,7 +12,7 @@ const StyledRoomWrapper = styled.div`
   height: 10%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   border: 2px solid #e6ecf1;
   border-top: none;
   padding: 2rem 3rem;
@@ -25,13 +25,23 @@ const StyledRoomWrapper = styled.div`
       width: 100%;
       height: 10%;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: space-between;
       padding: 2rem 3rem;
     `}
 `;
-const StyledIcon = styled.div`
+const StyledButtonWrapper = styled.div`
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledIcon = styled.button`
   width: 3rem;
   height: 3rem;
+  background: none;
+  border: none;
   background-image: url(${({ icon }) => icon});
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -40,6 +50,7 @@ const StyledIcon = styled.div`
   border-radius: 50px;
   cursor: pointer;
   margin-left: 2rem;
+  z-index: 5;
 
   :hover {
     border-radius: 30px;
@@ -55,25 +66,31 @@ const StyledIcon = styled.div`
     `}
 `;
 const StyledLink = styled(Link)`
+  height: 100%;
+  width: 80%;
   text-decoration: none;
 `;
 
-const Room = ({ title, id, user }) => {
+const Room = ({ title, id, user, handleRemove }) => {
   const currentUser = auth.currentUser;
 
   return (
-    <StyledLink to={`/rooms/${id}`}>
-      <StyledRoomWrapper key={id}>
-        {isUserOwnerShip(currentUser, user) ? (
-          <>
+    <StyledRoomWrapper key={id}>
+      {isUserOwnerShip(currentUser, user) ? (
+        <>
+          <StyledLink to={`/rooms/${id}`}>
             <Text>{title}</Text>
-            <StyledIcon remove icon={RemoveIcon} />
-          </>
-        ) : (
+          </StyledLink>
+          <StyledButtonWrapper>
+            <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
+          </StyledButtonWrapper>
+        </>
+      ) : (
+        <StyledLink to={`/rooms/${id}`}>
           <Text>{title}</Text>
-        )}
-      </StyledRoomWrapper>
-    </StyledLink>
+        </StyledLink>
+      )}
+    </StyledRoomWrapper>
   );
 };
 
@@ -81,10 +98,12 @@ Room.propTypes = {
   title: PropTypes.string.isRequired,
   id: PropTypes.number.isRequired,
   user: PropTypes.object,
+  handleRemove: PropTypes.func,
 };
 
 Room.defaultProps = {
   user: {},
+  handleRemove: () => {},
 };
 
 export default Room;
