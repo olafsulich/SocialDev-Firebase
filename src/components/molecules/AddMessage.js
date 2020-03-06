@@ -8,6 +8,12 @@ import useUser from '../../hooks/useUser';
 import UserPic from '../../assets/userPic.jpg';
 import EmojiIcon from '../../assets/emoji.svg';
 
+const StyledWrapper = styled.div`
+  position: absolute;
+  top: 90%;
+  width: 100%;
+`;
+
 const StyledButton = styled.button`
   font-size: 1.1rem;
   font-weight: ${({ theme }) => theme.regular};
@@ -87,7 +93,7 @@ const AddMessage = ({ onCreate }) => {
     setMessage('');
   };
   return (
-    <>
+    <StyledWrapper>
       {pickerVisability ? (
         <Picker
           set="messenger"
@@ -114,7 +120,7 @@ const AddMessage = ({ onCreate }) => {
           Send
         </StyledButton>
       </StyledForm>
-    </>
+    </StyledWrapper>
   );
 };
 

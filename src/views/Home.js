@@ -8,6 +8,7 @@ import AddPost from '../components/molecules/AddPost';
 import GridTemplate from '../templates/GridTemplate';
 import useUser from '../hooks/useUser';
 import documentsCollection from '../utils/documentsCollection';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -29,7 +30,7 @@ const Home = () => {
   const postRef = firestore.collection('posts');
 
   let unsubscribe = null;
-
+  window.posts = posts;
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   const handleCreate = postToAdd => {
@@ -54,18 +55,21 @@ const Home = () => {
       <Navigation />
       <GridTemplate>
         <AddPost user={currentUser} handleAddPost={handleSidebarOpen} handleCreate={handleCreate} />
-        {posts.map(({ user, title, content, likes, comments, id }) => (
-          <Post
-            title={title}
-            key={title}
-            user={user}
-            content={content}
-            likes={likes}
-            comments={comments}
-            onRemove={handleRemove}
-            id={id}
-          />
-        ))}
+        {posts.map(({ user, title, content, likes, comments, id, createdAt }) => {
+          return (
+            <Post
+              title={title}
+              key={title}
+              user={user}
+              content={content}
+              likes={likes}
+              comments={comments}
+              onRemove={handleRemove}
+              id={id}
+              createdAt={createdAt}
+            />
+          );
+        })}
       </GridTemplate>
     </StyledWrapper>
   );

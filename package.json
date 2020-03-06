@@ -11,6 +11,7 @@
     "firebase-admin": "^8.9.2",
     "firebase-tools": "^7.12.1",
     "modern-normalize": "^0.5.0",
+    "moment": "^2.24.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-hook-form": "^4.4.7",

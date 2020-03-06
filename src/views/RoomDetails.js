@@ -24,6 +24,7 @@ const StyledDiv = styled.div`
   height: 90vh;
   max-height: 90vh;
   border: 1px solid #e6ecf1;
+  position: relative;
 `;
 
 const StyledHeadingWrapper = styled.div`
@@ -38,12 +39,13 @@ const StyledHeadingWrapper = styled.div`
 
 const StyledChatWrapper = styled.div`
   width: 100%;
-  height: 80%;
+  height: auto;
+  max-height: 80%;
   padding: 3rem 2rem;
   display: grid;
   grid-template-columns: 1fr;
-  align-items: center;
-  justify-items: space-between;
+  align-items: start;
+  justify-items: flex-start;
   overflow: scroll;
   position: relative;
 `;
@@ -68,7 +70,7 @@ const StyledAuthorImage = styled.figure`
   height: 100%;
   width: 4rem;
   position: absolute;
-  top: 0.5rem;
+  top: 0rem;
   left: -1rem;
 
   ${({ fromCurrentUser }) =>

@@ -11,7 +11,7 @@ const StyledRoomWrapper = styled.div`
   width: 100%;
   height: 10%;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   border: 2px solid #e6ecf1;
   border-top: none;
@@ -24,7 +24,7 @@ const StyledRoomWrapper = styled.div`
       background-color: #f5f8fa;
       width: 100%;
       height: 10%;
-      align-items: flex-start;
+      align-items: center;
       justify-content: flex-start;
       padding: 2rem 3rem;
     `}

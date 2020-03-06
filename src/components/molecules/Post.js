@@ -2,6 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Heading from '../atoms/Heading/Heading';
 import Button from '../atoms/Button/Button';
 import Text from '../atoms/Text/Text';
@@ -55,7 +56,7 @@ const StyledAuthorImage = styled.figure`
     border-radius: 100px;
   }
 `;
-const StyledTitleWrapper = styled.article`
+const StyledArticle = styled.article`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -120,11 +121,26 @@ const StyledIcon = styled.button`
     `}
 `;
 
+const StyledHeading = styled(Heading)`
+  margin-bottom: 0;
+`;
+
+const StyledDate = styled.time`
+  font-size: 1rem;
+  margin-top: 6px;
+  color: #bec3c9;
+  font-weight: ${({ theme }) => theme.regular};
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   z-index: 12;
 `;
-const Post = ({ title, likes, comments, onRemove, id, user }) => {
+
+const StyledText = styled(Text)`
+  margin-top: 1rem;
+`;
+const Post = ({ title, likes, comments, onRemove, id, user, createdAt }) => {
   const postRef = firestore.doc(`posts/${id}`);
 
   const like = () => postRef.update({ likes: likes + 1 });
@@ -141,10 +157,13 @@ const Post = ({ title, likes, comments, onRemove, id, user }) => {
         </StyledLink>
         <StyledAuthorWrapper>
           <StyledLink to={`posts/${id}`}>
-            <StyledTitleWrapper>
-              <Heading>{user.name}</Heading>
-              <Text>{title}</Text>
-            </StyledTitleWrapper>
+            <StyledArticle>
+              <StyledHeading>{user.name}</StyledHeading>
+              <StyledDate>
+                {createdAt.toDate ? moment(createdAt.toDate()).calendar() : 'date'}
+              </StyledDate>
+              <StyledText>{title}</StyledText>
+            </StyledArticle>
           </StyledLink>
           <StyledInfoWrapper>
             <StyledIconWrapper>
@@ -174,6 +193,7 @@ Post.propTypes = {
   onRemove: PropTypes.func,
   id: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
+  createdAt: PropTypes.any.isRequired,
 };
 Post.defaultProps = {
   onRemove: () => {},
