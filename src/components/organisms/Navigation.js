@@ -93,7 +93,7 @@ const Navigation = () => {
     return () => {
       window.removeEventListener('resize', updateDimensions);
     };
-  }, []);
+  }, [pageWidth]);
   return (
     <StyledWrapper>
       <StyledIconsWrapper>

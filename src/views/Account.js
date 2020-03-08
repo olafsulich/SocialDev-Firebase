@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Navigation from '../components/organisms/Navigation';
 import Button from '../components/atoms/Button/Button';
 import GridTemplate from '../templates/GridTemplate';
@@ -82,10 +83,10 @@ const StyledButtonLogout = styled.button`
 `;
 const Account = ({ currentUser }) => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
-  const { userName, email, photoURL } = currentUser.authUser;
+  const { userName, email, photoURL, createdAt } = currentUser.authUser;
 
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
-
+  const formatedDate = moment(createdAt.toDate()).calendar();
   return (
     <StyledWrapper>
       <Navigation />
@@ -103,7 +104,7 @@ const Account = ({ currentUser }) => {
           <StyledInfoWrapper>
             <StyledText icon={UserProfileIcon}>{userName}</StyledText>
             <StyledText icon={EmailIcon}>{email}</StyledText>
-            <StyledText icon={JoinedAtIcon}>Joined at 19.02.2020</StyledText>
+            <StyledText icon={JoinedAtIcon}>{formatedDate}</StyledText>
           </StyledInfoWrapper>
           <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
         </StyledAccountWrapper>
