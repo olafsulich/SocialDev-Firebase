@@ -22,6 +22,7 @@
     "import/no-unresolved": 1,
     "no-console": "off",
     "no-restricted-globals": 0,
+    "import/no-cycle": 0,
     "react/jsx-filename-extension": [
       1,
       {
