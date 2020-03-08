@@ -1,8 +1,24 @@
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+admin.initializeApp(functions.config().firebase);
+
+// prettier-ignore
+const createNotification = (notification => {
+  return admin
+    .firestore()
+    .collection('notifications')
+    .add(notification)
+    .then(doc => console.log('create notific', doc));
+});
+
+exports.postCreated = functions.firestore.document('posts/{postId}').onCreate(doc => {
+  const post = doc.data();
+  const notification = {
+    content: 'Added new post',
+    userName: `${post.user.name}`,
+    time: admin.firestore.FieldValue.serverTimestamp(),
+  };
+
+  return createNotification(notification);
+});
