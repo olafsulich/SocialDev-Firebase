@@ -86,7 +86,7 @@ const AddMessage = ({ onCreate }) => {
       user: {
         name: userName,
         uid,
-        photoURL: photoURL || UserPic,
+        photoURL,
       },
       createdAt: new Date(),
     };

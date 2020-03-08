@@ -129,7 +129,7 @@ const PostToAdd = ({ handleCreate }) => {
         name: userName,
         uid,
         email,
-        photoURL: photoURL || UserPic,
+        photoURL,
       },
       likes: 0,
       comments: 0,

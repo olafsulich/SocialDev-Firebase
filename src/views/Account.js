@@ -13,11 +13,12 @@ import EmailIcon from '../assets/email.svg';
 import JoinedAtIcon from '../assets/joined.svg';
 import { auth } from '../firebase/firebase';
 import EditProfile from '../components/molecules/EditProfile';
-import useUser from '../hooks/useUser';
-
+import UserPic from '../assets/userPic.jpg';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
+  padding-top: 4rem;
+
   @media (min-width: 650px) {
     display: grid;
     grid-template-columns: 0.5fr 3fr;
@@ -87,19 +88,14 @@ const Account = ({ currentUser }) => {
 
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
   const formatedDate = moment(createdAt.toDate()).calendar();
+
   return (
     <StyledWrapper>
       <Navigation />
       <GridTemplate>
         <StyledAccountWrapper>
           <StyledImageWrapper>
-            <img
-              src={
-                photoURL ||
-                'https://d2eip9sf3oo6c2.cloudfront.net/instructors/avatars/000/000/032/square_480/oapgW_Fp_400x400.jpg'
-              }
-              alt={userName}
-            />
+            <img src={photoURL} alt={userName} />
           </StyledImageWrapper>
           <StyledInfoWrapper>
             <StyledText icon={UserProfileIcon}>{userName}</StyledText>

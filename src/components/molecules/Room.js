@@ -96,7 +96,7 @@ const Room = ({ title, id, user, handleRemove }) => {
 
 Room.propTypes = {
   title: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   user: PropTypes.object,
   handleRemove: PropTypes.func,
 };

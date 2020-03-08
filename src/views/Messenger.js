@@ -75,7 +75,9 @@ const Messenger = () => {
       const newRooms = snapshot.docs.map(documentsCollection);
       setRooms(newRooms);
     });
-    return () => unsubscribeFromRooms();
+    return () => {
+      unsubscribeFromRooms();
+    };
   }, []);
 
   return (

@@ -30,7 +30,7 @@ const Home = () => {
   const postRef = firestore.collection('posts');
 
   let unsubscribe = null;
-  window.posts = posts;
+
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
 
   const handleCreate = postToAdd => {
@@ -47,7 +47,9 @@ const Home = () => {
       const newPosts = snapshot.docs.map(documentsCollection);
       setPosts(newPosts);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (

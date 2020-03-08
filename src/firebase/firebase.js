@@ -36,18 +36,18 @@ export const createUserDoc = async (user, userName) => {
   const snapshot = await userRef.get();
   window.snapshot = snapshot.exists;
   if (!snapshot.exists) {
-    const { uid, email, photoURL } = user;
+    const { uid, email } = user;
     const createdAt = new Date();
     try {
       await userRef.set({
         uid,
         email,
-        photoURL,
+        photoURL: 'https://abridgetohope.org/wp-content/uploads/2018/12/Unknown.png',
         createdAt,
         userName,
       });
     } catch (error) {
-      console.log('Error with firebase oh no createUserDoc :O!!!!!', error);
+      console.log(error);
     }
   }
   return getUserDoc(user.uid);

@@ -153,12 +153,12 @@ const Post = ({ title, likes, comments, onRemove, id, user, createdAt, isLink })
         {isLink ? (
           <StyledLink to={`posts/${id}`}>
             <StyledAuthorImage>
-              <img src={user.photoURL || UserPic} alt={user.name} />
+              <img src={user.photoURL} alt={user.name} />
             </StyledAuthorImage>
           </StyledLink>
         ) : (
           <StyledAuthorImage>
-            <img src={user.photoURL || UserPic} alt={user.name} />
+            <img src={user.photoURL} alt={user.name} />
           </StyledAuthorImage>
         )}
         <StyledAuthorWrapper>
