@@ -6,8 +6,6 @@ import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import StyledHeading from '../components/atoms/Heading/Heading';
-import useUser from '../hooks/useUser';
-import AddRoom from '../components/molecules/AddRoom';
 import documentsCollection from '../utils/documentsCollection';
 import Notification from '../components/molecules/Notification';
 
@@ -74,14 +72,17 @@ const Notifications = () => {
 
   return (
     <StyledWrapper>
-      <StyledDiv>
-        <StyledNotificationsWrapper>
-          <StyledHeading>Notifications</StyledHeading>
-        </StyledNotificationsWrapper>
-        {notifications.map(props => {
-          return <Notification {...props} key={props.id} />;
-        })}
-      </StyledDiv>
+      <Navigation />
+      <GridTemplate>
+        <StyledDiv>
+          <StyledNotificationsWrapper heading>
+            <StyledHeading>Notifications</StyledHeading>
+          </StyledNotificationsWrapper>
+          {notifications.map(props => {
+            return <Notification {...props} key={props.id} />;
+          })}
+        </StyledDiv>
+      </GridTemplate>
     </StyledWrapper>
   );
 };
