@@ -87,7 +87,6 @@ const Account = ({ currentUser }) => {
   const { userName, email, photoURL, createdAt } = currentUser.authUser;
 
   const handleSidebarOpen = () => setSidebarOpen(prevState => !prevState);
-  const formatedDate = moment(createdAt.toDate()).calendar();
 
   return (
     <StyledWrapper>
@@ -100,7 +99,9 @@ const Account = ({ currentUser }) => {
           <StyledInfoWrapper>
             <StyledText icon={UserProfileIcon}>{userName}</StyledText>
             <StyledText icon={EmailIcon}>{email}</StyledText>
-            <StyledText icon={JoinedAtIcon}>{formatedDate}</StyledText>
+            <StyledText icon={JoinedAtIcon}>
+              {currentUser ? moment(createdAt.toDate()).calendar() : 'date'}
+            </StyledText>
           </StyledInfoWrapper>
           <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
         </StyledAccountWrapper>

@@ -26,7 +26,7 @@ const Home = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
 
-  useUser(setCurrentUser, currentUser);
+  useUser(setCurrentUser, currentUser.authUser.userName);
   const postRef = firestore.collection('posts');
 
   let unsubscribe = null;

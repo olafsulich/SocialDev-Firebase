@@ -3,6 +3,8 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
+const notificationTime = admin.firestore.FieldValue.serverTimestamp();
+
 // prettier-ignore
 const createNotification = (notification => {
   return admin
@@ -17,8 +19,26 @@ exports.postCreated = functions.firestore.document('posts/{postId}').onCreate(do
   const notification = {
     content: 'Added new post',
     userName: `${post.user.name}`,
-    time: admin.firestore.FieldValue.serverTimestamp(),
+    time: notificationTime,
   };
 
   return createNotification(notification);
+});
+
+exports.newUserJoined = functions.auth.user().onCreate(user => {
+  return admin
+    .firestore()
+    .collection('users')
+    .doc(user.uid)
+    .get()
+    .then(doc => {
+      const { userName } = doc.data();
+
+      const notification = {
+        content: 'Joined to Social Dev community',
+        userName,
+        time: notificationTime,
+      };
+      return createNotification(notification);
+    });
 });

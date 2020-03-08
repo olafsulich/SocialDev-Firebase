@@ -44,7 +44,7 @@ export const createUserDoc = async (user, userName) => {
         email,
         photoURL: 'https://abridgetohope.org/wp-content/uploads/2018/12/Unknown.png',
         createdAt,
-        userName,
+        userName: userName,
       });
     } catch (error) {
       console.log(error);
