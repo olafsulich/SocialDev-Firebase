@@ -20,7 +20,7 @@ exports.postCreated = functions.firestore.document('posts/{postId}').onCreate(do
   const notification = {
     content: 'Added new post',
     userName: `${post.user.name}`,
-    time: notificationTime,
+    createdAt: notificationTime,
   };
 
   return createNotification(notification);
@@ -38,7 +38,7 @@ exports.newUserJoined = functions.auth.user().onCreate(user => {
       const notification = {
         content: 'Joined to Social Dev community',
         userName,
-        time: notificationTime,
+        createdAt: notificationTime,
       };
       return createNotification(notification);
     });

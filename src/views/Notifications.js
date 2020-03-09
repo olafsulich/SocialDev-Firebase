@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import StyledHeading from '../components/atoms/Heading/Heading';
 import NotificationsList from '../components/molecules/NotificationsList';
-import useCollection from '../hooks/useCollection';
+import useSubscription from '../hooks/useSubscription';
 import { notificationsRef } from '../firebase/firestoreRefs';
 
 const StyledWrapper = styled.div`
@@ -49,7 +49,7 @@ const StyledNotificationsWrapper = styled.div`
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
 
-  useCollection(notificationsRef, setNotifications);
+  useSubscription(notificationsRef, setNotifications, 'desc');
 
   return (
     <StyledWrapper>

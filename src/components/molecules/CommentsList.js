@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Comment from './Comment';
+import Comment from '../atoms/Comment/Comment';
 
 const CommentsList = ({ comments }) => {
   return (
@@ -13,7 +13,7 @@ const CommentsList = ({ comments }) => {
 };
 
 CommentsList.propTypes = {
-  comments: PropTypes.object.isRequired,
+  comments: PropTypes.array.isRequired,
 };
 
 export default CommentsList;

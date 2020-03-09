@@ -110,7 +110,7 @@ const AddComment = ({ commentRef }) => {
   return (
     <StyledFormWrapper>
       {pickerVisability ? (
-        <EmojiPicker handleAddEmoji={() => addEmoji(setContent)} bottom="0" right="-60%" />
+        <EmojiPicker handleAddEmoji={handleAddEmoji} top="-40%" right="-60%" />
       ) : null}
       <StyledCommentWrapper>
         <StyledForm onSubmit={handleSubmit}>

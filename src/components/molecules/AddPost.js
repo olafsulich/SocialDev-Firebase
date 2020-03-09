@@ -73,9 +73,13 @@ const StyledAuthorImage = styled.figure`
 const StyledButtonWrapper = styled.div`
   display: flex;
   width: 100%;
-  padding: 0.5rem 1rem 0 0;
+  padding: 0.5rem 8rem 0 0;
   align-items: center;
   justify-content: flex-end;
+
+  @media only screen and (min-width: 650px) {
+    padding: 0.5rem 1rem 0 0;
+  }
 `;
 
 const StyledButton = styled.button`
@@ -129,11 +133,19 @@ const PostToAdd = ({ handleCreate }) => {
     handleCreate(post);
     setTitle('');
   };
+
+  const handleAddEmoji = ({ native }) => {
+    setTitle(prevState => prevState + native);
+  };
+
+  const handlePickerVisability = () => {
+    setPickerVisability(prevState => !prevState);
+  };
   return (
     <>
       <StyledWrapper>
         {pickerVisability ? (
-          <EmojiPicker handleAddEmoji={() => addEmoji(setTitle)} bottom="90%" right="-50%" />
+          <EmojiPicker handleAddEmoji={handleAddEmoji} top="40%" right="-50%" />
         ) : null}
         <StyledContainer>
           <StyledAuthorImage>
@@ -161,11 +173,7 @@ const PostToAdd = ({ handleCreate }) => {
           <StyledButton type="submit" onClick={handleSubmit}>
             Post
           </StyledButton>
-          <StyledEmojiButton
-            onClick={() => toggleState(setPickerVisability)}
-            type="button"
-            icon={EmojiIcon}
-          />
+          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
         </StyledButtonWrapper>
       </StyledWrapper>
     </>

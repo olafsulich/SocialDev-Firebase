@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Room from './Room';
+import Room from '../atoms/Room/Room';
 import { roomsRef } from '../../firebase/firestoreRefs';
 
 const RoomsList = ({ rooms }) => {
@@ -16,7 +16,7 @@ const RoomsList = ({ rooms }) => {
   );
 };
 RoomsList.propTypes = {
-  rooms: PropTypes.object.isRequired,
+  rooms: PropTypes.array.isRequired,
 };
 
 export default RoomsList;

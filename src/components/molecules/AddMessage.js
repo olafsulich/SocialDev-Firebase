@@ -71,6 +71,12 @@ const AddMessage = ({ messageRef }) => {
 
   const handleInputChange = ({ target: { value } }) => setMessage(value);
 
+  const handleAddEmoji = ({ native }) => {
+    setMessage(prevState => prevState + native);
+  };
+  const handlePickerVisability = () => {
+    setPickerVisability(prevState => !prevState);
+  };
   const handleSubmit = e => {
     e.preventDefault();
     const { userName, photoURL, uid } = currentUser.authUser;
@@ -89,7 +95,7 @@ const AddMessage = ({ messageRef }) => {
   return (
     <StyledWrapper>
       {pickerVisability ? (
-        <EmojiPicker handleAddEmoji={() => addEmoji(setMessage)} bottom="85%" right="15%" />
+        <EmojiPicker handleAddEmoji={handleAddEmoji} top="-325%" right="15%" />
       ) : null}
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
@@ -100,11 +106,7 @@ const AddMessage = ({ messageRef }) => {
           aria-label="Write something..."
           value={message}
         />
-        <StyledEmojiButton
-          type="button"
-          icon={EmojiIcon}
-          onClick={() => toggleState(setPickerVisability)}
-        />
+        <StyledEmojiButton type="button" icon={EmojiIcon} onClick={handlePickerVisability} />
 
         <StyledButton type="submit" onClick={handleSubmit}>
           Send

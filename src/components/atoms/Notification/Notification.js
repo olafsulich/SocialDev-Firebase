@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
-import Text from '../atoms/Text/Text';
+import Text from '../Text/Text';
 
 const StyledNotificationWrapper = styled.div`
   width: 100%;

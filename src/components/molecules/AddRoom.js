@@ -56,8 +56,8 @@ const StyledAuthorImage = styled.figure`
   height: 100%;
   width: 6rem;
   position: absolute;
-  top: 1.8rem;
-  left: -4%;
+  top: 50%;
+  left: -3rem;
 
   img {
     width: 3rem;

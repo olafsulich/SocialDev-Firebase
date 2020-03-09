@@ -10,7 +10,7 @@ const StyledGrid = styled.div`
   grid-template-columns: 1fr;
   align-items: center;
   justify-items: center;
-  margin: 0 0 4rem 0;
+  margin: 0 0 8.5rem 0;
   padding: 0rem 10rem 0 0;
   @media only screen and (max-width: 850px) {
     padding: 0;

@@ -100,7 +100,7 @@ const Account = ({ currentUser }) => {
             <StyledText icon={UserProfileIcon}>{userName}</StyledText>
             <StyledText icon={EmailIcon}>{email}</StyledText>
             <StyledText icon={JoinedAtIcon}>
-              {currentUser ? moment(createdAt.toDate()).calendar() : 'date'}
+              {createdAt ? moment(createdAt.toDate()).calendar() : 'date'}
             </StyledText>
           </StyledInfoWrapper>
           <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>

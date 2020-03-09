@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Heading from '../atoms/Heading/Heading';
-import Text from '../atoms/Text/Text';
+import Heading from '../Heading/Heading';
+import Text from '../Text/Text';
 
 const StyledWrapper = styled.div`
   width: 45rem;

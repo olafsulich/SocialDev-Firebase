@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 
-const EmojiPicker = ({ bottom, right, handleAddEmoji }) => (
-  <Picker
-    set="messenger"
-    style={{ position: 'absolute', bottom: { bottom }, right: { right }, zIndex: '10' }}
-    darkMode={false}
-    onSelect={handleAddEmoji}
-    showSkinTones={false}
-    showPreview={false}
-    color="#1ca0f2"
-  />
-);
+const EmojiPicker = ({ top, right, handleAddEmoji }) => {
+  return (
+    <Picker
+      set="messenger"
+      style={{ position: 'absolute', top: `${top}`, right: `${right}`, zIndex: '10' }}
+      darkMode={false}
+      onSelect={handleAddEmoji}
+      showSkinTones={false}
+      showPreview={false}
+      color="#1ca0f2"
+    />
+  );
+};
 
 EmojiPicker.propTypes = {
-  bottom: PropTypes.object.isRequired,
-  right: PropTypes.object.isRequired,
+  top: PropTypes.string.isRequired,
+  right: PropTypes.string.isRequired,
   handleAddEmoji: PropTypes.func.isRequired,
 };
 export default EmojiPicker;

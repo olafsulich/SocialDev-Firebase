@@ -58,6 +58,8 @@ const RoomDetails = () => {
   useCollection(roomRef, setRoom);
   useRefScroll(chatRef, messages);
 
+  window.messages = messages;
+  window.room = room;
   return (
     <PageTemplate>
       <StyledDiv>

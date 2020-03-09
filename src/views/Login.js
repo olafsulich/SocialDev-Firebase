@@ -149,6 +149,11 @@ const Login = () => {
     });
   };
 
+  const handleNewAccount = e => {
+    e.preventDefault();
+    setNewAccount(prevState => !prevState);
+  };
+
   const handleSignIn = e => {
     e.preventDefault();
     auth
@@ -202,10 +207,7 @@ const Login = () => {
         </StyledInputsWrapper>
         <StyledText>
           {newAccount ? 'Have account?' : "Haven't got account?"}
-          <StyledButtonSecondary
-            aria-label="sign in/sign up"
-            onClick={() => toggleState(setNewAccount)}
-          >
+          <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
             {newAccount ? 'Sign in' : 'Sign up'}
           </StyledButtonSecondary>
         </StyledText>

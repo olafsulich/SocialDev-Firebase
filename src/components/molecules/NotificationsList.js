@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Notification from './Notification';
+import Notification from '../atoms/Notification/Notification';
 
 const NotificationsList = ({ notifications }) => {
   return (
@@ -13,7 +13,7 @@ const NotificationsList = ({ notifications }) => {
 };
 
 NotificationsList.propTypes = {
-  notifications: PropTypes.object,
+  notifications: PropTypes.array,
   id: PropTypes.string,
 };
 

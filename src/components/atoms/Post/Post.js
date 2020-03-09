@@ -3,15 +3,15 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Heading from '../atoms/Heading/Heading';
-import Text from '../atoms/Text/Text';
-import CommentsIcon from '../../assets/comments.svg';
-import HeartIcon from '../../assets/heart.svg';
-import RemoveIcon from '../../assets/delete.svg';
-import { firestore, auth } from '../../firebase/firebase';
-import isUserOwnerShip from '../../utils/isUserOwnerShip';
-import { postsRef } from '../../firebase/firestoreRefs';
-import handleRemove from '../../utils/handleRemove';
+import Heading from '../Heading/Heading';
+import Text from '../Text/Text';
+import CommentsIcon from '../../../assets/comments.svg';
+import HeartIcon from '../../../assets/heart.svg';
+import RemoveIcon from '../../../assets/delete.svg';
+import { firestore, auth } from '../../../firebase/firebase';
+import isUserOwnerShip from '../../../utils/isUserOwnerShip';
+import { postsRef } from '../../../firebase/firestoreRefs';
+import handleRemove from '../../../utils/handleRemove';
 
 const StyledWrapper = styled.section`
   width: 45rem;

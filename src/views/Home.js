@@ -6,20 +6,23 @@ import { postsRef } from '../firebase/firestoreRefs';
 import PostsList from '../components/molecules/PostsList';
 import toggleState from '../utils/toggleState';
 import PageTemplate from '../templates/PageTemplate';
+import { firestore } from '../firebase/firebase';
 
 const Home = () => {
   const [SidebarOpen, setSidebarOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
 
+  const postRef = firestore.collection('posts');
+
   useUser(setCurrentUser, currentUser);
-  useSubscription(postsRef, setPosts, 'desc');
+  useSubscription(postRef, setPosts, 'desc');
 
   const handleCreate = postToAdd => {
     postsRef.add(postToAdd);
     setPosts([postToAdd, ...posts]);
   };
-
+  // console.log(posts);
   return (
     <PageTemplate>
       <AddPost

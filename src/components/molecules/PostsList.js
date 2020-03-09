@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Post from './Post';
+import Post from '../atoms/Post/Post';
 
 const PostsList = ({ posts }) => {
   return (
@@ -9,7 +9,7 @@ const PostsList = ({ posts }) => {
         return (
           <Post
             title={title}
-            key={title}
+            key={id}
             user={user}
             content={content}
             likes={likes}
@@ -25,7 +25,7 @@ const PostsList = ({ posts }) => {
 };
 
 PostsList.propTypes = {
-  posts: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired,
 };
 
 export default PostsList;

@@ -2,10 +2,10 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import Text from '../atoms/Text/Text';
-import { auth, firestore } from '../../firebase/firebase';
-import RemoveIcon from '../../assets/delete.svg';
-import isUserOwnerShip from '../../utils/isUserOwnerShip';
+import Text from '../Text/Text';
+import { auth, firestore } from '../../../firebase/firebase';
+import RemoveIcon from '../../../assets/delete.svg';
+import isUserOwnerShip from '../../../utils/isUserOwnerShip';
 
 const StyledRoomWrapper = styled.div`
   width: 100%;

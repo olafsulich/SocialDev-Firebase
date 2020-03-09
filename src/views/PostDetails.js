@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter, useParams } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
-import Post from '../components/molecules/Post';
+import Post from '../components/atoms/Post/Post';
 import useSubscription from '../hooks/useSubscription';
 import useCollection from '../hooks/useCollection';
 import CommentsList from '../components/molecules/CommentsList';

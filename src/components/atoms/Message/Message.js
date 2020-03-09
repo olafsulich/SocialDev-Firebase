@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Text from '../Text/Text';
 
-const StyledMessageWrapper = styled.article`
+const StyledMessageWrapper = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
@@ -82,7 +82,11 @@ const Message = ({ messageAuthor, message, fromCurrentUser }) => {
 Message.propTypes = {
   messageAuthor: PropTypes.object.isRequired,
   message: PropTypes.string.isRequired,
-  fromCurrentUser: PropTypes.bool.isRequired,
+  fromCurrentUser: PropTypes.bool,
+};
+
+Message.defaultProps = {
+  fromCurrentUser: false,
 };
 
 export default Message;

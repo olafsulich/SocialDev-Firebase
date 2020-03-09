@@ -1,13 +1,13 @@
 import React from 'react';
 import Message from '../components/atoms/Message/Message';
 
-const isUserMessage = (authUser, messageAuthor, message) => {
+const isUserMessage = (authUser, messageAuthor, message, id) => {
   return (
     <>
       {authUser.uid === messageAuthor.uid ? (
-        <Message fromCurrentUser message={message} />
+        <Message fromCurrentUser message={message} messageAuthor={messageAuthor} id={id} />
       ) : (
-        <Message message={message} />
+        <Message message={message} messageAuthor={messageAuthor} key={id} id={id} />
       )}
     </>
   );
