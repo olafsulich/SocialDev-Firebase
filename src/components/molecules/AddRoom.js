@@ -89,7 +89,6 @@ const AddRoom = ({ handleCreate }) => {
     };
     handleCreate(room);
     setTitle('');
-    console.log('done');
   };
   return (
     <StyledWrapper>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Picker } from 'emoji-mart';
-import 'emoji-mart/css/emoji-mart.css';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
-import UserPic from '../../assets/userPic.jpg';
 import EmojiIcon from '../../assets/emoji.svg';
+import useUpdate from '../../hooks/useUpdate';
+import toggleState from '../../utils/toggleState';
+import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
+import addEmoji from '../../utils/addEmoji';
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -61,7 +62,7 @@ const StyledEmojiButton = styled.input`
   cursor: pointer;
 `;
 
-const AddMessage = ({ onCreate }) => {
+const AddMessage = ({ messageRef }) => {
   const [message, setMessage] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [pickerVisability, setPickerVisability] = useState(false);
@@ -69,14 +70,6 @@ const AddMessage = ({ onCreate }) => {
   useUser(setCurrentUser);
 
   const handleInputChange = ({ target: { value } }) => setMessage(value);
-  const handleAddEmoji = ({ native }) => {
-    setMessage(prevState => prevState + native);
-  };
-
-  const handlePickerVisability = e => {
-    e.preventDefault();
-    setPickerVisability(prevState => !prevState);
-  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -90,21 +83,13 @@ const AddMessage = ({ onCreate }) => {
       },
       createdAt: new Date(),
     };
-    onCreate(newMessage);
+    useUpdate(newMessage, messageRef);
     setMessage('');
   };
   return (
     <StyledWrapper>
       {pickerVisability ? (
-        <Picker
-          set="messenger"
-          style={{ position: 'absolute', bottom: '85%', right: '15%', zIndex: '10' }}
-          darkMode={false}
-          onSelect={handleAddEmoji}
-          showSkinTones={false}
-          showPreview={false}
-          color="#1ca0f2"
-        />
+        <EmojiPicker handleAddEmoji={() => addEmoji(setMessage)} bottom="85%" right="15%" />
       ) : null}
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
@@ -115,7 +100,11 @@ const AddMessage = ({ onCreate }) => {
           aria-label="Write something..."
           value={message}
         />
-        <StyledEmojiButton type="button" icon={EmojiIcon} onClick={handlePickerVisability} />
+        <StyledEmojiButton
+          type="button"
+          icon={EmojiIcon}
+          onClick={() => toggleState(setPickerVisability)}
+        />
 
         <StyledButton type="submit" onClick={handleSubmit}>
           Send
@@ -126,6 +115,6 @@ const AddMessage = ({ onCreate }) => {
 };
 
 AddMessage.propTypes = {
-  onCreate: PropTypes.func.isRequired,
+  messageRef: PropTypes.object.isRequired,
 };
 export default AddMessage;

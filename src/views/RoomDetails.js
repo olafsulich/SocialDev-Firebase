@@ -2,25 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { firestore, auth } from '../firebase/firebase';
-import Navigation from '../components/organisms/Navigation';
-import GridTemplate from '../templates/GridTemplate';
 import Heading from '../components/atoms/Heading/Heading';
 import AddMessage from '../components/molecules/AddMessage';
-import documentsCollection from '../utils/documentsCollection';
 import MessagesList from '../components/molecules/MessagesList';
 import useSubscription from '../hooks/useSubscription';
 import useRefScroll from '../hooks/useRefScroll';
 import useCollection from '../hooks/useCollection';
-
-const StyledWrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-  @media (min-width: 650px) {
-    display: grid;
-    grid-template-columns: 0.5fr 3fr;
-    grid-column-gap: 3rem;
-  }
-`;
+import PageTemplate from '../templates/PageTemplate';
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -70,23 +58,18 @@ const RoomDetails = () => {
   useCollection(roomRef, setRoom);
   useRefScroll(chatRef, messages);
 
-  const createMessage = messageToAdd => messageRef.add(messageToAdd);
-
   return (
-    <StyledWrapper>
-      <Navigation />
-      <GridTemplate>
-        <StyledDiv>
-          <StyledHeadingWrapper>
-            <Heading>{room ? room.title : ''}</Heading>
-          </StyledHeadingWrapper>
-          <StyledChatWrapper ref={chatRef}>
-            <MessagesList currentUser={currentUser} messages={messages} />
-          </StyledChatWrapper>
-          <AddMessage onCreate={createMessage} />
-        </StyledDiv>
-      </GridTemplate>
-    </StyledWrapper>
+    <PageTemplate>
+      <StyledDiv>
+        <StyledHeadingWrapper>
+          <Heading>{room ? room.title : ''}</Heading>
+        </StyledHeadingWrapper>
+        <StyledChatWrapper ref={chatRef}>
+          <MessagesList currentUser={currentUser} messages={messages} />
+        </StyledChatWrapper>
+        <AddMessage messageRef={messageRef} />
+      </StyledDiv>
+    </PageTemplate>
   );
 };
 

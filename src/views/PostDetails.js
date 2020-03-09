@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, useParams } from 'react-router-dom';
-import Navigation from '../components/organisms/Navigation';
-import GridTemplate from '../templates/GridTemplate';
 import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
 import Post from '../components/molecules/Post';
@@ -11,16 +8,7 @@ import useSubscription from '../hooks/useSubscription';
 import useCollection from '../hooks/useCollection';
 import CommentsList from '../components/molecules/CommentsList';
 import useUpdate from '../hooks/useUpdate';
-
-const StyledWrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-  @media (min-width: 650px) {
-    display: grid;
-    grid-template-columns: 0.5fr 3fr;
-    grid-column-gap: 3rem;
-  }
-`;
+import PageTemplate from '../templates/PageTemplate';
 
 const PostDetails = ({ user: { authUser } }) => {
   const [post, setPost] = useState(null);
@@ -35,14 +23,11 @@ const PostDetails = ({ user: { authUser } }) => {
   useUpdate(postRef, comments, comments.length, comments);
 
   return (
-    <StyledWrapper>
-      <Navigation />
-      <GridTemplate>
-        {post && <Post {...post} />}
-        <CommentsList comments={comments} />
-        <AddComment commentRef={commentRef} user={authUser} />
-      </GridTemplate>
-    </StyledWrapper>
+    <PageTemplate>
+      {post && <Post {...post} />}
+      <CommentsList comments={comments} />
+      <AddComment commentRef={commentRef} user={authUser} />
+    </PageTemplate>
   );
 };
 

@@ -7,6 +7,8 @@ import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
 import createDoc from '../../utils/createDoc';
+import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
+import addEmoji from '../../utils/addEmoji';
 
 const StyledFormWrapper = styled.div`
   display: flex;
@@ -108,15 +110,7 @@ const AddComment = ({ commentRef }) => {
   return (
     <StyledFormWrapper>
       {pickerVisability ? (
-        <Picker
-          set="messenger"
-          style={{ position: 'absolute', bottom: '0', right: '-60%' }}
-          darkMode={false}
-          onSelect={handleAddEmoji}
-          showSkinTones={false}
-          showPreview={false}
-          color="#1ca0f2"
-        />
+        <EmojiPicker handleAddEmoji={() => addEmoji(setContent)} bottom="0" right="-60%" />
       ) : null}
       <StyledCommentWrapper>
         <StyledForm onSubmit={handleSubmit}>

@@ -7,6 +7,8 @@ import useUser from '../../hooks/useUser';
 import UserPic from '../../assets/userPic.jpg';
 import StyledHeading from '../atoms/Heading/Heading';
 import EmojiIcon from '../../assets/emoji.svg';
+import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
+import addEmoji from '../../utils/addEmoji';
 
 const StyledWrapper = styled.div`
   width: 45rem;
@@ -112,10 +114,6 @@ const PostToAdd = ({ handleCreate }) => {
 
   const handleContentChange = ({ target: { value } }) => setTitle(value);
 
-  const handleAddEmoji = ({ native }) => {
-    setTitle(prevState => prevState + native);
-  };
-
   const handlePickerVisability = () => {
     setPickerVisability(prevState => !prevState);
   };
@@ -142,15 +140,7 @@ const PostToAdd = ({ handleCreate }) => {
     <>
       <StyledWrapper>
         {pickerVisability ? (
-          <Picker
-            set="messenger"
-            style={{ position: 'absolute', top: '10%', right: '-50%' }}
-            darkMode={false}
-            onSelect={handleAddEmoji}
-            showSkinTones={false}
-            showPreview={false}
-            color="#1ca0f2"
-          />
+          <EmojiPicker handleAddEmoji={() => addEmoji(setTitle)} bottom="90%" right="-50%" />
         ) : null}
         <StyledContainer>
           <StyledAuthorImage>

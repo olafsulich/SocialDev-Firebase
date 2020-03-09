@@ -167,7 +167,6 @@ const Login = () => {
     createUserDoc(user, displayName);
   };
 
-  console.log(email, password);
   return (
     <StyledWrapper>
       <StyledHeading>Social Dev</StyledHeading>
