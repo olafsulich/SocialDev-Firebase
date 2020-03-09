@@ -10,6 +10,7 @@ import documentsCollection from '../utils/documentsCollection';
 import MessagesList from '../components/molecules/MessagesList';
 import useSubscription from '../hooks/useSubscription';
 import useRefScroll from '../hooks/useRefScroll';
+import useCollection from '../hooks/useCollection';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -57,26 +58,16 @@ const RoomDetails = () => {
   const [messages, setMessages] = useState([]);
 
   const { id } = useParams();
+
   const chatRef = useRef(null);
 
   const roomRef = firestore.doc(`rooms/${id}`);
   const messageRef = roomRef.collection(`messages`);
+
   const currentUser = auth.currentUser;
 
-  let unsubscribeFromRoom = null;
-
-  useEffect(() => {
-    unsubscribeFromRoom = roomRef.onSnapshot(snapshot => {
-      const detailRoom = documentsCollection(snapshot);
-      setRoom(detailRoom);
-    });
-
-    return () => {
-      unsubscribeFromRoom();
-    };
-  }, []);
-
   useSubscription(messageRef, setMessages);
+  useCollection(roomRef, setRoom);
   useRefScroll(chatRef, messages);
 
   const createMessage = messageToAdd => messageRef.add(messageToAdd);

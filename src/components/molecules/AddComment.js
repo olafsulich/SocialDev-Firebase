@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
+import createDoc from '../../utils/createDoc';
 
 const StyledFormWrapper = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ const StyledEmojiButton = styled.input`
   cursor: pointer;
 `;
 
-const AddComment = ({ onCreate }) => {
+const AddComment = ({ commentRef }) => {
   const [content, setContent] = useState('');
   const [currentUser, setCurrentUser] = useState(null);
   const [pickerVisability, setPickerVisability] = useState(false);
@@ -100,7 +101,7 @@ const AddComment = ({ onCreate }) => {
       },
       createdAt: new Date(),
     };
-    onCreate(newComment);
+    createDoc(newComment, commentRef);
     setContent('');
   };
 
@@ -140,6 +141,6 @@ const AddComment = ({ onCreate }) => {
 };
 
 AddComment.propTypes = {
-  onCreate: PropTypes.func.isRequired,
+  commentRef: PropTypes.object.isRequired,
 };
 export default AddComment;

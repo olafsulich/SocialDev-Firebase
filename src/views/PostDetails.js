@@ -6,9 +6,12 @@ import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import { firestore } from '../firebase/firebase';
 import AddComment from '../components/molecules/AddComment';
-import Comment from '../components/molecules/Comment';
 import Post from '../components/molecules/Post';
-import documentsCollection from '../utils/documentsCollection';
+import useSubscription from '../hooks/useSubscription';
+import useCollection from '../hooks/useCollection';
+import CommentsList from '../components/molecules/CommentsList';
+import useUpdate from '../hooks/useUpdate';
+
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
@@ -27,46 +30,17 @@ const PostDetails = ({ user: { authUser } }) => {
   const postRef = firestore.doc(`posts/${id}`);
   const commentRef = postRef.collection(`usersComments`);
 
-  let unsubscribeFromPost = null;
-  let unsubscribeFromComments;
-
-  useEffect(() => {
-    unsubscribeFromComments = commentRef.orderBy('createdAt', 'asc').onSnapshot(snapshot => {
-      const detailComments = snapshot.docs.map(documentsCollection);
-      setComments(detailComments);
-    });
-
-    unsubscribeFromPost = postRef.onSnapshot(snapshot => {
-      const detailPost = documentsCollection(snapshot);
-      setPost(detailPost);
-    });
-
-    return () => {
-      unsubscribeFromPost();
-      unsubscribeFromComments();
-    };
-  }, []);
-
-  useEffect(() => {
-    postRef.update({ comments: comments.length });
-  }, [comments]);
-
-  const createComment = newComment => commentRef.add(newComment);
+  useSubscription(commentRef, setComments);
+  useCollection(postRef, setPost);
+  useUpdate(postRef, comments, comments.length, comments);
 
   return (
     <StyledWrapper>
       <Navigation />
       <GridTemplate>
         {post && <Post {...post} />}
-        {comments.map(comment => (
-          <Comment
-            content={comment.content}
-            userName={comment.user.name}
-            key={comment.id}
-            comments={comments.length}
-          />
-        ))}
-        <AddComment onCreate={createComment} user={authUser} />
+        <CommentsList comments={comments} />
+        <AddComment commentRef={commentRef} user={authUser} />
       </GridTemplate>
     </StyledWrapper>
   );
