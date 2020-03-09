@@ -5,9 +5,11 @@ import { firestore, auth } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import Heading from '../components/atoms/Heading/Heading';
-import Text from '../components/atoms/Text/Text';
 import AddMessage from '../components/molecules/AddMessage';
 import documentsCollection from '../utils/documentsCollection';
+import MessagesList from '../components/molecules/MessagesList';
+import useSubscription from '../hooks/useSubscription';
+import useRefScroll from '../hooks/useRefScroll';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -50,60 +52,6 @@ const StyledChatWrapper = styled.div`
   position: relative;
 `;
 
-const StyledMessageWrapper = styled.article`
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 1.5rem;
-  position: relative;
-
-  ${({ fromCurrentUser }) =>
-    fromCurrentUser &&
-    css`
-      justify-content: flex-end;
-    `}
-`;
-
-const StyledAuthorImage = styled.figure`
-  display: flex;
-  height: 100%;
-  width: 4rem;
-  position: absolute;
-  top: 0rem;
-  left: -1rem;
-
-  ${({ fromCurrentUser }) =>
-    fromCurrentUser &&
-    css`
-      right: -2rem;
-      left: auto;
-    `}
-  img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 100px;
-  }
-`;
-
-const StyledMessage = styled(Text)`
-  background-color: #f1f0f0;
-  color: #000;
-  padding: 0.6rem 1.5rem;
-  border-radius: 2rem;
-  max-width: 60%;
-  min-height: 3rem;
-  margin-left: 3rem;
-
-  ${({ fromCurrentUser }) =>
-    fromCurrentUser &&
-    css`
-      color: #fff;
-      background-color: hsla(203, 89%, 53%, 0.8);
-      margin-right: 3rem;
-    `}
-`;
-
 const RoomDetails = () => {
   const [room, setRoom] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -114,8 +62,8 @@ const RoomDetails = () => {
   const roomRef = firestore.doc(`rooms/${id}`);
   const messageRef = roomRef.collection(`messages`);
   const currentUser = auth.currentUser;
+
   let unsubscribeFromRoom = null;
-  let unsubscribeFromMessages = null;
 
   useEffect(() => {
     unsubscribeFromRoom = roomRef.onSnapshot(snapshot => {
@@ -123,44 +71,15 @@ const RoomDetails = () => {
       setRoom(detailRoom);
     });
 
-    unsubscribeFromMessages = messageRef.orderBy('createdAt', 'asc').onSnapshot(snapshot => {
-      const detailMessages = snapshot.docs.map(documentsCollection);
-      setMessages(detailMessages);
-    });
-
     return () => {
       unsubscribeFromRoom();
-      unsubscribeFromMessages();
     };
   }, []);
 
-  useEffect(() => {
-    const currentRef = chatRef.current;
-    currentRef.scrollTop = currentRef.scrollHeight;
-  }, [messages]);
+  useSubscription(messageRef, setMessages);
+  useRefScroll(chatRef, messages);
 
   const createMessage = messageToAdd => messageRef.add(messageToAdd);
-
-  const isUserMessage = (authUser, messageAuthor, message) => {
-    if (authUser.uid === messageAuthor.uid) {
-      return (
-        <StyledMessageWrapper fromCurrentUser>
-          <StyledAuthorImage fromCurrentUser>
-            <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
-          </StyledAuthorImage>
-          <StyledMessage fromCurrentUser>{message}</StyledMessage>
-        </StyledMessageWrapper>
-      );
-    }
-    return (
-      <StyledMessageWrapper>
-        <StyledAuthorImage>
-          <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
-        </StyledAuthorImage>
-        <StyledMessage>{message}</StyledMessage>
-      </StyledMessageWrapper>
-    );
-  };
 
   return (
     <StyledWrapper>
@@ -171,7 +90,7 @@ const RoomDetails = () => {
             <Heading>{room ? room.title : ''}</Heading>
           </StyledHeadingWrapper>
           <StyledChatWrapper ref={chatRef}>
-            {messages.map(({ user, message }) => isUserMessage(currentUser, user, message))}
+            <MessagesList currentUser={currentUser} messages={messages} />
           </StyledChatWrapper>
           <AddMessage onCreate={createMessage} />
         </StyledDiv>

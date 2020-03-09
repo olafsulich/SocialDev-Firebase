@@ -25,5 +25,10 @@ service cloud.firestore {
    	allow read;
     allow write: if request.auth.uid == userId;
    } 
+
+    match /notifications/{notificationId}{
+   	allow read;
+    allow write: if request.auth.uid == userId;
+   } 
   }
 }

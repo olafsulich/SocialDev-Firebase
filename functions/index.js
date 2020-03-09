@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
+const firestore = admin.firestore();
 const notificationTime = admin.firestore.FieldValue.serverTimestamp();
 
 // prettier-ignore

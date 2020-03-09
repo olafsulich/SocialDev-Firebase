@@ -3,10 +3,6 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Text from '../atoms/Text/Text';
-import { auth, firestore } from '../../firebase/firebase';
-import RemoveIcon from '../../assets/delete.svg';
-import isUserOwnerShip from '../../utils/isUserOwnerShip';
-import Notifications from '../../views/Notifications';
 
 const StyledNotificationWrapper = styled.div`
   width: 100%;
