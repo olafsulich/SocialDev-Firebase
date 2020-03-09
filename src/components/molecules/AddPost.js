@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Picker } from 'emoji-mart';
-import 'emoji-mart/css/emoji-mart.css';
 import PropTypes from 'prop-types';
 import useUser from '../../hooks/useUser';
-import UserPic from '../../assets/userPic.jpg';
-import StyledHeading from '../atoms/Heading/Heading';
 import EmojiIcon from '../../assets/emoji.svg';
 import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
 import addEmoji from '../../utils/addEmoji';
+import toggleState from '../../utils/toggleState';
 
 const StyledWrapper = styled.div`
   width: 45rem;
@@ -114,10 +111,6 @@ const PostToAdd = ({ handleCreate }) => {
 
   const handleContentChange = ({ target: { value } }) => setTitle(value);
 
-  const handlePickerVisability = () => {
-    setPickerVisability(prevState => !prevState);
-  };
-
   const handleSubmit = e => {
     e.preventDefault();
     const { uid, photoURL, email, userName } = currentUser.authUser;
@@ -168,7 +161,11 @@ const PostToAdd = ({ handleCreate }) => {
           <StyledButton type="submit" onClick={handleSubmit}>
             Post
           </StyledButton>
-          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
+          <StyledEmojiButton
+            onClick={() => toggleState(setPickerVisability)}
+            type="button"
+            icon={EmojiIcon}
+          />
         </StyledButtonWrapper>
       </StyledWrapper>
     </>

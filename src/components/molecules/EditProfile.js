@@ -7,8 +7,6 @@ import Input from '../atoms/Input/Input';
 import Heading from '../atoms/Heading/Heading';
 import { auth, firestore, storage } from '../../firebase/firebase';
 import Text from '../atoms/Text/Text';
-import documentsCollection from '../../utils/documentsCollection';
-import useUser from '../../hooks/useUser';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -125,15 +123,6 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
     e.preventDefault();
     if (userName) {
       firestore.doc(`users/${auth.currentUser.uid}`).update({ userName });
-
-      // firestore.collection(`posts`).onSnapshot(snapshot => {
-      //   const newPosts = snapshot.docs.map(doc => {
-      //     const { photoURL, email, uid } = currentUser.authUser;
-      //     firestore
-      //       .doc(`posts/${doc.id}`)
-      //       .update({ user: { name: userName, email, photoURL, uid } });
-      //   });
-      // });
     }
     if (image) {
       const uploadTask = storage
@@ -156,14 +145,6 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
             .then(urlPath => {
               setUrl(urlPath);
               firestore.doc(`users/${auth.currentUser.uid}`).update({ photoURL: urlPath });
-              // firestore.collection(`posts`).onSnapshot(snapshot => {
-              //   const newPosts = snapshot.docs.map(doc => {
-              //     const { userName, email, uid } = currentUser.authUser;
-              //     firestore
-              //       .doc(`posts/${doc.id}`)
-              //       .update({ user: { name: userName, email, photoURL: urlPath, uid } });
-              //   });
-              // });
             });
         },
       );
