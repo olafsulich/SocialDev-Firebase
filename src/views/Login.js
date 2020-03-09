@@ -4,7 +4,6 @@ import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
 import { auth, createUserDoc } from '../firebase/firebase';
-import toggleState from '../utils/toggleState';
 
 const StyledWrapper = styled.section`
   width: 100%;

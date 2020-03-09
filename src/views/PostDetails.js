@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, useParams } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
@@ -20,7 +20,7 @@ const PostDetails = ({ user: { authUser } }) => {
 
   useSubscription(commentRef, setComments);
   useCollection(postRef, setPost);
-  useUpdate(postRef, comments, comments.length, comments);
+  useUpdate(postRef, comments.length, comments);
 
   return (
     <PageTemplate>

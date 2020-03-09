@@ -28,17 +28,17 @@ const StyledCommentWrapper = styled.div`
 const StyledAuthorWrapper = styled.div`
   width: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 `;
 
 const StyledTitleWrapper = styled.article`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  max-width: 80%;
+  width: 100%;
 `;
 
 const StyledHeaing = styled(Heading)`

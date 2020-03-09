@@ -4,7 +4,6 @@ import useUser from '../hooks/useUser';
 import useSubscription from '../hooks/useSubscription';
 import { postsRef } from '../firebase/firestoreRefs';
 import PostsList from '../components/molecules/PostsList';
-import toggleState from '../utils/toggleState';
 import PageTemplate from '../templates/PageTemplate';
 import { firestore } from '../firebase/firebase';
 
@@ -22,14 +21,10 @@ const Home = () => {
     postsRef.add(postToAdd);
     setPosts([postToAdd, ...posts]);
   };
-  // console.log(posts);
+
   return (
     <PageTemplate>
-      <AddPost
-        user={currentUser}
-        handleAddPost={() => toggleState(setSidebarOpen)}
-        handleCreate={handleCreate}
-      />
+      <AddPost user={currentUser} handleCreate={handleCreate} />
       <PostsList posts={posts} />
     </PageTemplate>
   );

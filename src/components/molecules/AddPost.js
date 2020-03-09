@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
 import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
-import addEmoji from '../../utils/addEmoji';
-import toggleState from '../../utils/toggleState';
 
 const StyledWrapper = styled.div`
   width: 45rem;

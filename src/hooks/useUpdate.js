@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-const useUpdate = (ref, data, value, dependency = null) => {
+const useUpdate = (ref, value, dependency = null) => {
   useEffect(() => {
-    ref.update({ data: value });
+    ref.update({ comments: value });
   }, [dependency]);
 };
 export default useUpdate;

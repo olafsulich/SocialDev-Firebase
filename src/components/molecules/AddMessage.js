@@ -5,9 +5,8 @@ import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
 import useUpdate from '../../hooks/useUpdate';
-import toggleState from '../../utils/toggleState';
 import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
-import addEmoji from '../../utils/addEmoji';
+import createDoc from '../../utils/createDoc';
 
 const StyledWrapper = styled.div`
   position: absolute;
@@ -89,7 +88,7 @@ const AddMessage = ({ messageRef }) => {
       },
       createdAt: new Date(),
     };
-    useUpdate(newMessage, messageRef);
+    createDoc(newMessage, messageRef);
     setMessage('');
   };
   return (
