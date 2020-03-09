@@ -1,6 +1,5 @@
 import React, { useReducer, useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
-
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { Link } from 'react-router-dom';
-import { firestore } from '../firebase/firebase';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from '../templates/GridTemplate';
 import StyledHeading from '../components/atoms/Heading/Heading';
-import documentsCollection from '../utils/documentsCollection';
 import NotificationsList from '../components/molecules/NotificationsList';
+import useCollection from '../hooks/useCollection';
+import { notificationsRef } from '../firebase/firestoreRefs';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -47,26 +46,10 @@ const StyledNotificationsWrapper = styled.div`
     `}
 `;
 
-const StyledLink = styled(Link)`
-  text-decoration: none;
-`;
-
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
 
-  const notificationsRef = firestore.collection('notifications');
-
-  let unsubscribeFromNotifications = null;
-
-  useEffect(() => {
-    unsubscribeFromNotifications = notificationsRef.orderBy('time', 'desc').onSnapshot(snapshot => {
-      const newNotifications = snapshot.docs.map(documentsCollection);
-      setNotifications(newNotifications);
-    });
-    return () => {
-      unsubscribeFromNotifications();
-    };
-  }, []);
+  useCollection(notificationsRef, setNotifications);
 
   return (
     <StyledWrapper>
