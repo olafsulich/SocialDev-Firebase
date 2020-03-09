@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Heading from '../atoms/Heading/Heading';
-import Button from '../atoms/Button/Button';
 import Text from '../atoms/Text/Text';
 import CommentsIcon from '../../assets/comments.svg';
 import HeartIcon from '../../assets/heart.svg';
 import RemoveIcon from '../../assets/delete.svg';
-import UserPic from '../../assets/userPic.jpg';
 import { firestore, auth } from '../../firebase/firebase';
 import isUserOwnerShip from '../../utils/isUserOwnerShip';
+import { postsRef } from '../../firebase/firestoreRefs';
+import handleRemove from '../../utils/handleRemove';
 
 const StyledWrapper = styled.section`
   width: 45rem;
@@ -140,7 +140,7 @@ const StyledLink = styled(Link)`
 const StyledText = styled(Text)`
   margin-top: 1rem;
 `;
-const Post = ({ title, likes, comments, onRemove, id, user, createdAt, isLink }) => {
+const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
   const postRef = firestore.doc(`posts/${id}`);
 
   const like = () => postRef.update({ likes: likes + 1 });
@@ -192,7 +192,7 @@ const Post = ({ title, likes, comments, onRemove, id, user, createdAt, isLink })
             </StyledIconWrapper>
             <StyledIconWrapper>
               {isUserOwnerShip(currentUser, user) ? (
-                <StyledIcon remove icon={RemoveIcon} onClick={() => onRemove(id)} />
+                <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(postsRef, id)} />
               ) : null}
             </StyledIconWrapper>
           </StyledInfoWrapper>
@@ -206,14 +206,12 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   comments: PropTypes.number.isRequired,
-  onRemove: PropTypes.func,
   id: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
   createdAt: PropTypes.any.isRequired,
   isLink: PropTypes.bool,
 };
 Post.defaultProps = {
-  onRemove: () => {},
   isLink: null,
 };
 

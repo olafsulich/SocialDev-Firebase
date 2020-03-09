@@ -7,7 +7,7 @@ import GridTemplate from './GridTemplate';
 const StyledWrapper = styled.div`
   width: 100%;
   overflow: hidden;
-  @media (min-width: 650px) {
+  @media (min-width: 850px) {
     display: grid;
     grid-template-columns: 0.5fr 3fr;
     grid-column-gap: 3rem;

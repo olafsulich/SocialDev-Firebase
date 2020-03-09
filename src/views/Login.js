@@ -4,6 +4,7 @@ import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
 import { auth, createUserDoc } from '../firebase/firebase';
+import toggleState from '../utils/toggleState';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -148,10 +149,6 @@ const Login = () => {
     });
   };
 
-  const handleNewAccount = e => {
-    e.preventDefault();
-    setNewAccount(prevNewAccount => !prevNewAccount);
-  };
   const handleSignIn = e => {
     e.preventDefault();
     auth
@@ -205,7 +202,10 @@ const Login = () => {
         </StyledInputsWrapper>
         <StyledText>
           {newAccount ? 'Have account?' : "Haven't got account?"}
-          <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
+          <StyledButtonSecondary
+            aria-label="sign in/sign up"
+            onClick={() => toggleState(setNewAccount)}
+          >
             {newAccount ? 'Sign in' : 'Sign up'}
           </StyledButtonSecondary>
         </StyledText>

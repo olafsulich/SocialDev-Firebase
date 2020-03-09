@@ -1,6 +1,6 @@
-const toogleState = (e, dataSetter) => {
+const toggleState = (e, dataSetter) => {
   e.preventDefault();
   dataSetter(prevState => !prevState);
 };
 
-export default toogleState;
+export default toggleState;
