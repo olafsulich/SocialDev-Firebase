@@ -1,14 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, lazy, Suspense } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { firestore, auth } from '../firebase/firebase';
-import Heading from '../components/atoms/Heading/Heading';
-import AddMessage from '../components/molecules/AddMessage';
-import MessagesList from '../components/molecules/MessagesList';
 import useSubscription from '../hooks/useSubscription';
 import useRefScroll from '../hooks/useRefScroll';
 import useCollection from '../hooks/useCollection';
 import PageTemplate from '../templates/PageTemplate';
+import Loader from '../components/atoms/Loader/Loader';
+
+const MessagesList = lazy(() => import('../components/molecules/MessagesList'));
+const AddMessage = lazy(() => import('../components/molecules/AddMessage'));
+const Heading = lazy(() => import('../components/atoms/Heading/Heading'));
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -58,18 +60,18 @@ const RoomDetails = () => {
   useCollection(roomRef, setRoom);
   useRefScroll(chatRef, messages);
 
-  window.messages = messages;
-  window.room = room;
   return (
     <PageTemplate>
       <StyledDiv>
-        <StyledHeadingWrapper>
-          <Heading>{room ? room.title : ''}</Heading>
-        </StyledHeadingWrapper>
-        <StyledChatWrapper ref={chatRef}>
-          <MessagesList currentUser={currentUser} messages={messages} />
-        </StyledChatWrapper>
-        <AddMessage messageRef={messageRef} />
+        <Suspense fallback={<Loader />}>
+          <StyledHeadingWrapper>
+            <Heading>{room ? room.title : ''}</Heading>
+          </StyledHeadingWrapper>
+          <StyledChatWrapper ref={chatRef}>
+            <MessagesList currentUser={currentUser} messages={messages} />
+          </StyledChatWrapper>
+          <AddMessage messageRef={messageRef} />
+        </Suspense>
       </StyledDiv>
     </PageTemplate>
   );

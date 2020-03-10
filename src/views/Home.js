@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import AddPost from '../components/molecules/AddPost';
 import useUser from '../hooks/useUser';
 import useSubscription from '../hooks/useSubscription';
 import { postsRef } from '../firebase/firestoreRefs';
-import PostsList from '../components/molecules/PostsList';
 import PageTemplate from '../templates/PageTemplate';
 import { firestore } from '../firebase/firebase';
+import Loader from '../components/atoms/Loader/Loader';
+
+const PostsList = lazy(() => import('../components/molecules/PostsList'));
 
 const Home = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -24,7 +26,9 @@ const Home = () => {
   return (
     <PageTemplate>
       <AddPost user={currentUser} handleCreate={handleCreate} />
-      <PostsList posts={posts} />
+      <Suspense fallback={<Loader />}>
+        <PostsList posts={posts} />
+      </Suspense>
     </PageTemplate>
   );
 };

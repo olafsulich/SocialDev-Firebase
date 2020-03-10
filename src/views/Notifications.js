@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import styled, { css } from 'styled-components';
-import StyledHeading from '../components/atoms/Heading/Heading';
-import NotificationsList from '../components/molecules/NotificationsList';
 import useSubscription from '../hooks/useSubscription';
 import { notificationsRef } from '../firebase/firestoreRefs';
 import PageTemplate from '../templates/PageTemplate';
+import Loader from '../components/atoms/Loader/Loader';
+
+const StyledHeading = lazy(() => import('../components/atoms/Heading/Heading'));
+const NotificationsList = lazy(() => import('../components/molecules/NotificationsList'));
 
 const StyledDiv = styled.div`
   width: 45rem;
@@ -44,10 +46,12 @@ const Notifications = () => {
   return (
     <PageTemplate>
       <StyledDiv>
-        <StyledNotificationsWrapper heading>
-          <StyledHeading>Notifications</StyledHeading>
-        </StyledNotificationsWrapper>
-        <NotificationsList notifications={notifications} />
+        <Suspense fallback={<Loader />}>
+          <StyledNotificationsWrapper heading>
+            <StyledHeading>Notifications</StyledHeading>
+          </StyledNotificationsWrapper>
+          <NotificationsList notifications={notifications} />
+        </Suspense>
       </StyledDiv>
     </PageTemplate>
   );

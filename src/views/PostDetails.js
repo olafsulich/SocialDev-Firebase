@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter, useParams } from 'react-router-dom';
 import { firestore } from '../firebase/firebase';
-import AddComment from '../components/molecules/AddComment';
-import Post from '../components/atoms/Post/Post';
 import useSubscription from '../hooks/useSubscription';
 import useCollection from '../hooks/useCollection';
-import CommentsList from '../components/molecules/CommentsList';
 import useUpdate from '../hooks/useUpdate';
 import PageTemplate from '../templates/PageTemplate';
+import Loader from '../components/atoms/Loader/Loader';
+
+const AddComment = lazy(() => import('../components/molecules/AddComment'));
+const Post = lazy(() => import('../components/atoms/Post/Post'));
+const CommentsList = lazy(() => import('../components/molecules/CommentsList'));
 
 const PostDetails = ({ user: { authUser } }) => {
   const [post, setPost] = useState(null);
@@ -24,9 +26,11 @@ const PostDetails = ({ user: { authUser } }) => {
 
   return (
     <PageTemplate>
-      {post && <Post {...post} />}
-      <CommentsList comments={comments} />
-      <AddComment commentRef={commentRef} user={authUser} />
+      <Suspense fallback={<Loader />}>
+        {post && <Post {...post} />}
+        <CommentsList comments={comments} />
+        <AddComment commentRef={commentRef} user={authUser} />
+      </Suspense>
     </PageTemplate>
   );
 };

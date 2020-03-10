@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { auth } from '../firebase/firebase';
-import EditProfile from '../components/molecules/EditProfile';
 import PageTemplate from '../templates/PageTemplate';
-import Heading from '../components/atoms/Heading/Heading';
-import UserCard from '../components/atoms/UserCard/UserCard';
+import Loader from '../components/atoms/Loader/Loader';
+
+const EditProfile = lazy(() => import('../components/molecules/EditProfile'));
+const UserCard = lazy(() => import('../components/atoms/UserCard/UserCard'));
+const Heading = lazy(() => import('../components/atoms/Heading/Heading'));
 
 const StyledDiv = styled.div`
   width: 42rem;
@@ -69,15 +71,17 @@ const Account = ({ currentUser }) => {
   return (
     <PageTemplate>
       <StyledDiv>
-        <StyledAccountWrapper heading>
-          <Heading>Account</Heading>
-        </StyledAccountWrapper>
-        <EditProfile photoURL={photoURL} nameOfUser={userName} />
-        <UserCard name="Email" value={email} />
-        <UserCard name="Created at" value={createdAt} createdAt />
-        <StyledButtonWrapper>
-          <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
-        </StyledButtonWrapper>
+        <Suspense fallback={<Loader />}>
+          <StyledAccountWrapper heading>
+            <Heading>Account</Heading>
+          </StyledAccountWrapper>
+          <EditProfile photoURL={photoURL} nameOfUser={userName} />
+          <UserCard name="Email" value={email} />
+          <UserCard name="Created at" value={createdAt} createdAt />
+          <StyledButtonWrapper>
+            <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
+          </StyledButtonWrapper>
+        </Suspense>
       </StyledDiv>
     </PageTemplate>
   );

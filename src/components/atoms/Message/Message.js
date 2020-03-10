@@ -58,19 +58,20 @@ const StyledMessage = styled(Text)`
 `;
 
 const Message = ({ messageAuthor, message, fromCurrentUser }) => {
+  const { photoURL, userName } = messageAuthor;
   return (
     <>
       {fromCurrentUser ? (
         <StyledMessageWrapper fromCurrentUser>
           <StyledAuthorImage fromCurrentUser>
-            <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
+            <img src={photoURL} alt={userName} />
           </StyledAuthorImage>
           <StyledMessage fromCurrentUser>{message}</StyledMessage>
         </StyledMessageWrapper>
       ) : (
         <StyledMessageWrapper>
           <StyledAuthorImage>
-            <img src={messageAuthor.photoURL} alt={messageAuthor.userName} />
+            <img src={photoURL} alt={userName} />
           </StyledAuthorImage>
           <StyledMessage>{message}</StyledMessage>
         </StyledMessageWrapper>

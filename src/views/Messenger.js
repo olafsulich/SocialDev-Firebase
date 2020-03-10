@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import styled, { css } from 'styled-components';
-import StyledHeading from '../components/atoms/Heading/Heading';
-import AddRoom from '../components/molecules/AddRoom';
 import { roomsRef } from '../firebase/firestoreRefs';
 import useSubscription from '../hooks/useSubscription';
-import RoomsList from '../components/molecules/RoomsList';
 import PageTemplate from '../templates/PageTemplate';
+import Loader from '../components/atoms/Loader/Loader';
+
+const AddRoom = lazy(() => import('../components/molecules/AddRoom'));
+const RoomsList = lazy(() => import('../components/molecules/RoomsList'));
+const StyledHeading = lazy(() => import('../components/atoms/Heading/Heading'));
 
 const StyledDiv = styled.div`
   width: 45rem;
@@ -50,11 +52,13 @@ const Messenger = () => {
   return (
     <PageTemplate>
       <StyledDiv>
-        <StyledRoomWrapper heading>
-          <StyledHeading>Rooms</StyledHeading>
-        </StyledRoomWrapper>
-        <AddRoom handleCreate={handleCreate} />
-        <RoomsList rooms={rooms} />
+        <Suspense fallback={<Loader />}>
+          <StyledRoomWrapper heading>
+            <StyledHeading>Rooms</StyledHeading>
+          </StyledRoomWrapper>
+          <AddRoom handleCreate={handleCreate} />
+          <RoomsList rooms={rooms} />
+        </Suspense>
       </StyledDiv>
     </PageTemplate>
   );

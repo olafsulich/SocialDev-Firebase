@@ -151,6 +151,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
   const like = () => postRef.update({ likes: likes + 1 });
 
   const currentUser = auth.currentUser;
+  const { name, photoURL } = user;
 
   return (
     <StyledWrapper>
@@ -158,19 +159,19 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
         {isLink ? (
           <StyledLink to={`posts/${id}`}>
             <StyledAuthorImage>
-              <img src={user.photoURL} alt={user.name} />
+              <img src={photoURL} alt={name} />
             </StyledAuthorImage>
           </StyledLink>
         ) : (
           <StyledAuthorImage>
-            <img src={user.photoURL} alt={user.name} />
+            <img src={photoURL} alt={name} />
           </StyledAuthorImage>
         )}
         <StyledAuthorWrapper>
           {isLink ? (
             <StyledLink to={`posts/${id}`}>
               <StyledArticle>
-                <StyledHeading>{user.name}</StyledHeading>
+                <StyledHeading>{name}</StyledHeading>
                 <StyledDate>
                   {createdAt.toDate ? moment(createdAt.toDate()).calendar() : 'date'}
                 </StyledDate>
@@ -179,7 +180,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
             </StyledLink>
           ) : (
             <StyledArticle>
-              <StyledHeading>{user.name}</StyledHeading>
+              <StyledHeading>{name}</StyledHeading>
               <StyledDate>
                 {createdAt.toDate ? moment(createdAt.toDate()).calendar() : 'date'}
               </StyledDate>
