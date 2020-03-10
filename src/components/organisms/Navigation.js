@@ -7,6 +7,7 @@ import ChatIcon from '../../assets/messages.svg';
 import NotificationIcon from '../../assets/notifications.svg';
 import UserIcon from '../../assets/user.svg';
 import Heading from '../atoms/Heading/Heading';
+
 const StyledWrapper = styled.aside`
   width: 100%;
   height: 10vh;
@@ -65,21 +66,37 @@ const StyledHeading = styled(Heading)`
     position: absolute;
     left: 3px;
     top: 0;
+    filter: brightness(0%);
   }
 
   &.active {
     color: hsla(203, 89%, 53%, 0.8);
+
+    ::before {
+      filter: none;
+    }
   }
   :hover {
     border-radius: 30px;
     background-color: ${({ theme }) => theme.primaryColor};
     color: hsla(203, 89%, 53%, 0.8);
+
+    ::before {
+      filter: none;
+    }
   }
 `;
 
 const StyledLink = styled(NavLink)`
   margin-bottom: 1rem;
   text-decoration: none;
+`;
+
+const StyledButton = styled(Button)`
+  filter: grayscale(100%);
+  &.active {
+    filter: none;
+  }
 `;
 
 const Navigation = () => {
@@ -102,14 +119,14 @@ const Navigation = () => {
             Home
           </StyledHeading>
         ) : (
-          <Button icon={HomeIcon} as={StyledLink} to="/" exact activeclass="active" />
+          <StyledButton icon={HomeIcon} as={StyledLink} to="/" exact activeclass="active" />
         )}
         {pageWidth >= 850 ? (
           <StyledHeading as={StyledLink} icon={ChatIcon} to="/messenger" activeclass="active">
             Messenger
           </StyledHeading>
         ) : (
-          <Button icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
+          <StyledButton icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
         )}
         {pageWidth >= 850 ? (
           <StyledHeading
@@ -121,7 +138,7 @@ const Navigation = () => {
             Notifications
           </StyledHeading>
         ) : (
-          <Button
+          <StyledButton
             icon={NotificationIcon}
             as={StyledLink}
             to="/notifications"
@@ -133,7 +150,7 @@ const Navigation = () => {
             Account
           </StyledHeading>
         ) : (
-          <Button icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
+          <StyledButton icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
         )}
       </StyledIconsWrapper>
     </StyledWrapper>
