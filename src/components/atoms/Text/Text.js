@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const StyledText = styled.p`
   display: inline;
@@ -6,6 +6,14 @@ const StyledText = styled.p`
   font-weight: ${({ theme }) => theme.regular};
   color: ${({ theme }) => theme.fontColorText};
   line-height: 1.7rem;
+  ${({ errorMessage }) =>
+    errorMessage &&
+    css`
+      color: red;
+      font-size: 0.9rem;
+      min-width: 200px;
+      text-align: center;
+    `};
 `;
 
 export default StyledText;

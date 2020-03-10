@@ -1,5 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
@@ -18,7 +19,7 @@ const StyledWrapper = styled.section`
 
 const StyledForm = styled.form`
   width: 28rem;
-  height: 34rem;
+  height: 36rem;
   padding: 4.5rem 0 1rem 0;
   border-radius: 20px;
   background-color: #fff;
@@ -46,7 +47,12 @@ const StyledInputLabelWrapper = styled.div`
   display: flex;
   flex-flow: column-reverse;
   position: relative;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+
+  :first-of-type {
+    margin-top: 0;
+  }
 
   input + label {
     line-height: 1;
@@ -131,6 +137,7 @@ const StyledButtonSecondary = styled.button`
 `;
 
 const Login = () => {
+  const { register, handleSubmit, errors } = useForm();
   const [newAccount, setNewAccount] = useState(false);
   const [inputsContent, setInputsContent] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
@@ -154,7 +161,6 @@ const Login = () => {
   };
 
   const handleSignIn = e => {
-    e.preventDefault();
     auth
       .signInWithEmailAndPassword(email, password)
       /* eslint-disable */
@@ -162,7 +168,6 @@ const Login = () => {
   };
 
   const handleSignUp = async e => {
-    e.preventDefault();
     const { user } = await auth.createUserWithEmailAndPassword(email, password);
     createUserDoc(user, displayName);
   };
@@ -170,38 +175,75 @@ const Login = () => {
   return (
     <StyledWrapper>
       <StyledHeading>Social Dev</StyledHeading>
-      <StyledForm onSubmit={newAccount ? handleSignUp : handleSignIn}>
+      <StyledForm onSubmit={handleSubmit(newAccount ? handleSignUp : handleSignIn)}>
         <StyledInputsWrapper>
           <StyledInputLabelWrapper>
             <StyledInput
+              id="displayName"
               placeholder="name"
               type="text"
               onChange={handleInputChange}
               name="displayName"
               value={displayName}
+              aria-label="displayName"
+              aria-required="true"
+              ref={register({
+                required: true,
+              })}
             />
-            <StyledLabel>Name</StyledLabel>
+            <StyledLabel htmlFor="displayName">Name</StyledLabel>
           </StyledInputLabelWrapper>
+          {errors.displayName && errors.displayName.type === 'required' && (
+            <Text errorMessage>User name is required</Text>
+          )}
           <StyledInputLabelWrapper>
             <StyledInput
+              id="email"
               placeholder="email"
               type="email"
               onChange={handleInputChange}
               name="email"
               value={email}
+              aria-label="email"
+              aria-required="true"
+              ref={register({
+                required: true,
+                pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+              })}
             />
             <StyledLabel>Email</StyledLabel>
           </StyledInputLabelWrapper>
+          {errors.email && errors.email.type === 'required' && (
+            <Text errorMessage>Email is required</Text>
+          )}
+          {errors.email && errors.email.type === 'pattern' && (
+            <Text errorMessage>Email is invalid please add @</Text>
+          )}
           <StyledInputLabelWrapper>
             <StyledInput
+              id="password"
               placeholder="password"
               type="password"
               onChange={handleInputChange}
               name="password"
               value={password}
+              aria-label="password"
+              aria-required="true"
+              ref={register({
+                required: true,
+                pattern: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+              })}
             />
             <StyledLabel>Password</StyledLabel>
           </StyledInputLabelWrapper>
+          {errors.password && errors.password.type === 'required' && (
+            <Text errorMessage>Password is required</Text>
+          )}
+          {errors.password && errors.password.type === 'pattern' && (
+            <Text errorMessage>
+              Password should contain min. 6 characters and at least and number
+            </Text>
+          )}
           <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
         </StyledInputsWrapper>
         <StyledText>
