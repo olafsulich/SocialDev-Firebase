@@ -20,6 +20,10 @@ const EmojiPicker = ({ top, right, handleAddEmoji }) => {
 EmojiPicker.propTypes = {
   top: PropTypes.string.isRequired,
   right: PropTypes.string.isRequired,
-  handleAddEmoji: PropTypes.func.isRequired,
+  handleAddEmoji: PropTypes.func,
+};
+
+EmojiPicker.defaultProps = {
+  handleAddEmoji: () => {},
 };
 export default EmojiPicker;

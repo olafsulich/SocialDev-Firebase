@@ -47,7 +47,7 @@ const StyledDate = styled.time`
   font-weight: ${({ theme }) => theme.regular};
 `;
 
-const userCard = ({ name, value, createdAt }) => {
+const UserCard = ({ name, value, createdAt }) => {
   if (createdAt) {
     return (
       <StyledWrapper>
@@ -69,12 +69,12 @@ const userCard = ({ name, value, createdAt }) => {
   );
 };
 
-userCard.propTypes = {
+UserCard.propTypes = {
   name: PropTypes.string.isRequired,
   value: PropTypes.any.isRequired,
   createdAt: PropTypes.bool,
 };
-userCard.defaultProps = {
+UserCard.defaultProps = {
   createdAt: false,
 };
-export default userCard;
+export default UserCard;
