@@ -5,6 +5,7 @@ import useSubscription from '../hooks/useSubscription';
 import PageTemplate from '../templates/PageTemplate';
 import Loader from '../components/atoms/Loader/Loader';
 
+const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));
 const AddRoom = lazy(() => import('../components/molecules/AddRoom'));
 const RoomsList = lazy(() => import('../components/molecules/RoomsList'));
 const StyledHeading = lazy(() => import('../components/atoms/Heading/Heading'));
@@ -53,9 +54,7 @@ const Messenger = () => {
     <PageTemplate>
       <StyledDiv>
         <Suspense fallback={<Loader />}>
-          <StyledRoomWrapper heading>
-            <StyledHeading>Rooms</StyledHeading>
-          </StyledRoomWrapper>
+          <HeadingWrapper headingName="Rooms" />
           <AddRoom handleCreate={handleCreate} />
           <RoomsList rooms={rooms} />
         </Suspense>

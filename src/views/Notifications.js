@@ -5,6 +5,7 @@ import { notificationsRef } from '../firebase/firestoreRefs';
 import PageTemplate from '../templates/PageTemplate';
 import Loader from '../components/atoms/Loader/Loader';
 
+const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));
 const StyledHeading = lazy(() => import('../components/atoms/Heading/Heading'));
 const NotificationsList = lazy(() => import('../components/molecules/NotificationsList'));
 
@@ -47,9 +48,7 @@ const Notifications = () => {
     <PageTemplate>
       <StyledDiv>
         <Suspense fallback={<Loader />}>
-          <StyledNotificationsWrapper heading>
-            <StyledHeading>Notifications</StyledHeading>
-          </StyledNotificationsWrapper>
+          <HeadingWrapper headingName="Notifications" />
           <NotificationsList notifications={notifications} />
         </Suspense>
       </StyledDiv>

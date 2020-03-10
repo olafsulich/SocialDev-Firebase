@@ -8,6 +8,7 @@ import useCollection from '../hooks/useCollection';
 import PageTemplate from '../templates/PageTemplate';
 import Loader from '../components/atoms/Loader/Loader';
 
+const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));
 const MessagesList = lazy(() => import('../components/molecules/MessagesList'));
 const AddMessage = lazy(() => import('../components/molecules/AddMessage'));
 const Heading = lazy(() => import('../components/atoms/Heading/Heading'));
@@ -18,16 +19,6 @@ const StyledDiv = styled.div`
   max-height: 90vh;
   border: 1px solid #e6ecf1;
   position: relative;
-`;
-
-const StyledHeadingWrapper = styled.div`
-  width: 100%;
-  height: 10%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  border-bottom: 1px solid #e6ecf1;
-  padding: 2rem 3rem;
 `;
 
 const StyledChatWrapper = styled.div`
@@ -64,9 +55,7 @@ const RoomDetails = () => {
     <PageTemplate>
       <StyledDiv>
         <Suspense fallback={<Loader />}>
-          <StyledHeadingWrapper>
-            <Heading>{room ? room.title : ''}</Heading>
-          </StyledHeadingWrapper>
+          <HeadingWrapper headingName={room ? room.title : ''} />
           <StyledChatWrapper ref={chatRef}>
             <MessagesList currentUser={currentUser} messages={messages} />
           </StyledChatWrapper>
