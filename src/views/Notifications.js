@@ -1,26 +1,16 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import Navigation from '../components/organisms/Navigation';
-import GridTemplate from '../templates/GridTemplate';
 import StyledHeading from '../components/atoms/Heading/Heading';
 import NotificationsList from '../components/molecules/NotificationsList';
 import useSubscription from '../hooks/useSubscription';
 import { notificationsRef } from '../firebase/firestoreRefs';
-
-const StyledWrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-  @media (min-width: 650px) {
-    display: grid;
-    grid-template-columns: 0.5fr 3fr;
-    grid-column-gap: 3rem;
-  }
-`;
+import PageTemplate from '../templates/PageTemplate';
 
 const StyledDiv = styled.div`
-  width: 100%;
-  height: 90vh;
+  width: 45rem;
+  height: 85vh;
   max-height: 90vh;
+  overflow: scroll;
 `;
 
 const StyledNotificationsWrapper = styled.div`
@@ -52,17 +42,14 @@ const Notifications = () => {
   useSubscription(notificationsRef, setNotifications, 'desc');
 
   return (
-    <StyledWrapper>
-      <Navigation />
-      <GridTemplate>
-        <StyledDiv>
-          <StyledNotificationsWrapper heading>
-            <StyledHeading>Notifications</StyledHeading>
-          </StyledNotificationsWrapper>
-          <NotificationsList notifications={notifications} />
-        </StyledDiv>
-      </GridTemplate>
-    </StyledWrapper>
+    <PageTemplate>
+      <StyledDiv>
+        <StyledNotificationsWrapper heading>
+          <StyledHeading>Notifications</StyledHeading>
+        </StyledNotificationsWrapper>
+        <NotificationsList notifications={notifications} />
+      </StyledDiv>
+    </PageTemplate>
   );
 };
 

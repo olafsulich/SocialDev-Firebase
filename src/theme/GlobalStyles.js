@@ -73,6 +73,11 @@ const GlobalStyle = createGlobalStyle`
      border-radius: 50px;
   }
   }
+
+  a{
+    text-decoration:none;
+  }
+
   input[type="search"]::-webkit-search-cancel-button {
   display: none;
 }

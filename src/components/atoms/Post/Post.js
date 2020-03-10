@@ -22,6 +22,10 @@ const StyledWrapper = styled.section`
   justify-content: space-around;
   border: 1px solid #e6ecf1;
   padding: 2rem 6rem;
+  :hover {
+    background-color: #f5f8fa;
+    cursor: pointer;
+  }
 `;
 
 const StyledCommentWrapper = styled.div`
@@ -61,6 +65,7 @@ const StyledArticle = styled.article`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-around;
+  width: 90%;
 `;
 
 const StyledInfoWrapper = styled.div`
@@ -93,7 +98,7 @@ const StyledIcon = styled.button`
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 60% 60%;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: 50px;
   cursor: pointer;
   margin-right: 5px;

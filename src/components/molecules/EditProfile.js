@@ -1,111 +1,139 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Button from '../atoms/Button/Button';
-import PlusIcon from '../../assets/plus.svg';
+import styled, { css } from 'styled-components';
 import Input from '../atoms/Input/Input';
-import Heading from '../atoms/Heading/Heading';
 import { auth, firestore, storage } from '../../firebase/firebase';
 import Text from '../atoms/Text/Text';
 
-const StyledWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  z-index: 13;
-  top: 0%;
-  right: 0%;
-  position: fixed;
-  border-left: 10px solid ${({ theme }) => theme.buttonColor};
-  will-change: opacity, transform;
-  opacity: ${({ isVisible }) => (isVisible ? '1' : '0')};
-  transform: translateX(${({ isVisible }) => (isVisible ? '0' : '100%')});
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-  background: #fff;
+const StyledWrapper = styled.section`
+  width: 90%;
+  height: 10%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  border: 1px solid #e6ecf1;
+  padding: 1rem 3rem;
+
+  @media screen and (min-width: 400px) {
+    width: 100%;
+  }
+
+  ${({ editable }) =>
+    editable &&
+    css`
+      :hover {
+        background-color: #f5f8fa;
+        cursor: pointer;
+      }
+    `}
+`;
+
+const StyledNotificationWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding-right: 5rem;
+
+  ${({ photo }) =>
+    photo &&
+    css`
+      position: relative;
+    `}
+  @media screen and (min-width: 340px) {
+    padding-right: 0;
+  }
+`;
+
+const StyledAuthorImage = styled.figure`
+  display: flex;
+  height: 100%;
+  width: 5rem;
   align-items: center;
   justify-content: center;
-  max-width: 50rem;
-
-  @media (min-width: 750px) {
-    width: 60%;
+  img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100px;
   }
 
-  @media (min-width: 1000px) {
-    max-width: 40rem;
+  @media screen and (min-width: 340px) {
+    img {
+      width: 4rem;
+      height: 4rem;
+      border-radius: 100px;
+    }
   }
 `;
 
-const StyledFormWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  height: 60%;
+const StyledText = styled(Text)`
+  color: #bec3c9;
+
+  ${({ valueText }) =>
+    valueText &&
+    css`
+      color: inherit;
+    `}
 `;
 
-const StyledHeadingWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 0 0 1.5rem 1.5rem;
-`;
-
-const StyledHeading = styled(Heading)`
-  font-size: 1.9rem;
-`;
-
-const StyledButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: 1.5rem 0 1.5rem 1.5rem;
-`;
-
-const StyledButton = styled.button`
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.regular};
-  color: ${({ theme }) => theme.fontColorText};
-  background-color: ${({ theme }) => theme.primaryColor};
-  border-radius: 30px;
-  padding: 0.7rem 4rem;
-`;
-
-const StyledForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-const StyledInput = styled(Input)`
-  margin-top: 2rem;
-`;
 const StyledInputTypeFile = styled(Input)`
-  margin: 2rem 0 10rem 0;
   cursor: pointer;
   overflow: hidden;
-  border-radius: 7px;
-  width: 50%;
-  ::before {
-    width: 100%;
-    height: 100%;
-    content: 'update picture';
-    display: inline-block;
-  }
+  border-radius: 100px;
+  height: 4rem;
+  width: 5rem;
+  position: absolute;
+  top: 0;
+  right: 0%;
+  background: none;
   ::-webkit-file-upload-button {
     display: none;
   }
 `;
 
-const EditProfile = ({ isVisible, handleAddPost }) => {
+const StyledButtonWrapper = styled.div`
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  padding-right: 8rem;
+  @media screen and (min-width: 340px) {
+    padding-right: 1rem;
+  }
+  @media screen and (min-width: 400px) {
+    width: 100%;
+  }
+`;
+
+const StyledButton = styled.button`
+  font-size: 1.1rem;
+  font-weight: ${({ theme }) => theme.regular};
+  color: #fff;
+  background-color: hsla(203, 89%, 53%, 0.8);
+  border-radius: 30px;
+  padding: 0.4rem 3rem;
+`;
+
+const StyledInput = styled(Input)`
+  width: 12rem;
+  background: none;
+  color: inherit;
+  font-weight: inherit;
+  padding-left: 4rem;
+`;
+
+const EditProfile = ({ photoURL, nameOfUser }) => {
   const [userName, setUserName] = useState('');
   const [image, setImage] = useState(null);
-  const [url, setUrl] = useState('');
   const [error, setError] = useState('');
 
   const handleUserNameChange = ({ target: { value } }) => setUserName(value);
 
-  const handChange = e => {
+  const handlePhotoChange = e => {
     const file = e.target.files[0];
     if (file) {
       const fileType = file.type;
@@ -121,14 +149,17 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
 
   const handleUpdate = e => {
     e.preventDefault();
+    const userUid = auth.currentUser.uid;
+    const docRef = firestore.doc(`users/${userUid}`);
+
     if (userName) {
-      firestore.doc(`users/${auth.currentUser.uid}`).update({ userName });
+      docRef.update({ userName });
     }
     if (image) {
       const uploadTask = storage
         .ref()
         .child(`user-profiles`)
-        .child(auth.currentUser.uid)
+        .child(userUid)
         .child(image.name)
         .put(image);
 
@@ -139,52 +170,60 @@ const EditProfile = ({ isVisible, handleAddPost }) => {
           storage
             .ref()
             .child(`user-profiles`)
-            .child(auth.currentUser.uid)
+            .child(userUid)
             .child(image.name)
             .getDownloadURL()
             .then(urlPath => {
-              setUrl(urlPath);
-              firestore.doc(`users/${auth.currentUser.uid}`).update({ photoURL: urlPath });
+              docRef.update({ photoURL: urlPath });
             });
         },
       );
     }
+
+    setUserName('');
   };
 
   return (
-    <StyledWrapper isVisible={isVisible}>
-      <StyledFormWrapper>
-        <StyledHeadingWrapper>
-          <StyledHeading>Edit Profile</StyledHeading>
-        </StyledHeadingWrapper>
-        <StyledForm onSubmit={handleUpdate}>
-          <StyledInput
-            placeholder="user name"
-            value={userName}
-            name="user name"
-            onChange={handleUserNameChange}
-            aria-label="Change your user name"
-          />
-          <Text>{error}</Text>
+    <>
+      <StyledWrapper editable>
+        <StyledNotificationWrapper photo>
+          <StyledText>Photo</StyledText>
+          <StyledAuthorImage>
+            <img src={photoURL} alt={nameOfUser} />
+          </StyledAuthorImage>
           <StyledInputTypeFile
             type="file"
             placeholder="upload picture"
             name="file"
-            onChange={handChange}
+            onChange={handlePhotoChange}
             aria-label="Change user profile picture"
           />
-        </StyledForm>
-        <StyledButtonWrapper>
-          <StyledButton onClick={handleUpdate}>Edit</StyledButton>
-        </StyledButtonWrapper>
-      </StyledFormWrapper>
-      <Button close icon={PlusIcon} onClick={handleAddPost} />
-    </StyledWrapper>
+        </StyledNotificationWrapper>
+      </StyledWrapper>
+      <StyledWrapper editable>
+        <StyledNotificationWrapper as="form" onSubmit={e => e.preventDefault()}>
+          <StyledText as="label">Name</StyledText>
+          <StyledInput
+            valueText
+            placeholder={nameOfUser}
+            value={userName}
+            name="user name"
+            onChange={handleUserNameChange}
+            aria-label="Change your user name"
+            autoComplete="off"
+          />
+        </StyledNotificationWrapper>
+      </StyledWrapper>
+      <StyledButtonWrapper>
+        {error ? <Text>Error, please try later</Text> : null}
+        <StyledButton onClick={handleUpdate}>Edit</StyledButton>
+      </StyledButtonWrapper>
+    </>
   );
 };
 
 EditProfile.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
-  handleAddPost: PropTypes.func.isRequired,
+  photoURL: PropTypes.string.isRequired,
+  nameOfUser: PropTypes.string.isRequired,
 };
 export default EditProfile;

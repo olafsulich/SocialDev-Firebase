@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import StyledHeading from '../components/atoms/Heading/Heading';
-import useUser from '../hooks/useUser';
 import AddRoom from '../components/molecules/AddRoom';
 import { roomsRef } from '../firebase/firestoreRefs';
 import useSubscription from '../hooks/useSubscription';
@@ -9,9 +8,10 @@ import RoomsList from '../components/molecules/RoomsList';
 import PageTemplate from '../templates/PageTemplate';
 
 const StyledDiv = styled.div`
-  width: 100%;
-  height: 90vh;
+  width: 45rem;
+  height: 85vh;
   max-height: 90vh;
+  overflow: scroll;
 `;
 
 const StyledRoomWrapper = styled.div`
@@ -38,10 +38,8 @@ const StyledRoomWrapper = styled.div`
 `;
 
 const Messenger = () => {
-  const [currentUser, setCurrentUser] = useState(null);
   const [rooms, setRooms] = useState([]);
 
-  useUser(setCurrentUser);
   useSubscription(roomsRef, setRooms, 'desc');
 
   const handleCreate = roomToAdd => {

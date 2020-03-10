@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
-import useUpdate from '../../hooks/useUpdate';
 import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
 import createDoc from '../../utils/createDoc';
 

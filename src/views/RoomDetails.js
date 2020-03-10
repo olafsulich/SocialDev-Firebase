@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { firestore, auth } from '../firebase/firebase';
 import Heading from '../components/atoms/Heading/Heading';

@@ -41,7 +41,7 @@ const StyledTitleWrapper = styled.article`
   width: 100%;
 `;
 
-const StyledHeaing = styled(Heading)`
+const StyledHeading = styled(Heading)`
   margin-right: 2rem;
 `;
 
@@ -55,7 +55,7 @@ const Comment = ({ content, userName }) => {
       <StyledCommentWrapper>
         <StyledAuthorWrapper>
           <StyledTitleWrapper>
-            <StyledHeaing>{userName}</StyledHeaing>
+            <StyledHeading>{userName}</StyledHeading>
             <StyledText>{content}</StyledText>
           </StyledTitleWrapper>
         </StyledAuthorWrapper>

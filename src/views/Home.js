@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AddPost from '../components/molecules/AddPost';
 import useUser from '../hooks/useUser';
 import useSubscription from '../hooks/useSubscription';
@@ -8,7 +8,6 @@ import PageTemplate from '../templates/PageTemplate';
 import { firestore } from '../firebase/firebase';
 
 const Home = () => {
-  const [SidebarOpen, setSidebarOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [posts, setPosts] = useState([]);
 

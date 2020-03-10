@@ -12,15 +12,20 @@ const createNotification = (notification => {
     .firestore()
     .collection('notifications')
     .add(notification)
-    .then(doc => console.log('create notific', doc));
 });
 
 exports.postCreated = functions.firestore.document('posts/{postId}').onCreate(doc => {
-  const post = doc.data();
+  const id = doc.id;
+  const {
+    user: { name, photoURL },
+  } = doc.data();
   const notification = {
     content: 'Added new post',
-    userName: `${post.user.name}`,
+    userName: `${name}`,
+    photoURL: `${photoURL}`,
     createdAt: notificationTime,
+    id,
+    type: 'post',
   };
 
   return createNotification(notification);
@@ -33,12 +38,14 @@ exports.newUserJoined = functions.auth.user().onCreate(user => {
     .doc(user.uid)
     .get()
     .then(doc => {
-      const { userName } = doc.data();
+      const { userName, photoURL } = doc.data();
 
       const notification = {
         content: 'Joined to Social Dev community',
-        userName,
+        userName: `${userName}`,
+        photoURL: `${photoURL}`,
         createdAt: notificationTime,
+        type: 'user',
       };
       return createNotification(notification);
     });

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Text from '../Text/Text';
-import { auth, firestore } from '../../../firebase/firebase';
+import { auth } from '../../../firebase/firebase';
 import RemoveIcon from '../../../assets/delete.svg';
 import isUserOwnerShip from '../../../utils/isUserOwnerShip';
 
@@ -16,6 +16,11 @@ const StyledRoomWrapper = styled.div`
   border: 2px solid #e6ecf1;
   border-top: none;
   padding: 2rem 3rem;
+
+  :hover {
+    background-color: #f5f8fa;
+    cursor: pointer;
+  }
 
   ${({ heading }) =>
     heading &&
@@ -46,7 +51,7 @@ const StyledIcon = styled.button`
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 60% 60%;
-  background-color: #fff;
+  background-color: transparent;
   border-radius: 50px;
   cursor: pointer;
   margin-left: 2rem;
