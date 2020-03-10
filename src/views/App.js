@@ -4,6 +4,7 @@ import MainTemplate from '../templates/MainTemplate';
 import { routes } from '../routes/routes';
 import useUser from '../hooks/useUser';
 import Loader from '../components/atoms/Loader/Loader';
+import ErrorBoundary from '../components/organisms/ErrorBoundary';
 
 const Home = lazy(() => import('./Home'));
 const Login = lazy(() => import('./Login'));
@@ -21,34 +22,36 @@ const App = () => {
   return (
     <MainTemplate>
       <BrowserRouter>
-        {!currentUser ? (
-          <Suspense fallback={<Loader />}>
-            <Login />
-          </Suspense>
-        ) : (
-          <Switch>
+        <ErrorBoundary>
+          {!currentUser ? (
             <Suspense fallback={<Loader />}>
-              <Route exact path={home} component={Home} />
-              <Route exact path={notifications} component={Notifications} />
-              <Route exact path={messenger} component={Messenger} />
-              <Route
-                exact
-                path={account}
-                render={props => <Account {...props} currentUser={currentUser} />}
-              />
-              <Route
-                exact
-                path={post}
-                render={props => <PostDetails {...props} user={currentUser} />}
-              />
-              <Route
-                exact
-                path={room}
-                render={props => <RoomDetails {...props} user={currentUser} />}
-              />
+              <Login />
             </Suspense>
-          </Switch>
-        )}
+          ) : (
+            <Switch>
+              <Suspense fallback={<Loader />}>
+                <Route exact path={home} component={Home} />
+                <Route exact path={notifications} component={Notifications} />
+                <Route exact path={messenger} component={Messenger} />
+                <Route
+                  exact
+                  path={account}
+                  render={props => <Account {...props} currentUser={currentUser} />}
+                />
+                <Route
+                  exact
+                  path={post}
+                  render={props => <PostDetails {...props} user={currentUser} />}
+                />
+                <Route
+                  exact
+                  path={room}
+                  render={props => <RoomDetails {...props} user={currentUser} />}
+                />
+              </Suspense>
+            </Switch>
+          )}
+        </ErrorBoundary>
       </BrowserRouter>
     </MainTemplate>
   );
