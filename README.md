@@ -2,7 +2,7 @@
   <br>
   <a href="social-dev-dcf2d.firebaseapp.com"><img src="https://i.ibb.co/mDT5Pcx/undraw-viral-tweet-gndb.png" alt="Social dev" width="200"></a>
   <br>
-   Plants & Home
+    Social Dev
   <br>
 </h1>
 
