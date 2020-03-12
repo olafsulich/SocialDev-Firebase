@@ -14,7 +14,6 @@ const StyledWrapper = styled.div`
   justify-content: space-around;
   border: 1px solid #e6ecf1;
   padding: 1rem 6rem;
-  margin-top: 2px;
   position: relative;
 `;
 
@@ -95,7 +94,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const StyledEmojiButton = styled.input`
+const StyledEmojiButton = styled.button`
   width: 2.5rem;
   height: 2.5rem;
   background: none;
@@ -183,7 +182,7 @@ const PostToAdd = ({ handleCreate }) => {
           <StyledButton type="submit" onClick={handleSubmit}>
             Post
           </StyledButton>
-          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
+          <StyledEmojiButton onClick={handlePickerVisability} icon={EmojiIcon} />
         </StyledButtonWrapper>
       </StyledWrapper>
     </>

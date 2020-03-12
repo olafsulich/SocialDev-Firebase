@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import PropTypes from 'prop-types';
 import Heading from '../Heading/Heading';
 
@@ -17,7 +17,7 @@ const StyledHeadingWrapper = styled.div`
 const HeadingWrapper = ({ headingName }) => {
   return (
     <StyledHeadingWrapper>
-      <Heading>{headingName}</Heading>
+      <Heading as="h1">{headingName}</Heading>
     </StyledHeadingWrapper>
   );
 };

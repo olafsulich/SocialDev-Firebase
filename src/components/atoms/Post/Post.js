@@ -13,7 +13,7 @@ import isUserOwnerShip from '../../../utils/isUserOwnerShip';
 import { postsRef } from '../../../firebase/firestoreRefs';
 import handleRemove from '../../../utils/handleRemove';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.div`
   width: 45rem;
   height: 100%;
   display: flex;
@@ -133,7 +133,7 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 0;
 `;
 
-const StyledDate = styled.time`
+const StyledDate = styled.span`
   font-size: 1rem;
   margin-top: 6px;
   color: #bec3c9;

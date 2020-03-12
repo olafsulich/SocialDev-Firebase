@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from './GridTemplate';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.section`
   width: 100%;
   overflow: hidden;
   @media (min-width: 850px) {

@@ -64,7 +64,7 @@ const Message = ({ messageAuthor, message, fromCurrentUser }) => {
       {fromCurrentUser ? (
         <StyledMessageWrapper fromCurrentUser>
           <StyledAuthorImage fromCurrentUser>
-            <img src={photoURL} alt={userName} />
+            <img src={photoURL} alt={userName || 'user'} />
           </StyledAuthorImage>
           <StyledMessage fromCurrentUser>{message}</StyledMessage>
         </StyledMessageWrapper>

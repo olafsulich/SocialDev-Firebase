@@ -70,7 +70,7 @@ const StyledHeading = styled(Heading)`
   margin-bottom: 0;
 `;
 
-const StyledDate = styled.time`
+const StyledDate = styled.span`
   font-size: 1rem;
   margin-top: 6px;
   color: #bec3c9;

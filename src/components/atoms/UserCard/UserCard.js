@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Text from '../Text/Text';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.article`
   width: 90%;
   height: 10%;
   display: flex;
@@ -18,7 +18,7 @@ const StyledWrapper = styled.section`
   }
 `;
 
-const StyledNotificationWrapper = styled.div`
+const StyledUserCard = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -34,44 +34,46 @@ const StyledNotificationWrapper = styled.div`
 const StyledText = styled(Text)`
   color: #bec3c9;
 
-  ${({ value }) =>
-    value &&
+  ${({ textValue }) =>
+    textValue &&
     css`
       color: inherit;
     `}
 `;
 
-const StyledDate = styled.time`
+const StyledDate = styled.span`
   font-size: 1rem;
   margin-top: 6px;
   font-weight: ${({ theme }) => theme.regular};
 `;
 
-const UserCard = ({ name, value, createdAt }) => {
+const UserCard = ({ textName, textValue, createdAt }) => {
   if (createdAt) {
     return (
       <StyledWrapper>
-        <StyledNotificationWrapper>
-          <StyledText>{name}</StyledText>
-          <StyledDate>{value.toDate ? moment(value.toDate()).calendar() : 'date'}</StyledDate>
-        </StyledNotificationWrapper>
+        <StyledUserCard>
+          <StyledText as="h2">{textName}</StyledText>
+          <StyledDate>
+            {textValue.toDate ? moment(textValue.toDate()).calendar() : 'date'}
+          </StyledDate>
+        </StyledUserCard>
       </StyledWrapper>
     );
   }
 
   return (
     <StyledWrapper>
-      <StyledNotificationWrapper>
-        <StyledText>{name}</StyledText>
-        <StyledText value>{value}</StyledText>
-      </StyledNotificationWrapper>
+      <StyledUserCard>
+        <StyledText as="h2">{textName}</StyledText>
+        <StyledText textValue>{textValue}</StyledText>
+      </StyledUserCard>
     </StyledWrapper>
   );
 };
 
 UserCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired,
+  textName: PropTypes.string.isRequired,
+  textValue: PropTypes.any.isRequired,
   createdAt: PropTypes.bool,
 };
 UserCard.defaultProps = {

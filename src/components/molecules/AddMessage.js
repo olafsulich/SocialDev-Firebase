@@ -116,7 +116,12 @@ const AddMessage = ({ messageRef }) => {
           aria-label="Write something..."
           value={message}
         />
-        <StyledEmojiButton type="button" icon={EmojiIcon} onClick={handlePickerVisability} />
+        <StyledEmojiButton
+          type="button"
+          icon={EmojiIcon}
+          onClick={handlePickerVisability}
+          aria-label="emoji button"
+        />
 
         <StyledButton type="submit" onClick={handleSubmit}>
           Send

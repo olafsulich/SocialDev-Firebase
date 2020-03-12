@@ -94,7 +94,7 @@ const Room = ({ title, id, user, handleRemove }) => {
       {isUserOwnerShip(currentUser, user) ? (
         <>
           <StyledLink to={`/rooms/${id}`}>
-            <StyledText>{title}</StyledText>
+            <StyledText as="h2">{title}</StyledText>
           </StyledLink>
           <StyledButtonWrapper>
             <StyledIcon tabIndex="0" remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
@@ -102,7 +102,7 @@ const Room = ({ title, id, user, handleRemove }) => {
         </>
       ) : (
         <StyledLink to={`/rooms/${id}`}>
-          <Text>{title}</Text>
+          <Text as="h2">{title}</Text>
         </StyledLink>
       )}
     </StyledRoomWrapper>

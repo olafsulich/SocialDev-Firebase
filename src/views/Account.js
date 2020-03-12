@@ -18,8 +18,6 @@ const StyledAccountWrapper = styled.div`
   width: 90%;
   height: 5%;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   border: 2px solid #e6ecf1;
   border-top: none;
   padding: 1rem 3rem;
@@ -34,7 +32,7 @@ const StyledAccountWrapper = styled.div`
       background-color: #f5f8fa;
       width: 90%;
       height: 10%;
-      align-items: flex-start;
+      align-items: center;
       justify-content: flex-start;
       padding: 2rem 3rem;
     `}
@@ -78,11 +76,11 @@ const Account = ({ currentUser }) => {
       <StyledDiv>
         <Suspense fallback={<Loader />}>
           <StyledAccountWrapper heading>
-            <Heading>Account</Heading>
+            <Heading as="h1">Account</Heading>
           </StyledAccountWrapper>
           <EditProfile photoURL={photoURL} nameOfUser={userName} />
-          <UserCard name="Email" value={email} />
-          <UserCard name="Created at" value={createdAt} createdAt />
+          <UserCard textName="Email" textValue={email} />
+          <UserCard textName="Created at" textValue={createdAt} createdAt />
           <StyledButtonWrapper>
             <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
           </StyledButtonWrapper>

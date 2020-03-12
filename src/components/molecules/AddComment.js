@@ -127,7 +127,12 @@ const AddComment = ({ commentRef }) => {
             aria-label="Write a comment..."
             isRequired
           />
-          <StyledEmojiButton onClick={handlePickerVisability} type="button" icon={EmojiIcon} />
+          <StyledEmojiButton
+            onClick={handlePickerVisability}
+            type="button"
+            aria-label="emoji button"
+            icon={EmojiIcon}
+          />
         </StyledForm>
         <StyledButton type="submit" onClick={handleSubmit}>
           Comment

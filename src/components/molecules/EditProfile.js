@@ -6,7 +6,7 @@ import Input from '../atoms/Input/Input';
 import { auth, firestore, storage } from '../../firebase/firebase';
 import Text from '../atoms/Text/Text';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.div`
   width: 90%;
   height: 10%;
   display: flex;
@@ -202,7 +202,6 @@ const EditProfile = ({ photoURL, nameOfUser }) => {
           </StyledAuthorImage>
           <StyledInputTypeFile
             type="file"
-            placeholder="upload picture"
             name="file"
             onChange={handlePhotoChange}
             aria-label="Change user profile picture"
