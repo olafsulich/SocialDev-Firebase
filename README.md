@@ -40,6 +40,12 @@ This is mini social media app, mostly inspired by Twitter and Messenger. As a us
 
 - StoryBook
 
+- Moment.js
+
+- React Hook Form
+
+- React Testing Library
+
 - Husky & Lint-staged
 
 - Tools: Webpack, Eslint, Prettier
