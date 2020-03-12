@@ -2,7 +2,9 @@
 
 <br>
 
-<a href="social-dev-dcf2d.firebaseapp.com"><img src="https://i.ibb.co/mDT5Pcx/undraw-viral-tweet-gndb.png"  alt="Social dev"  width="350"></a>
+<p align="center">
+<img src="https://i.ibb.co/d25vqJ9/4576.jpg"  alt="Social dev">
+</p>
 
 <br>
 
@@ -14,8 +16,8 @@
 Social Dev is my interpretation of social media app like Facebook, Twitter and Messenger. </h4>
 
 <p align="center">
-  <a href="[https://social-dev-dcf2d.firebaseapp.com/notifications](https://social-dev-dcf2d.firebaseapp.com/notifications)">
-    <img src="https://i.ibb.co/2v28nT8/Zrzut-ekranu-2020-03-12-o-03-20-35-2.png"
+  <a >
+    <img src="https://i.ibb.co/N7PkDyv/ss1.png"
          alt="Screen Shot">
   </a>
 </p>
@@ -45,11 +47,11 @@ This is mini social media app, mostly inspired by Twitter and Messenger. As a us
 ## Screenshots 📺
 
 <p align="center">
-    <img src="https://i.ibb.co/WGYVCFM/Zrzut-ekranu-2020-03-12-o-03-21-34-2.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/0c8YjC4/ss2.png" alt="Screen Shot">
 </p>
 
 <p align="center">
-    <img src="https://i.ibb.co/JnrsYtv/Zrzut-ekranu-2020-03-12-o-03-21-54-2.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/qswXfBv/ss3.png" alt="Screen Shot">
 </p>
 
 ## Code Example/Issues 🔍
