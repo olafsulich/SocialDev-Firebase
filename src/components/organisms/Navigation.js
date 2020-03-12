@@ -128,7 +128,7 @@ const Navigation = () => {
 
   return (
     <StyledWrapper>
-      <StyledIconsWrapper>
+      <StyledIconsWrapper aria-labelledby="primary-navigation">
         {pageWidth >= 850 ? (
           <StyledHeading as={StyledLink} icon={HomeIcon} to="/" exact activeclass="active">
             Home
