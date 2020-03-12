@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Input from '../atoms/Input/Input';
@@ -33,6 +33,12 @@ const StyledButton = styled.button`
   border-radius: 30px;
   padding: 0.6rem 2.5rem;
   margin-left: 8rem;
+
+  :focus {
+    color: hsla(203, 89%, 53%, 0.8);
+    background: none;
+    border: 2px solid hsla(203, 89%, 53%, 0.8);
+  }
 `;
 
 const StyledForm = styled.form`
@@ -65,6 +71,12 @@ const StyledEmojiButton = styled.input`
   right: -15%;
   top: 3px;
   cursor: pointer;
+  border-radius: 30px;
+  padding: 5px;
+
+  :focus {
+    border: 2px solid hsla(203, 89%, 53%, 0.6);
+  }
 `;
 
 const AddComment = ({ commentRef }) => {
@@ -72,12 +84,7 @@ const AddComment = ({ commentRef }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [pickerVisability, setPickerVisability] = useState(false);
 
-  const inputRef = useRef(null);
   useUser(setCurrentUser);
-
-  useEffect(() => {
-    inputRef.current.focus();
-  });
 
   const handleContentChange = ({ target: { value } }) => setContent(value);
 
@@ -117,7 +124,6 @@ const AddComment = ({ commentRef }) => {
             value={content}
             name="content"
             onChange={handleContentChange}
-            ref={inputRef}
             aria-label="Write a comment..."
             isRequired
           />

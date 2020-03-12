@@ -16,7 +16,7 @@ const StyledRoomWrapper = styled.div`
   border: 2px solid #e6ecf1;
   border-top: none;
   padding: 2rem 3rem;
-
+  :focus,
   :hover {
     background-color: #f5f8fa;
     cursor: pointer;
@@ -57,6 +57,7 @@ const StyledIcon = styled.button`
   margin-left: 2rem;
   z-index: 5;
 
+  :focus,
   :hover {
     border-radius: 30px;
     background-color: ${({ theme }) => theme.primaryColor};
@@ -65,6 +66,7 @@ const StyledIcon = styled.button`
   ${({ remove }) =>
     remove &&
     css`
+      :focus,
       :hover {
         background-color: hsla(341, 75%, 51%, 0.2);
       }
@@ -74,20 +76,28 @@ const StyledLink = styled(Link)`
   height: 100%;
   width: 80%;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const StyledText = styled(Text)`
+  padding: 0;
+  margin: 0;
 `;
 
 const Room = ({ title, id, user, handleRemove }) => {
   const currentUser = auth.currentUser;
 
   return (
-    <StyledRoomWrapper key={id}>
+    <StyledRoomWrapper key={id} tabIndex="0">
       {isUserOwnerShip(currentUser, user) ? (
         <>
           <StyledLink to={`/rooms/${id}`}>
-            <Text>{title}</Text>
+            <StyledText>{title}</StyledText>
           </StyledLink>
           <StyledButtonWrapper>
-            <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
+            <StyledIcon tabIndex="0" remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
           </StyledButtonWrapper>
         </>
       ) : (

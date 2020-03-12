@@ -15,7 +15,7 @@ const Home = () => {
 
   const postRef = firestore.collection('posts');
 
-  useUser(setCurrentUser, currentUser);
+  useUser(setCurrentUser);
   useSubscription(postRef, setPosts, 'desc');
 
   const handleCreate = postToAdd => {

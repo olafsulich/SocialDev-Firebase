@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { auth } from '../firebase/firebase';
 import PageTemplate from '../templates/PageTemplate';
 import Loader from '../components/atoms/Loader/Loader';
-
 const EditProfile = lazy(() => import('../components/molecules/EditProfile'));
 const UserCard = lazy(() => import('../components/atoms/UserCard/UserCard'));
 const Heading = lazy(() => import('../components/atoms/Heading/Heading'));
@@ -63,6 +62,12 @@ const StyledButtonLogout = styled.button`
   background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
   padding: 0.4rem 3rem;
+
+  :focus {
+    color: hsla(203, 89%, 53%, 0.8);
+    background: none;
+    border: 2px solid hsla(203, 89%, 53%, 0.8);
+  }
 `;
 
 const Account = ({ currentUser }) => {

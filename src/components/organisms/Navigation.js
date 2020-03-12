@@ -76,6 +76,17 @@ const StyledHeading = styled(Heading)`
       filter: none;
     }
   }
+
+  :focus {
+    border: 1px solid hsla(203, 89%, 53%, 0.8);
+    border-radius: 30px;
+    color: hsla(203, 89%, 53%, 0.8);
+
+    ::before {
+      filter: none;
+    }
+  }
+
   :hover {
     border-radius: 30px;
     background-color: ${({ theme }) => theme.primaryColor};
@@ -94,6 +105,8 @@ const StyledLink = styled(NavLink)`
 
 const StyledButton = styled(Button)`
   filter: grayscale(100%);
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: scale(1);
   &.active {
     filter: none;
   }
@@ -101,6 +114,7 @@ const StyledButton = styled(Button)`
 
 const Navigation = () => {
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
+
   const updateDimensions = () => {
     setPageWidth(window.innerWidth);
   };
@@ -111,6 +125,7 @@ const Navigation = () => {
       window.removeEventListener('resize', updateDimensions);
     };
   }, [pageWidth]);
+
   return (
     <StyledWrapper>
       <StyledIconsWrapper>

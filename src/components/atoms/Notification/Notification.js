@@ -19,6 +19,7 @@ const StyledWrapper = styled.section`
   ${({ link }) =>
     link &&
     css`
+      :focus,
       :hover {
         background-color: #f5f8fa;
         cursor: pointer;
@@ -84,7 +85,7 @@ const Notification = ({ content, id, userName, photoURL, type, createdAt }) => {
   return (
     <>
       {type === 'post' ? (
-        <Link to={`posts/${id}`}>
+        <Link to={`posts/${id}`} tabIndex="0">
           <StyledWrapper link>
             <StyledNotificationWrapper>
               <StyledAuthorImage>

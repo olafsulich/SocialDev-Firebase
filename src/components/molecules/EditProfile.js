@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
+
 import Input from '../atoms/Input/Input';
 import { auth, firestore, storage } from '../../firebase/firebase';
 import Text from '../atoms/Text/Text';
@@ -29,7 +30,7 @@ const StyledWrapper = styled.section`
     `}
 `;
 
-const StyledNotificationWrapper = styled.div`
+const StyledEditProfile = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -43,17 +44,34 @@ const StyledNotificationWrapper = styled.div`
     css`
       position: relative;
     `}
-  @media screen and (min-width: 340px) {
+  @media
+    screen
+    and
+    (min-width: 340px) {
     padding-right: 0;
   }
 `;
+const StyledInputTypeFile = styled(Input)`
+  cursor: pointer;
+  border-radius: 100px;
+  height: 100%;
+  width: 5rem;
+  position: absolute;
+  top: 0;
+  right: 0%;
+  background: none;
 
+  ::-webkit-file-upload-button {
+    display: none;
+  }
+`;
 const StyledAuthorImage = styled.figure`
   display: flex;
   height: 100%;
   width: 5rem;
   align-items: center;
   justify-content: center;
+
   img {
     width: 3rem;
     height: 3rem;
@@ -79,21 +97,6 @@ const StyledText = styled(Text)`
     `}
 `;
 
-const StyledInputTypeFile = styled(Input)`
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: 100px;
-  height: 4rem;
-  width: 5rem;
-  position: absolute;
-  top: 0;
-  right: 0%;
-  background: none;
-  ::-webkit-file-upload-button {
-    display: none;
-  }
-`;
-
 const StyledButtonWrapper = styled.div`
   width: 90%;
   display: flex;
@@ -116,6 +119,12 @@ const StyledButton = styled.button`
   background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
   padding: 0.4rem 3rem;
+
+  :focus {
+    color: hsla(203, 89%, 53%, 0.8);
+    background: none;
+    border: 2px solid hsla(203, 89%, 53%, 0.8);
+  }
 `;
 
 const StyledInput = styled(Input)`
@@ -186,9 +195,9 @@ const EditProfile = ({ photoURL, nameOfUser }) => {
   return (
     <>
       <StyledWrapper editable>
-        <StyledNotificationWrapper photo>
+        <StyledEditProfile photo>
           <StyledText>Photo</StyledText>
-          <StyledAuthorImage>
+          <StyledAuthorImage tabIndex="-1">
             <img src={photoURL} alt={nameOfUser} />
           </StyledAuthorImage>
           <StyledInputTypeFile
@@ -197,11 +206,12 @@ const EditProfile = ({ photoURL, nameOfUser }) => {
             name="file"
             onChange={handlePhotoChange}
             aria-label="Change user profile picture"
+            tabIndex="0"
           />
-        </StyledNotificationWrapper>
+        </StyledEditProfile>
       </StyledWrapper>
       <StyledWrapper editable>
-        <StyledNotificationWrapper as="form" onSubmit={e => e.preventDefault()}>
+        <StyledEditProfile as="form" onSubmit={e => e.preventDefault()}>
           <StyledText as="label">Name</StyledText>
           <StyledInput
             valueText
@@ -212,7 +222,7 @@ const EditProfile = ({ photoURL, nameOfUser }) => {
             aria-label="Change your user name"
             autoComplete="off"
           />
-        </StyledNotificationWrapper>
+        </StyledEditProfile>
       </StyledWrapper>
       <StyledButtonWrapper>
         {error ? <Text>Error, please try later</Text> : null}

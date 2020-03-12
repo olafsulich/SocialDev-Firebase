@@ -87,6 +87,12 @@ const StyledButton = styled.button`
   background-color: hsla(203, 89%, 53%, 0.8);
   border-radius: 30px;
   padding: 0.4rem 3rem;
+
+  :focus {
+    color: hsla(203, 89%, 53%, 0.8);
+    background: none;
+    border: 2px solid hsla(203, 89%, 53%, 0.8);
+  }
 `;
 
 const StyledEmojiButton = styled.input`
@@ -102,6 +108,12 @@ const StyledEmojiButton = styled.input`
   right: 5%;
   top: 75%;
   cursor: pointer;
+  border-radius: 30px;
+  padding: 5px;
+
+  :focus {
+    border: 2px solid hsla(203, 89%, 53%, 0.6);
+  }
 `;
 
 const PostToAdd = ({ handleCreate }) => {
@@ -143,7 +155,7 @@ const PostToAdd = ({ handleCreate }) => {
     <>
       <StyledWrapper>
         {pickerVisability ? (
-          <EmojiPicker handleAddEmoji={handleAddEmoji} top="40%" right="-50%" />
+          <EmojiPicker handleAddEmoji={handleAddEmoji} top="40%" right="-50%" tabIndex="0" />
         ) : null}
         <StyledContainer>
           <StyledAuthorImage>

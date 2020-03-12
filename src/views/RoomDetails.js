@@ -11,7 +11,6 @@ import Loader from '../components/atoms/Loader/Loader';
 const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));
 const MessagesList = lazy(() => import('../components/molecules/MessagesList'));
 const AddMessage = lazy(() => import('../components/molecules/AddMessage'));
-const Heading = lazy(() => import('../components/atoms/Heading/Heading'));
 
 const StyledDiv = styled.div`
   width: 100%;

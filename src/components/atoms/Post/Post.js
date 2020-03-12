@@ -22,6 +22,7 @@ const StyledWrapper = styled.section`
   justify-content: space-around;
   border: 1px solid #e6ecf1;
   padding: 2rem 6rem;
+
   :hover {
     background-color: #f5f8fa;
     cursor: pointer;
@@ -102,7 +103,7 @@ const StyledIcon = styled.button`
   border-radius: 50px;
   cursor: pointer;
   margin-right: 5px;
-
+  :focus,
   :hover {
     border-radius: 30px;
     background-color: ${({ theme }) => theme.primaryColor};
@@ -111,6 +112,7 @@ const StyledIcon = styled.button`
   ${({ remove }) =>
     remove &&
     css`
+      :focus,
       :hover {
         background-color: hsla(341, 75%, 51%, 0.2);
       }
@@ -119,6 +121,7 @@ const StyledIcon = styled.button`
   ${({ comments }) =>
     comments &&
     css`
+      :focus,
       :hover {
         background-color: hsla(146, 72%, 44%, 0.2);
         cursor: auto;
@@ -157,7 +160,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
     <StyledWrapper>
       <StyledCommentWrapper>
         {isLink ? (
-          <StyledLink to={`posts/${id}`}>
+          <StyledLink to={`posts/${id}`} tabIndex="-1">
             <StyledAuthorImage>
               <img src={photoURL} alt={name} />
             </StyledAuthorImage>
@@ -169,7 +172,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
         )}
         <StyledAuthorWrapper>
           {isLink ? (
-            <StyledLink to={`posts/${id}`}>
+            <StyledLink to={`posts/${id}`} tabIndex="0">
               <StyledArticle>
                 <StyledHeading>{name}</StyledHeading>
                 <StyledDate>
@@ -189,16 +192,21 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
           )}
           <StyledInfoWrapper>
             <StyledIconWrapper>
-              <StyledIcon comments icon={CommentsIcon} />
+              <StyledIcon tabIndex="0" comments icon={CommentsIcon} />
               <StyledQuantity>{comments}</StyledQuantity>
             </StyledIconWrapper>
             <StyledIconWrapper>
-              <StyledIcon icon={HeartIcon} onClick={() => like()} />
+              <StyledIcon tabIndex="0" icon={HeartIcon} onClick={() => like()} />
               <StyledQuantity>{likes}</StyledQuantity>
             </StyledIconWrapper>
             <StyledIconWrapper>
               {isUserOwnerShip(currentUser, user) ? (
-                <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(postsRef, id)} />
+                <StyledIcon
+                  tabIndex="0"
+                  remove
+                  icon={RemoveIcon}
+                  onClick={() => handleRemove(postsRef, id)}
+                />
               ) : null}
             </StyledIconWrapper>
           </StyledInfoWrapper>

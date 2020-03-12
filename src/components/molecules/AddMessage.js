@@ -21,6 +21,12 @@ const StyledButton = styled.button`
   border-radius: 30px;
   padding: 0.6rem 2.5rem;
   margin-left: 2rem;
+
+  :focus {
+    color: hsla(203, 89%, 53%, 0.8);
+    background: none;
+    border: 2px solid hsla(203, 89%, 53%, 0.8);
+  }
 `;
 
 const StyledForm = styled.form`
@@ -58,6 +64,12 @@ const StyledEmojiButton = styled.input`
   right: 35%;
   top: 3px;
   cursor: pointer;
+  border-radius: 30px;
+  padding: 5px;
+
+  :focus {
+    border: 2px solid hsla(203, 89%, 53%, 0.6);
+  }
 `;
 
 const AddMessage = ({ messageRef }) => {
