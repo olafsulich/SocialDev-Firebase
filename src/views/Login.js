@@ -165,10 +165,17 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       /* eslint-disable */
       .catch(error => alert(`Your email or password is incorrect, please check your data`));
+    setInputsContent({
+      email: '',
+      password: '',
+      displayName: '',
+    });
   };
 
   const handleSignUp = async e => {
-    const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    const { user } = await auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch(error => alert(`Email is already in use, sign in or use other email`));
     createUserDoc(user, displayName);
   };
 
@@ -183,6 +190,7 @@ const Login = () => {
               placeholder="name"
               type="text"
               onChange={handleInputChange}
+              onBlur={handleInputChange}
               name="displayName"
               value={displayName}
               aria-label="displayName"
@@ -202,6 +210,7 @@ const Login = () => {
               placeholder="email"
               type="email"
               onChange={handleInputChange}
+              onBlur={handleInputChange}
               name="email"
               value={email}
               aria-label="email"
@@ -225,6 +234,7 @@ const Login = () => {
               placeholder="password"
               type="password"
               onChange={handleInputChange}
+              onBlur={handleInputChange}
               name="password"
               value={password}
               aria-label="password"
