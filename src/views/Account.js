@@ -29,12 +29,17 @@ const StyledAccountWrapper = styled.div`
     heading &&
     css`
       border: none;
-      background-color: #f5f8fa;
       width: 90%;
       height: 10%;
       align-items: center;
       justify-content: flex-start;
       padding: 2rem 3rem;
+
+      background-color: hsla(203, 89%, 53%, 0.6);
+
+      h1 {
+        color: #fff;
+      }
     `}
 `;
 

@@ -25,6 +25,7 @@ Social Dev is my interpretation of social media app like Facebook, Twitter and M
 ## Project Overview 🎉
 
 This is mini social media app, mostly inspired by Twitter and Messenger. As a user, you can add, like, delete and comment posts. If you like, you can join one of available rooms and chat with others! Nothing prevents you from creating your own room. If you get bored of your profile picture or nickname, you can change them as you like. You're going to get new notifications, when new user join our Social Dev community and when someone add new post.
+App supports CI/CD, powered by CircleCI with Firebase.
 
 ## Tech/framework used 🔧
 
@@ -37,6 +38,8 @@ This is mini social media app, mostly inspired by Twitter and Messenger. As a us
 - Styled-Components
 
 - Firebase (storage, functions, firestore, hosting, auth)
+
+- CircleCI
 
 - StoryBook
 

@@ -11,7 +11,11 @@ const StyledHeadingWrapper = styled.div`
   justify-content: flex-start;
   padding: 2rem 3rem;
   border: none;
-  background-color: #f5f8fa;
+  background-color: hsla(203, 89%, 53%, 0.6);
+
+  h1 {
+    color: #fff;
+  }
 `;
 
 const HeadingWrapper = ({ headingName }) => {
