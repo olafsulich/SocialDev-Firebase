@@ -130,42 +130,37 @@ const Navigation = () => {
     <StyledWrapper>
       <StyledIconsWrapper aria-labelledby="primary-navigation">
         {pageWidth >= 850 ? (
-          <StyledHeading as={StyledLink} icon={HomeIcon} to="/" exact activeclass="active">
-            Home
-          </StyledHeading>
+          <>
+            <StyledHeading as={StyledLink} icon={HomeIcon} to="/" exact activeclass="active">
+              Home
+            </StyledHeading>
+            <StyledHeading as={StyledLink} icon={ChatIcon} to="/messenger" activeclass="active">
+              Messenger
+            </StyledHeading>
+            <StyledHeading
+              icon={NotificationIcon}
+              as={StyledLink}
+              to="/notifications"
+              activeclass="active"
+            >
+              Notifications
+            </StyledHeading>
+            <StyledHeading as={StyledLink} icon={UserIcon} to="/account" activeclass="active">
+              Account
+            </StyledHeading>
+          </>
         ) : (
-          <StyledButton icon={HomeIcon} as={StyledLink} to="/" exact activeclass="active" />
-        )}
-        {pageWidth >= 850 ? (
-          <StyledHeading as={StyledLink} icon={ChatIcon} to="/messenger" activeclass="active">
-            Messenger
-          </StyledHeading>
-        ) : (
-          <StyledButton icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
-        )}
-        {pageWidth >= 850 ? (
-          <StyledHeading
-            icon={NotificationIcon}
-            as={StyledLink}
-            to="/notifications"
-            activeclass="active"
-          >
-            Notifications
-          </StyledHeading>
-        ) : (
-          <StyledButton
-            icon={NotificationIcon}
-            as={StyledLink}
-            to="/notifications"
-            activeclass="active"
-          />
-        )}
-        {pageWidth >= 850 ? (
-          <StyledHeading as={StyledLink} icon={UserIcon} to="/account" activeclass="active">
-            Account
-          </StyledHeading>
-        ) : (
-          <StyledButton icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
+          <>
+            <StyledButton icon={HomeIcon} as={StyledLink} to="/" exact activeclass="active" />
+            <StyledButton icon={ChatIcon} as={StyledLink} to="/messenger" activeclass="active" />
+            <StyledButton
+              icon={NotificationIcon}
+              as={StyledLink}
+              to="/notifications"
+              activeclass="active"
+            />
+            <StyledButton icon={UserIcon} as={StyledLink} to="/account" activeclass="active" />
+          </>
         )}
       </StyledIconsWrapper>
     </StyledWrapper>
