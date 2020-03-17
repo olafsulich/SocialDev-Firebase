@@ -89,7 +89,7 @@ npm run start
 
 ## Live 📍
 
-<a href="social-dev-dcf2d.firebaseapp.com" target="_blank">social-dev-dcf2d.firebaseapp.com</a>
+<a href="https://social-dev-dcf2d.firebaseapp.com/">https://social-dev-dcf2d.firebaseapp.com/</a>
 
 ## Contributing
 
