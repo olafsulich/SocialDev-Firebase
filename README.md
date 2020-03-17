@@ -29,29 +29,21 @@ App supports CI/CD, powered by CircleCI with Firebase.
 
 ## Tech/framework used 🔧
 
-- React
-
-- Hooks and Custom Hooks
-
-- React Router
-
-- Styled-Components
-
-- Firebase (storage, functions, firestore, hosting, auth)
-
-- CircleCI
-
-- StoryBook
-
-- Moment.js
-
-- React Hook Form
-
-- React Testing Library
-
-- Husky & Lint-staged
-
-- Tools: Webpack, Eslint, Prettier
+| Tech                                                    | Description                              |
+| ------------------------------------------------------- | ---------------------------------------- |
+| [React](https://reactjs.org/)                           | Library for building user interfaces     |
+| [React Router](https://reacttraining.com/react-router/) | Declarative routing for React            |
+| [Firebase](https://firebase.google.com/)                | Google development platform              |
+| [Styled Components](https://styled-components.com/)     | Visual primitives for the component age. |
+| [CirclCI](https://circleci.com/)                        | Continuous Integration platform          |
+| [StoryBook](https://storybook.js.org/)                  | UI components explorer                   |
+| [Moment](https://momentjs.com/)                         | Js library, helps with formatting dates  |
+| [React Hook Form](https://react-hook-form.com/)         | Forms with easy-to-use validation.       |
+| [React Testing Library](https://testing-library.com/)   | Testing library for React                |
+| [Husky](https://github.com/okonet/lint-staged)          | Pre-commit tool.                         |
+| [Lint-staged](https://github.com/okonet/lint-staged)    | Pre-commit tool.                         |
+| [Eslint](https://eslint.org/)                           | Javascript Linter                        |
+| [Prettier](https://prettier.io/)                        | Code formatter                           |
 
 ## Screenshots 📺
 
