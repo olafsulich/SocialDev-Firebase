@@ -17,7 +17,7 @@ Social Dev is my interpretation of social media app like Facebook, Twitter and M
 
 <p align="center">
   <a >
-    <img src="https://i.ibb.co/N7PkDyv/ss1.png"
+    <img src="https://i.ibb.co/ygh9HPL/Zrzut-ekranu-2020-03-17-o-15-31-19.png"
          alt="Screen Shot">
   </a>
 </p>
@@ -56,11 +56,15 @@ App supports CI/CD, powered by CircleCI with Firebase.
 ## Screenshots 📺
 
 <p align="center">
-    <img src="https://i.ibb.co/0c8YjC4/ss2.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/bvw5dW9/Zrzut-ekranu-2020-03-17-o-15-37-56.png" alt="Screen Shot">
 </p>
 
 <p align="center">
-    <img src="https://i.ibb.co/qswXfBv/ss3.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/sbkD4wf/Zrzut-ekranu-2020-03-17-o-15-38-34.png" alt="Screen Shot">
+</p>
+
+<p align="center">
+    <img src="https://i.ibb.co/gMWzDFq/Zrzut-ekranu-2020-03-17-o-15-38-41.png" alt="Screen Shot">
 </p>
 
 ## Code Example/Issues 🔍
