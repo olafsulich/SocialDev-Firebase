@@ -56,15 +56,15 @@ App supports CI/CD, powered by CircleCI with Firebase.
 ## Screenshots 📺
 
 <p align="center">
-    <img src="https://i.ibb.co/bvw5dW9/Zrzut-ekranu-2020-03-17-o-15-37-56.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/Cv8p0s5/Sss1.png" alt="Screen Shot">
 </p>
 
 <p align="center">
-    <img src="https://i.ibb.co/sbkD4wf/Zrzut-ekranu-2020-03-17-o-15-38-34.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/Fw0dTS2/Sss2.png" alt="Screen Shot">
 </p>
 
 <p align="center">
-    <img src="https://i.ibb.co/gMWzDFq/Zrzut-ekranu-2020-03-17-o-15-38-41.png" alt="Screen Shot">
+    <img src="https://i.ibb.co/KqdLHXp/sss3.png" alt="Screen Shot">
 </p>
 
 ## Code Example/Issues 🔍
