@@ -61,12 +61,15 @@ interface UserProps {
 }
 
 interface Props {
-  messageAuthor: {};
+  messageAuthor: {
+    photoURL: string;
+    userName: string;
+  };
   message: string;
   fromCurrentUser: boolean;
 }
 
-const Message = ({ messageAuthor, message, fromCurrentUser }) => {
+const Message: React.FC<Props> = ({ messageAuthor, message, fromCurrentUser }) => {
   const { photoURL, userName } = messageAuthor;
   return (
     <>

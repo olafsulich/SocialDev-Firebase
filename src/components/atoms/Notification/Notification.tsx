@@ -6,7 +6,7 @@ import moment from 'moment';
 import Text from '../Text/Text';
 import Heading from '../Heading/Heading';
 
-const StyledWrapper = styled.section`
+const StyledWrapper = styled.section<SectionProps>`
   width: 45rem;
   height: 25%;
   display: flex;
@@ -81,11 +81,30 @@ const StyledText = styled(Text)`
   margin-top: 1rem;
 `;
 
-const Notification = ({ content, id, userName, photoURL, type, createdAt }) => {
+interface SectionProps {
+  readonly link?: boolean;
+}
+
+interface LinkProps {
+  readonly tabIndex?: string;
+}
+
+interface Props {
+  content: string;
+  id: number | undefined;
+  userName: string;
+  photoURL: string;
+  type: string;
+  createdAt: {
+    toDate: () => {};
+  };
+}
+
+const Notification: React.FC<Props> = ({ content, id, userName, photoURL, type, createdAt }) => {
   return (
     <>
       {type === 'post' ? (
-        <Link to={`posts/${id}`} tabIndex="0">
+        <Link to={`posts/${id}`}>
           <StyledWrapper link>
             <StyledNotificationWrapper>
               <StyledAuthorImage>
@@ -123,15 +142,6 @@ const Notification = ({ content, id, userName, photoURL, type, createdAt }) => {
       )}
     </>
   );
-};
-
-Notification.propTypes = {
-  content: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
-  photoURL: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  createdAt: PropTypes.object.isRequired,
 };
 
 export default Notification;
