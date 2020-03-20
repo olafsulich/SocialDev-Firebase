@@ -31,14 +31,8 @@ const StyledUserCard = styled.div`
   }
 `;
 
-const StyledText = styled(Text)`
-  color: #bec3c9;
-
-  ${({ textValue }) =>
-    textValue &&
-    css`
-      color: inherit;
-    `}
+const StyledText = styled(Text)<TextProps>`
+  color: ${props => (props.styledText ? 'inherit' : '#bec3c9')};
 `;
 
 const StyledDate = styled.span`
@@ -47,34 +41,32 @@ const StyledDate = styled.span`
   font-weight: ${({ theme }) => theme.regular};
 `;
 
-const UserCard = ({ textName, textValue, createdAt }) => {
-  if (createdAt) {
-    return (
-      <StyledWrapper>
-        <StyledUserCard>
-          <StyledText as="h2">{textName}</StyledText>
-          <StyledDate>{textValue ? moment(textValue.toDate()).calendar() : 'date'}</StyledDate>
-        </StyledUserCard>
-      </StyledWrapper>
-    );
-  }
+interface TextProps {
+  styledText?: boolean;
+}
 
+interface Props {
+  textName: string;
+  textValue: {
+    toDate: () => {};
+  };
+  createdAt: {};
+  styledText: boolean;
+}
+
+const UserCard: React.FC<Props> = ({ textName, textValue, createdAt }) => {
   return (
     <StyledWrapper>
       <StyledUserCard>
-        <StyledText as="h2">{textName}</StyledText>
-        <StyledText textValue>{textValue}</StyledText>
+        <StyledText>{textName}</StyledText>
+        {createdAt ? (
+          <StyledDate>{textValue ? moment(textValue.toDate()).calendar() : 'date'}</StyledDate>
+        ) : (
+          <StyledText styledText>{textValue}</StyledText>
+        )}
       </StyledUserCard>
     </StyledWrapper>
   );
 };
 
-UserCard.propTypes = {
-  textName: PropTypes.string.isRequired,
-  textValue: PropTypes.any.isRequired,
-  createdAt: PropTypes.bool,
-};
-UserCard.defaultProps = {
-  createdAt: false,
-};
 export default UserCard;

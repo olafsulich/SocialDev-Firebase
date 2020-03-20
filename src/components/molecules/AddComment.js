@@ -128,7 +128,8 @@ const AddComment = ({ commentRef }) => {
             name="content"
             onChange={handleContentChange}
             aria-label="Write a comment..."
-            isRequired
+            required
+            maxLength="150"
           />
           <StyledEmojiButton
             onClick={handlePickerVisability}

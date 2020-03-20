@@ -119,6 +119,7 @@ const AddMessage = ({ messageRef }) => {
           name="message"
           aria-label="Write something..."
           value={message}
+          maxLength="350"
         />
         <StyledEmojiButton
           type="button"
