@@ -7,7 +7,7 @@ import { auth } from '../../../firebase/firebase';
 import RemoveIcon from '../../../assets/delete.svg';
 import isUserOwnerShip from '../../../utils/isUserOwnerShip';
 
-const StyledRoomWrapper = styled.div`
+const StyledRoomWrapper = styled.div<RoomProps>`
   width: 100%;
   height: 10%;
   display: flex;
@@ -42,7 +42,7 @@ const StyledButtonWrapper = styled.div`
   justify-content: center;
 `;
 
-const StyledIcon = styled.button`
+const StyledIcon = styled.button<ButtonProps>`
   width: 3rem;
   height: 3rem;
   background: none;
@@ -84,20 +84,39 @@ const StyledLink = styled(Link)`
 const StyledText = styled(Text)`
   padding: 0;
   margin: 0;
+  margin-top: 1rem;
 `;
 
-const Room = ({ title, id, user, handleRemove }) => {
+interface ButtonProps {
+  readonly remove?: boolean;
+  readonly icon?: any;
+}
+
+interface RoomProps {
+  readonly heading?: boolean;
+}
+
+interface Props {
+  title: string;
+  id: string;
+  userName: string;
+  handleRemove: (id: string) => {};
+  type: string;
+  user: {};
+}
+
+const Room: React.FC<Props> = ({ title, id, user, handleRemove }) => {
   const currentUser = auth.currentUser;
 
   return (
-    <StyledRoomWrapper key={id} tabIndex="0">
+    <StyledRoomWrapper key={id}>
       {isUserOwnerShip(currentUser, user) ? (
         <>
           <StyledLink to={`/rooms/${id}`}>
             <StyledText as="h2">{title}</StyledText>
           </StyledLink>
           <StyledButtonWrapper>
-            <StyledIcon tabIndex="0" remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
+            <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(id)} />
           </StyledButtonWrapper>
         </>
       ) : (
@@ -107,18 +126,6 @@ const Room = ({ title, id, user, handleRemove }) => {
       )}
     </StyledRoomWrapper>
   );
-};
-
-Room.propTypes = {
-  title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  user: PropTypes.object,
-  handleRemove: PropTypes.func,
-};
-
-Room.defaultProps = {
-  user: {},
-  handleRemove: () => {},
 };
 
 export default Room;

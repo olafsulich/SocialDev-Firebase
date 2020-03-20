@@ -85,10 +85,6 @@ interface SectionProps {
   readonly link?: boolean;
 }
 
-interface LinkProps {
-  readonly tabIndex?: string;
-}
-
 interface Props {
   content: string;
   id: number | undefined;
