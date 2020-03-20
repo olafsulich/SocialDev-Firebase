@@ -36,7 +36,7 @@ const StyledCircle = styled.div`
   animation: ${spin} 1s infinite linear;
 `;
 
-const Loader = () => (
+const Loader: React.FC = () => (
   <StyledWrapper data-testid="loader">
     <StyledLoaderCircle>
       <StyledCircle />
