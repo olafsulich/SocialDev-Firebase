@@ -77,6 +77,9 @@ const StyledEmojiButton = styled.input`
   :focus {
     border: 2px solid hsla(203, 89%, 53%, 0.6);
   }
+  @media (hover: none) {
+    display: none;
+  }
 `;
 
 const AddComment = ({ commentRef }) => {

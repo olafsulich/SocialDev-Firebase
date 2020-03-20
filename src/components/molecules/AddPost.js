@@ -113,6 +113,10 @@ const StyledEmojiButton = styled.button`
   :focus {
     border: 2px solid hsla(203, 89%, 53%, 0.6);
   }
+
+  @media (hover: none) {
+    display: none;
+  }
 `;
 
 const PostToAdd = ({ handleCreate }) => {
@@ -174,7 +178,8 @@ const PostToAdd = ({ handleCreate }) => {
               aria-label={`What's on your mind, ${
                 currentUser ? currentUser.authUser.userName : null
               }?`}
-              isRequired
+              required
+              maxLength="250"
             />
           </StyledForm>
         </StyledContainer>
