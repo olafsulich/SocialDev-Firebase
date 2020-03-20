@@ -18,16 +18,16 @@ const StyledHeadingWrapper = styled.div`
   }
 `;
 
-const HeadingWrapper = ({ headingName }) => {
+interface Props {
+  headingName: string;
+}
+
+const HeadingWrapper: React.FC<Props> = ({ headingName }) => {
   return (
     <StyledHeadingWrapper>
       <Heading as="h1">{headingName}</Heading>
     </StyledHeadingWrapper>
   );
-};
-
-HeadingWrapper.propTypes = {
-  headingName: PropTypes.string.isRequired,
 };
 
 export default HeadingWrapper;
