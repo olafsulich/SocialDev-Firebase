@@ -1,9 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Text from '../Text/Text';
 
-const StyledMessageWrapper = styled.div`
+const StyledMessageWrapper = styled.div<UserProps>`
   display: flex;
   width: 100%;
   align-items: center;
@@ -18,7 +17,7 @@ const StyledMessageWrapper = styled.div`
     `}
 `;
 
-const StyledAuthorImage = styled.figure`
+const StyledAuthorImage = styled.figure<UserProps>`
   display: flex;
   height: 100%;
   width: 4rem;
@@ -39,7 +38,7 @@ const StyledAuthorImage = styled.figure`
   }
 `;
 
-const StyledMessage = styled(Text)`
+const StyledMessage = styled(Text)<UserProps>`
   background-color: #f1f0f0;
   color: #000;
   padding: 0.6rem 1.5rem;
@@ -56,6 +55,16 @@ const StyledMessage = styled(Text)`
       margin-right: 3rem;
     `}
 `;
+
+interface UserProps {
+  fromCurrentUser?: boolean;
+}
+
+interface Props {
+  messageAuthor: {};
+  message: string;
+  fromCurrentUser: boolean;
+}
 
 const Message = ({ messageAuthor, message, fromCurrentUser }) => {
   const { photoURL, userName } = messageAuthor;
@@ -78,16 +87,6 @@ const Message = ({ messageAuthor, message, fromCurrentUser }) => {
       )}
     </>
   );
-};
-
-Message.propTypes = {
-  messageAuthor: PropTypes.object.isRequired,
-  message: PropTypes.string.isRequired,
-  fromCurrentUser: PropTypes.bool,
-};
-
-Message.defaultProps = {
-  fromCurrentUser: false,
 };
 
 export default Message;
