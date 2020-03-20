@@ -53,9 +53,7 @@ const UserCard = ({ textName, textValue, createdAt }) => {
       <StyledWrapper>
         <StyledUserCard>
           <StyledText as="h2">{textName}</StyledText>
-          <StyledDate>
-            {textValue.toDate ? moment(textValue.toDate()).calendar() : 'date'}
-          </StyledDate>
+          <StyledDate>{textValue ? moment(textValue.toDate()).calendar() : 'date'}</StyledDate>
         </StyledUserCard>
       </StyledWrapper>
     );

@@ -165,11 +165,11 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       /* eslint-disable */
       .catch(error => alert(`Your email or password is incorrect, please check your data`));
-    setInputsContent({
-      email: '',
-      password: '',
-      displayName: '',
-    });
+    // setInputsContent({
+    //   email: '',
+    //   password: '',
+    //   displayName: '',
+    // });
   };
 
   const handleSignUp = async e => {
@@ -190,55 +190,49 @@ const Login = () => {
               placeholder="name"
               type="text"
               onChange={handleInputChange}
-              onBlur={handleInputChange}
               name="displayName"
               value={displayName}
               aria-label="displayName"
               aria-required="true"
+              aria-invalid={errors.displayName ? 'true' : 'false'}
               ref={register({
                 required: true,
               })}
             />
             <StyledLabel htmlFor="displayName">Name</StyledLabel>
           </StyledInputLabelWrapper>
-          {errors.displayName && errors.displayName.type === 'required' && (
-            <Text errorMessage>User name is required</Text>
-          )}
+          {errors.displayName ? <Text errorMessage>User name is required</Text> : null}
           <StyledInputLabelWrapper>
             <StyledInput
               id="email"
               placeholder="email"
               type="email"
               onChange={handleInputChange}
-              onBlur={handleInputChange}
               name="email"
               value={email}
               aria-label="email"
+              aria-invalid={errors.email ? 'true' : 'false'}
               aria-required="true"
               ref={register({
                 required: true,
-                pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
               })}
             />
             <StyledLabel>Email</StyledLabel>
           </StyledInputLabelWrapper>
-          {errors.email && errors.email.type === 'required' && (
-            <Text errorMessage>Email is required</Text>
-          )}
-          {errors.email && errors.email.type === 'pattern' && (
-            <Text errorMessage>Email is invalid please add @</Text>
-          )}
+
+          {errors.email ? <Text errorMessage>Email is invalid please add @</Text> : null}
           <StyledInputLabelWrapper>
             <StyledInput
               id="password"
               placeholder="password"
               type="password"
               onChange={handleInputChange}
-              onBlur={handleInputChange}
               name="password"
               value={password}
               aria-label="password"
               aria-required="true"
+              aria-invalid={errors.password ? 'true' : 'false'}
               ref={register({
                 required: true,
                 pattern: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/,
@@ -246,14 +240,12 @@ const Login = () => {
             />
             <StyledLabel>Password</StyledLabel>
           </StyledInputLabelWrapper>
-          {errors.password && errors.password.type === 'required' && (
-            <Text errorMessage>Password is required</Text>
-          )}
-          {errors.password && errors.password.type === 'pattern' && (
+
+          {errors.password ? (
             <Text errorMessage>
-              Password should contain min. 6 characters and at least and number
+              Password should contain min. 6 characters and at least one number
             </Text>
-          )}
+          ) : null}
           <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
         </StyledInputsWrapper>
         <StyledText>
