@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Comment from '../atoms/Comment/Comment';
+import Comment from '../atoms/Comment/Comment.tsx';
 
 const CommentsList = ({ comments }) => {
   return (

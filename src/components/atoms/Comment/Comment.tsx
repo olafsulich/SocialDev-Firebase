@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Heading from '../Heading/Heading';
 import Text from '../Text/Text';
@@ -49,7 +48,12 @@ const StyledText = styled(Text)`
   padding-right: 3rem;
 `;
 
-const Comment = ({ content, userName }) => {
+interface Props {
+  content: string;
+  userName: string;
+}
+
+const Comment: React.FC<Props> = ({ content, userName }) => {
   return (
     <StyledWrapper>
       <StyledCommentWrapper>
@@ -62,11 +66,6 @@ const Comment = ({ content, userName }) => {
       </StyledCommentWrapper>
     </StyledWrapper>
   );
-};
-
-Comment.propTypes = {
-  content: PropTypes.string.isRequired,
-  userName: PropTypes.string.isRequired,
 };
 
 export default Comment;
