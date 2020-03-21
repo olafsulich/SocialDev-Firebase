@@ -1,5 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import EmojiPicker from './EmojiPicker';
+import EmojiPicker from './EmojiPicker.tsx';
 
 storiesOf('Atoms/EmojiPicker', module).add('Normal', () => <EmojiPicker top="0" right="0" />);

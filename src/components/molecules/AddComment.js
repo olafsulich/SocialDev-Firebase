@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Input from '../atoms/Input/Input';
+import Input from '../atoms/Input/Input.tsx';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
 import createDoc from '../../utils/createDoc';
-import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
+import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker.tsx';
 
 const StyledFormWrapper = styled.div`
   display: flex;
