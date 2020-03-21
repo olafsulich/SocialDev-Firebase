@@ -1,13 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import isUserMessage from '../../utils/isUserMessage';
 
 const StyledArticle = styled.article`
   width: 100%;
 `;
 
-const MessagesList = ({ messages, currentUser }) => {
+interface Props {
+  messages: [];
+  currentUser: {};
+}
+
+const MessagesList: React.FC<Props> = ({ messages, currentUser }) => {
   return (
     <>
       {messages.map(({ user, message, id }) => (
@@ -15,11 +19,6 @@ const MessagesList = ({ messages, currentUser }) => {
       ))}
     </>
   );
-};
-
-MessagesList.propTypes = {
-  messages: PropTypes.array.isRequired,
-  currentUser: PropTypes.object.isRequired,
 };
 
 export default MessagesList;
