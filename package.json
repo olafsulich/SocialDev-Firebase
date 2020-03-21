@@ -5,6 +5,7 @@
   "dependencies": {
     "@testing-library/jest-dom": "^5.0.0",
     "@testing-library/user-event": "^8.0.3",
+    "@types/emoji-mart": "^2.11.3",
     "@types/jest": "^25.1.4",
     "@types/node": "^13.9.2",
     "@types/react": "^16.9.23",
@@ -48,6 +49,8 @@
     "@storybook/preset-create-react-app": "^1.5.2",
     "@storybook/react": "^5.0.3",
     "@testing-library/react": "^9.4.1",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^5.12.0",
     "eslint-config-airbnb": "^17.1.0",

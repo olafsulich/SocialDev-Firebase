@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import 'emoji-mart/css/emoji-mart.css';
 
-const EmojiPicker = ({ top, right, handleAddEmoji }) => {
+interface Props {
+  top: string;
+  right: string;
+  handleAddEmoji: () => {};
+}
+
+const EmojiPicker: React.FC<Props> = ({ top, right, handleAddEmoji }) => {
   const [pageWidth, setPageWidth] = useState(window.innerWidth);
 
   const updateDimensions = () => {
@@ -21,7 +27,7 @@ const EmojiPicker = ({ top, right, handleAddEmoji }) => {
       {pageWidth >= 700 ? (
         <Picker
           set="messenger"
-          style={{ position: 'absolute', top: `${top}`, right: `${right}`, zIndex: '10' }}
+          style={{ position: 'absolute', top: `${top}`, right: `${right}`, zIndex: 10 }}
           darkMode={false}
           onSelect={handleAddEmoji}
           showSkinTones={false}
@@ -33,13 +39,4 @@ const EmojiPicker = ({ top, right, handleAddEmoji }) => {
   );
 };
 
-EmojiPicker.propTypes = {
-  top: PropTypes.string.isRequired,
-  right: PropTypes.string.isRequired,
-  handleAddEmoji: PropTypes.func,
-};
-
-EmojiPicker.defaultProps = {
-  handleAddEmoji: () => {},
-};
 export default EmojiPicker;

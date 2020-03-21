@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Text from '../Text/Text';
 import { auth } from '../../../firebase/firebase';
