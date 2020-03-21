@@ -92,7 +92,7 @@ const StyledQuantity = styled.span`
   font-weight: ${({ theme }) => theme.regular};
 `;
 
-const StyledIcon = styled.button`
+const StyledIcon = styled.button<ButtonProps>`
   width: 3rem;
   height: 3rem;
   background-image: url(${({ icon }) => icon});
@@ -148,7 +148,29 @@ const StyledLink = styled(Link)`
 const StyledText = styled(Text)`
   margin-top: 1rem;
 `;
-const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
+
+interface ButtonProps {
+  readonly icon?: any;
+  readonly remove?: boolean;
+  readonly comments?: boolean;
+}
+
+interface Props {
+  title: string;
+  likes: number;
+  comments: object;
+  id: number;
+  createdAt: {
+    toDate: () => {};
+  };
+  isLink?: boolean;
+  user: {
+    name: string;
+    photoURL: string;
+  };
+}
+
+const Post: React.FC<Props> = ({ title, likes, comments, id, user, createdAt, isLink }) => {
   const postRef = firestore.doc(`posts/${id}`);
 
   const like = () => postRef.update({ likes: likes + 1 });
@@ -160,7 +182,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
     <StyledWrapper>
       <StyledCommentWrapper>
         {isLink ? (
-          <StyledLink to={`posts/${id}`} tabIndex="-1">
+          <StyledLink to={`posts/${id}`}>
             <StyledAuthorImage>
               <img src={photoURL} alt={name} />
             </StyledAuthorImage>
@@ -172,7 +194,7 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
         )}
         <StyledAuthorWrapper>
           {isLink ? (
-            <StyledLink to={`posts/${id}`} tabIndex="0">
+            <StyledLink to={`posts/${id}`}>
               <StyledArticle>
                 <StyledHeading>{name}</StyledHeading>
                 <StyledDate>
@@ -192,21 +214,16 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
           )}
           <StyledInfoWrapper>
             <StyledIconWrapper>
-              <StyledIcon tabIndex="0" comments icon={CommentsIcon} />
+              <StyledIcon comments icon={CommentsIcon} />
               <StyledQuantity>{comments}</StyledQuantity>
             </StyledIconWrapper>
             <StyledIconWrapper>
-              <StyledIcon tabIndex="0" icon={HeartIcon} onClick={() => like()} />
+              <StyledIcon icon={HeartIcon} onClick={() => like()} />
               <StyledQuantity>{likes}</StyledQuantity>
             </StyledIconWrapper>
             <StyledIconWrapper>
               {isUserOwnerShip(currentUser, user) ? (
-                <StyledIcon
-                  tabIndex="0"
-                  remove
-                  icon={RemoveIcon}
-                  onClick={() => handleRemove(postsRef, id)}
-                />
+                <StyledIcon remove icon={RemoveIcon} onClick={() => handleRemove(postsRef, id)} />
               ) : null}
             </StyledIconWrapper>
           </StyledInfoWrapper>
@@ -214,19 +231,6 @@ const Post = ({ title, likes, comments, id, user, createdAt, isLink }) => {
       </StyledCommentWrapper>
     </StyledWrapper>
   );
-};
-
-Post.propTypes = {
-  title: PropTypes.string.isRequired,
-  likes: PropTypes.number.isRequired,
-  comments: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired,
-  createdAt: PropTypes.any.isRequired,
-  isLink: PropTypes.bool,
-};
-Post.defaultProps = {
-  isLink: null,
 };
 
 export default Post;

@@ -40,14 +40,6 @@ const StyledTitleWrapper = styled.article`
   width: 100%;
 `;
 
-const StyledHeading = styled(Heading)`
-  margin-right: 2rem;
-`;
-
-const StyledText = styled(Text)`
-  padding-right: 3rem;
-`;
-
 interface Props {
   content: string;
   userName: string;
@@ -59,8 +51,8 @@ const Comment: React.FC<Props> = ({ content, userName }) => {
       <StyledCommentWrapper>
         <StyledAuthorWrapper>
           <StyledTitleWrapper>
-            <StyledHeading>{userName}</StyledHeading>
-            <StyledText>{content}</StyledText>
+            <Heading comment>{userName}</Heading>
+            <Text comment>{content}</Text>
           </StyledTitleWrapper>
         </StyledAuthorWrapper>
       </StyledCommentWrapper>
