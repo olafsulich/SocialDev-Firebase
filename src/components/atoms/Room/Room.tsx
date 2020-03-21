@@ -96,12 +96,10 @@ interface RoomProps {
 }
 
 interface Props {
-  title: string;
-  id: string;
-  userName: string;
-  handleRemove: (id: string) => {};
-  type: string;
-  user: {};
+  title?: string;
+  id?: string;
+  handleRemove: any;
+  user?: {};
 }
 
 const Room: React.FC<Props> = ({ title, id, user, handleRemove }) => {
