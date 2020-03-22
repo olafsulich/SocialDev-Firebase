@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
-
 import Input from '../atoms/Input/Input';
 import { auth, firestore, storage } from '../../firebase/firebase';
 import Text from '../atoms/Text/Text';
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ editable: boolean }>`
   width: 90%;
   height: 10%;
   display: flex;
@@ -30,7 +29,7 @@ const StyledWrapper = styled.div`
     `}
 `;
 
-const StyledEditProfile = styled.div`
+const StyledEditProfile = styled.div<{ photo: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: row;
@@ -87,7 +86,7 @@ const StyledAuthorImage = styled.figure`
   }
 `;
 
-const StyledText = styled(Text)`
+const StyledText = styled(Text)<{ valueText?: boolean }>`
   color: #bec3c9;
 
   ${({ valueText }) =>
@@ -127,77 +126,72 @@ const StyledButton = styled.button`
   }
 `;
 
-const StyledInput = styled(Input)`
-  width: 12rem;
-  background: none;
-  color: inherit;
-  font-weight: inherit;
-  padding-left: 4rem;
-`;
+interface Props {
+  photoURL: string;
+  nameOfUser: string;
+}
 
-const EditProfile = ({ photoURL, nameOfUser }) => {
-  const [userName, setUserName] = useState('');
-  const [image, setImage] = useState(null);
-  const [error, setError] = useState('');
+const EditProfile: React.FC<Props> = ({ photoURL, nameOfUser }) => {
+  const [userName, setUserName] = useState<string>('');
+  const [image, setImage] = useState<Blob | Uint8Array | ArrayBuffer | null>(null);
+  const [imageName, setImageName] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
-  const handleUserNameChange = ({ target: { value } }) => setUserName(value);
+  const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setUserName(e.target.value);
 
-  const handlePhotoChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      const fileType = file.type;
-      const validImageTypes = ['image/gif', 'image/jpeg', 'image/png', 'image/jpg'];
-      if (validImageTypes.includes(fileType)) {
-        setError('');
-        setImage(file);
-      } else {
-        setError('Please select an image to upload');
-      }
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      const files = e.target.files[0];
+      setImage(files);
+      setImageName(files.name);
     }
   };
 
-  const handleUpdate = e => {
-    e.preventDefault();
-    const userUid = auth.currentUser.uid;
-    const docRef = firestore.doc(`users/${userUid}`);
+  const handleUpdate = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
+  ) => {
+    if (auth.currentUser !== null) {
+      e.preventDefault();
+      const userUid = auth.currentUser.uid;
+      const docRef = firestore.doc(`users/${userUid}`);
 
-    if (userName) {
-      docRef.update({ userName });
+      if (userName) {
+        docRef.update({ userName });
+      }
+      if (image) {
+        const uploadTask = storage
+          .ref()
+          .child(`user-profiles`)
+          .child(userUid)
+          .put(image);
+
+        uploadTask.on(
+          'state_changed',
+
+          () => {
+            storage
+              .ref()
+              .child(`user-profiles`)
+              .child(userUid)
+              .getDownloadURL()
+              .then(urlPath => {
+                docRef.update({ photoURL: urlPath });
+              });
+          },
+        );
+      }
+
+      setUserName('');
     }
-    if (image) {
-      const uploadTask = storage
-        .ref()
-        .child(`user-profiles`)
-        .child(userUid)
-        .child(image.name)
-        .put(image);
-
-      uploadTask.on(
-        'state_changed',
-
-        () => {
-          storage
-            .ref()
-            .child(`user-profiles`)
-            .child(userUid)
-            .child(image.name)
-            .getDownloadURL()
-            .then(urlPath => {
-              docRef.update({ photoURL: urlPath });
-            });
-        },
-      );
-    }
-
-    setUserName('');
   };
 
   return (
     <>
       <StyledWrapper editable>
         <StyledEditProfile photo>
-          <StyledText>Photo</StyledText>
-          <StyledAuthorImage tabIndex="-1">
+          <Text>Photo</Text>
+          <StyledAuthorImage tabIndex={-1}>
             <img src={photoURL} alt={nameOfUser} />
           </StyledAuthorImage>
           <StyledInputTypeFile
@@ -205,15 +199,15 @@ const EditProfile = ({ photoURL, nameOfUser }) => {
             name="file"
             onChange={handlePhotoChange}
             aria-label="Change user profile picture"
-            tabIndex="0"
+            tabIndex={0}
           />
         </StyledEditProfile>
       </StyledWrapper>
       <StyledWrapper editable>
-        <StyledEditProfile as="form" onSubmit={e => e.preventDefault()}>
+        <StyledEditProfile as="form" photo onSubmit={handleUpdate}>
           <StyledText as="label">Name</StyledText>
-          <StyledInput
-            valueText
+          <Input
+            account
             placeholder={nameOfUser}
             value={userName}
             name="user name"

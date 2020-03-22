@@ -47,16 +47,6 @@ const StyledForm = styled.form`
   position: relative;
 `;
 
-const StyledInput = styled(Input)`
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  font-weight: ${({ theme }) => theme.regular};
-
-  ::placeholder {
-    color: #bec3c9;
-  }
-`;
-
 const StyledEmojiButton = styled.input<{ icon: any }>`
   width: 2.5rem;
   height: 2.5rem;
@@ -136,7 +126,8 @@ const AddComment: React.FC<Props> = ({ commentRef }) => {
       ) : null}
       <StyledCommentWrapper>
         <StyledForm onSubmit={handleSubmit}>
-          <StyledInput
+          <Input
+            comment
             type="text"
             placeholder="Write a comment..."
             value={content}

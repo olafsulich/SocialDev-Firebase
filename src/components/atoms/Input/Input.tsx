@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const StyledInput = styled.input`
+interface Props {
+  account?: boolean;
+  comment?: boolean;
+}
+
+const StyledInput = styled.input<Props>`
   width: 24rem;
   padding: 1.8rem 2.6rem;
   font-size: 1.2rem;
@@ -13,6 +18,28 @@ const StyledInput = styled.input`
     letter-spacing: 1px;
     color: ${({ theme }) => theme.fontColorText};
   }
+
+  ${({ account }) =>
+    account &&
+    css`
+      width: 12rem;
+      background: none;
+      color: inherit;
+      font-weight: inherit;
+      padding-left: 4rem;
+    `}
+
+  ${({ comment }) =>
+    comment &&
+    css`
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: ${({ theme }) => theme.regular};
+
+      ::placeholder {
+        color: #bec3c9;
+      }
+    `}
 `;
 
 export default StyledInput;
