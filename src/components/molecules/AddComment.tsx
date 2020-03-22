@@ -106,7 +106,7 @@ const AddComment: React.FC<Props> = ({ commentRef }) => {
     setContent(prevState => prevState + e.native);
   };
 
-  const handlePickerVisability = () => {
+  const handlePickerVisibility = () => {
     setPickerVisibility(prevState => !prevState);
   };
 
@@ -147,7 +147,7 @@ const AddComment: React.FC<Props> = ({ commentRef }) => {
             maxLength={150}
           />
           <StyledEmojiButton
-            onClick={handlePickerVisability}
+            onClick={handlePickerVisibility}
             type="button"
             aria-label="emoji button"
             icon={EmojiIcon}
