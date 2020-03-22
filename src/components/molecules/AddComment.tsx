@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Input from '../atoms/Input/Input.tsx';
+import Input from '../atoms/Input/Input';
 import useUser from '../../hooks/useUser';
 import EmojiIcon from '../../assets/emoji.svg';
 import createDoc from '../../utils/createDoc';
-import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker.tsx';
+import EmojiPicker from '../atoms/EmojiPicker/EmojiPicker';
 
 const StyledFormWrapper = styled.div`
   display: flex;
@@ -58,7 +57,7 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledEmojiButton = styled.input`
+const StyledEmojiButton = styled.input<{ icon: any }>`
   width: 2.5rem;
   height: 2.5rem;
   background: none;
@@ -82,41 +81,57 @@ const StyledEmojiButton = styled.input`
   }
 `;
 
-const AddComment = ({ commentRef }) => {
-  const [content, setContent] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
-  const [pickerVisability, setPickerVisability] = useState(false);
+interface Props {
+  commentRef: {};
+}
+
+interface User {
+  authUser: {
+    userName: string;
+    uid: string;
+  };
+}
+
+const AddComment: React.FC<Props> = ({ commentRef }) => {
+  const [content, setContent] = useState<string>('');
+  const [pickerVisibility, setPickerVisibility] = useState<boolean>(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useUser(setCurrentUser);
 
-  const handleContentChange = ({ target: { value } }) => setContent(value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setContent(e.target.value);
 
-  const handleAddEmoji = ({ native }) => {
-    setContent(prevState => prevState + native);
+  const handleAddEmoji = (e: { native: string }) => {
+    setContent(prevState => prevState + e.native);
   };
 
   const handlePickerVisability = () => {
-    setPickerVisability(prevState => !prevState);
+    setPickerVisibility(prevState => !prevState);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const { userName, uid } = currentUser.authUser;
-    const newComment = {
-      content,
-      user: {
-        name: userName,
-        uid,
-      },
-      createdAt: new Date(),
-    };
-    createDoc(newComment, commentRef);
-    setContent('');
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
+  ) => {
+    if (currentUser !== null) {
+      e.preventDefault();
+      const { userName, uid } = currentUser.authUser;
+      const newComment = {
+        content,
+        user: {
+          name: userName,
+          uid,
+        },
+        createdAt: new Date(),
+      };
+      createDoc(newComment, commentRef);
+      setContent('');
+    }
   };
-
+  console.log(content);
   return (
     <StyledFormWrapper>
-      {pickerVisability ? (
+      {pickerVisibility ? (
         <EmojiPicker handleAddEmoji={handleAddEmoji} top="-40%" right="-60%" />
       ) : null}
       <StyledCommentWrapper>
@@ -129,7 +144,7 @@ const AddComment = ({ commentRef }) => {
             onChange={handleContentChange}
             aria-label="Write a comment..."
             required
-            maxLength="150"
+            maxLength={150}
           />
           <StyledEmojiButton
             onClick={handlePickerVisability}
@@ -146,7 +161,4 @@ const AddComment = ({ commentRef }) => {
   );
 };
 
-AddComment.propTypes = {
-  commentRef: PropTypes.object.isRequired,
-};
 export default AddComment;

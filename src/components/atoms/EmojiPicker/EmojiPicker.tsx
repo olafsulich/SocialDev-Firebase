@@ -6,7 +6,7 @@ import 'emoji-mart/css/emoji-mart.css';
 interface Props {
   top: string;
   right: string;
-  handleAddEmoji: () => {};
+  handleAddEmoji: any;
 }
 
 const EmojiPicker: React.FC<Props> = ({ top, right, handleAddEmoji }) => {
