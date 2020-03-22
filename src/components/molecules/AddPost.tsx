@@ -94,7 +94,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const StyledEmojiButton = styled.button`
+const StyledEmojiButton = styled.button<{ icon: any }>`
   width: 2.5rem;
   height: 2.5rem;
   background: none;
@@ -119,54 +119,76 @@ const StyledEmojiButton = styled.button`
   }
 `;
 
-const PostToAdd = ({ handleCreate }) => {
-  const [title, setTitle] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
-  const [pickerVisability, setPickerVisability] = useState(false);
+interface Props {
+  handleCreate: ({}) => void;
+}
+
+interface User {
+  authUser: {
+    userName: string;
+    uid: string;
+    photoURL: string;
+    email: string;
+  };
+}
+
+const PostToAdd: React.FC<Props> = ({ handleCreate }) => {
+  const [title, setTitle] = useState<string>('');
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [pickerVisibility, setPickerVisibility] = useState<boolean>(false);
 
   useUser(setCurrentUser);
 
-  const handleContentChange = ({ target: { value } }) => setTitle(value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setTitle(e.target.value);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const { uid, photoURL, email, userName } = currentUser.authUser;
-    const post = {
-      title,
-      user: {
-        name: userName,
-        uid,
-        email,
-        photoURL,
-      },
-      likes: 0,
-      comments: 0,
-      createdAt: new Date(),
-    };
-    handleCreate(post);
-    setTitle('');
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
+  ) => {
+    if (currentUser !== null) {
+      e.preventDefault();
+      const { uid, photoURL, email, userName } = currentUser.authUser;
+      const post = {
+        title,
+        user: {
+          name: userName,
+          uid,
+          email,
+          photoURL,
+        },
+        likes: 0,
+        comments: 0,
+        createdAt: new Date(),
+      };
+      handleCreate(post);
+      setTitle('');
+    }
   };
 
-  const handleAddEmoji = ({ native }) => {
-    setTitle(prevState => prevState + native);
+  const handleAddEmoji = (e: { native: string }) => {
+    setTitle(prevState => prevState + e.native);
   };
 
   const handlePickerVisability = () => {
-    setPickerVisability(prevState => !prevState);
+    setPickerVisibility(prevState => !prevState);
   };
   return (
     <>
       <StyledWrapper>
-        {pickerVisability ? (
-          <EmojiPicker handleAddEmoji={handleAddEmoji} top="40%" right="-50%" tabIndex="0" />
+        {pickerVisibility ? (
+          <EmojiPicker handleAddEmoji={handleAddEmoji} top="40%" right="-50%" />
         ) : null}
         <StyledContainer>
-          <StyledAuthorImage>
-            <img
-              src={currentUser ? currentUser.authUser.photoURL : null}
-              alt={currentUser ? currentUser.authUser.userName : null}
-            />
-          </StyledAuthorImage>
+          {currentUser ? (
+            <StyledAuthorImage>
+              <img src={currentUser.authUser.photoURL} alt={currentUser.authUser.userName} />
+            </StyledAuthorImage>
+          ) : (
+            <StyledAuthorImage>
+              <img src="https://bit.ly/3amhpM8" alt="user" />
+            </StyledAuthorImage>
+          )}
+
           <StyledForm onSubmit={handleSubmit}>
             <StyledTextArea
               value={title}
@@ -179,7 +201,7 @@ const PostToAdd = ({ handleCreate }) => {
                 currentUser ? currentUser.authUser.userName : null
               }?`}
               required
-              maxLength="250"
+              maxLength={250}
             />
           </StyledForm>
         </StyledContainer>

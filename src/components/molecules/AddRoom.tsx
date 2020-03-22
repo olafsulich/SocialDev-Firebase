@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import useUser from '../../hooks/useUser';
 import UserPic from '../../assets/userPic.jpg';
 const StyledWrapper = styled.div`
@@ -66,39 +65,59 @@ const StyledAuthorImage = styled.figure`
   }
 `;
 
-const AddRoom = ({ handleCreate }) => {
-  const [title, setTitle] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
+interface Props {
+  handleCreate: ({}) => void;
+}
+
+interface User {
+  authUser: {
+    userName: string;
+    uid: string;
+    photoURL: string;
+    email: string;
+  };
+}
+
+const AddRoom: React.FC<Props> = ({ handleCreate }) => {
+  const [title, setTitle] = useState<string>('');
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useUser(setCurrentUser);
 
-  const handleContentChange = ({ target: { value } }) => setTitle(value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    const { uid, photoURL, email, userName } = currentUser.authUser;
-    const room = {
-      title,
-      user: {
-        name: userName,
-        uid,
-        email,
-        photoURL: photoURL || UserPic,
-      },
-      createdAt: new Date(),
-    };
-    handleCreate(room);
-    setTitle('');
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
+  ) => {
+    if (currentUser) {
+      e.preventDefault();
+      const { uid, photoURL, email, userName } = currentUser.authUser;
+      const room = {
+        title,
+        user: {
+          name: userName,
+          uid,
+          email,
+          photoURL: photoURL || UserPic,
+        },
+        createdAt: new Date(),
+      };
+      handleCreate(room);
+      setTitle('');
+    }
   };
   return (
     <StyledWrapper>
       <StyledContainer>
-        <StyledAuthorImage>
-          <img
-            src={currentUser ? currentUser.authUser.photoURL : null}
-            alt={currentUser ? currentUser.authUser.userName : null}
-          />
-        </StyledAuthorImage>
+        {currentUser ? (
+          <StyledAuthorImage>
+            <img src={currentUser.authUser.photoURL} alt={currentUser.authUser.userName} />
+          </StyledAuthorImage>
+        ) : (
+          <StyledAuthorImage>
+            <img src="https://bit.ly/3amhpM8" alt="user" />
+          </StyledAuthorImage>
+        )}
         <StyledForm onSubmit={handleSubmit}>
           <StyledInput
             value={title}
@@ -111,10 +130,6 @@ const AddRoom = ({ handleCreate }) => {
       </StyledContainer>
     </StyledWrapper>
   );
-};
-
-AddRoom.propTypes = {
-  handleCreate: PropTypes.func.isRequired,
 };
 
 export default AddRoom;

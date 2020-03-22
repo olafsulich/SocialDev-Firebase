@@ -51,7 +51,7 @@ const StyledInput = styled(Input)`
   }
 `;
 
-const StyledEmojiButton = styled.input`
+const StyledEmojiButton = styled.input<{ icon: any }>`
   width: 2.5rem;
   height: 2.5rem;
   background: none;
@@ -76,39 +76,55 @@ const StyledEmojiButton = styled.input`
   }
 `;
 
-const AddMessage = ({ messageRef }) => {
-  const [message, setMessage] = useState('');
-  const [currentUser, setCurrentUser] = useState(null);
-  const [pickerVisability, setPickerVisability] = useState(false);
+interface Props {
+  messageRef: {};
+}
+
+interface User {
+  authUser: {
+    userName: string;
+    uid: string;
+    photoURL: string;
+  };
+}
+
+const AddMessage: React.FC<Props> = ({ messageRef }) => {
+  const [message, setMessage] = useState<string>('');
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [pickerVisibility, setPickerVisibility] = useState<boolean>(false);
 
   useUser(setCurrentUser);
 
-  const handleInputChange = ({ target: { value } }) => setMessage(value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value);
 
-  const handleAddEmoji = ({ native }) => {
-    setMessage(prevState => prevState + native);
+  const handleAddEmoji = (e: { native: string }) => {
+    setMessage(prevState => prevState + e.native);
   };
-  const handlePickerVisability = () => {
-    setPickerVisability(prevState => !prevState);
+  const handlePickerVisibility = () => {
+    setPickerVisibility(prevState => !prevState);
   };
-  const handleSubmit = e => {
-    e.preventDefault();
-    const { userName, photoURL, uid } = currentUser.authUser;
-    const newMessage = {
-      message,
-      user: {
-        name: userName,
-        uid,
-        photoURL,
-      },
-      createdAt: new Date(),
-    };
-    createDoc(newMessage, messageRef);
-    setMessage('');
+  const handleSubmit = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>,
+  ) => {
+    if (currentUser !== null) {
+      e.preventDefault();
+      const { userName, photoURL, uid } = currentUser.authUser;
+      const newMessage = {
+        message,
+        user: {
+          name: userName,
+          uid,
+          photoURL,
+        },
+        createdAt: new Date(),
+      };
+      createDoc(newMessage, messageRef);
+      setMessage('');
+    }
   };
   return (
     <StyledWrapper>
-      {pickerVisability ? (
+      {pickerVisibility ? (
         <EmojiPicker handleAddEmoji={handleAddEmoji} top="-325%" right="15%" />
       ) : null}
       <StyledForm onSubmit={handleSubmit}>
@@ -119,12 +135,12 @@ const AddMessage = ({ messageRef }) => {
           name="message"
           aria-label="Write something..."
           value={message}
-          maxLength="350"
+          maxLength={350}
         />
         <StyledEmojiButton
           type="button"
           icon={EmojiIcon}
-          onClick={handlePickerVisability}
+          onClick={handlePickerVisibility}
           aria-label="emoji button"
         />
 
