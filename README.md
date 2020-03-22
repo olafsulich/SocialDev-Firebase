@@ -32,10 +32,11 @@ App supports CI/CD, powered by CircleCI with Firebase.
 | Tech                                                    | Description                              |
 | ------------------------------------------------------- | ---------------------------------------- |
 | [React](https://reactjs.org/)                           | Library for building user interfaces     |
+| [Typescript](https://www.typescriptlang.org/)           | Javascript superset language             |
 | [React Router](https://reacttraining.com/react-router/) | Declarative routing for React            |
 | [Firebase](https://firebase.google.com/)                | Google development platform              |
 | [Styled Components](https://styled-components.com/)     | Visual primitives for the component age. |
-| [CirclCI](https://circleci.com/)                        | Continuous Integration platform          |
+| [CircleCI](https://circleci.com/)                       | Continuous Integration platform          |
 | [StoryBook](https://storybook.js.org/)                  | UI components explorer                   |
 | [Moment](https://momentjs.com/)                         | Js library, helps with formatting dates  |
 | [React Hook Form](https://react-hook-form.com/)         | Forms with easy-to-use validation.       |
