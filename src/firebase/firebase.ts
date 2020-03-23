@@ -18,7 +18,7 @@ export const firestore = firebase.firestore();
 export const auth = firebase.auth();
 export const storage = firebase.storage();
 /* eslint-disable */
-export const getUserDoc = async uid => {
+export const getUserDoc = async (uid: string) => {
   if (!uid) return null;
   try {
     const userDoc = await firestore
@@ -31,10 +31,9 @@ export const getUserDoc = async uid => {
   }
 };
 
-export const createUserDoc = async (user, userName) => {
+export const createUserDoc = async (user: { uid: string; email: string }, userName: string) => {
   const userRef = await firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
-  window.snapshot = snapshot.exists;
   if (!snapshot.exists) {
     const { uid, email } = user;
     const createdAt = new Date();
@@ -52,6 +51,5 @@ export const createUserDoc = async (user, userName) => {
   }
   return getUserDoc(user.uid);
 };
-window.firebase = firebase;
 
 export default firebase;
