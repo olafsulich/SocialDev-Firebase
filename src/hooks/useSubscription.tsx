@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
 import documentsCollection from '../utils/documentsCollection';
 
-const useSubscription = (ref, dataSetter, order = 'asc', dependency = null) => {
-  let unsubscribe = null;
+const useSubscription = (ref: any, dataSetter: any, order = 'asc', dependency = null) => {
   useEffect(() => {
-    unsubscribe = ref.orderBy('createdAt', `${order}`).onSnapshot(snapshot => {
+    const unsubscribe = ref.orderBy('createdAt', `${order}`).onSnapshot((snapshot: any) => {
       const dataFromSnaphot = snapshot.docs.map(documentsCollection);
       dataSetter(dataFromSnaphot);
     });
