@@ -49,7 +49,7 @@ const StyledIconsWrapper = styled.nav`
   }
 `;
 
-const StyledHeading = styled(Heading)`
+const StyledHeading = styled(Heading)<{ icon?: any }>`
   margin-bottom: 1rem;
   padding: 0.5rem 1rem 0.5rem 3rem;
   margin: 0 0 0.3rem 0;
@@ -112,8 +112,8 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const Navigation = () => {
-  const [pageWidth, setPageWidth] = useState(window.innerWidth);
+const Navigation: React.FC = () => {
+  const [pageWidth, setPageWidth] = useState<number>(window.innerWidth);
 
   const updateDimensions = () => {
     setPageWidth(window.innerWidth);
