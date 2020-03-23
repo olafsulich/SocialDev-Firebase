@@ -17,8 +17,10 @@ const StyledGrid = styled.div`
     grid-column: 1/2;
   }
 `;
-const GridTemplate = ({ children }) => <StyledGrid>{children}</StyledGrid>;
-GridTemplate.propTypes = {
-  children: PropTypes.any.isRequired,
-};
+
+interface Props {
+  children: React.ReactNode;
+}
+const GridTemplate: React.FC<Props> = ({ children }) => <StyledGrid>{children}</StyledGrid>;
+
 export default GridTemplate;

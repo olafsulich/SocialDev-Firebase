@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Navigation from '../components/organisms/Navigation';
 import GridTemplate from './GridTemplate';
 
@@ -14,14 +13,15 @@ const StyledWrapper = styled.section`
   }
 `;
 
-const PageTemplate = ({ children }) => (
+interface Props {
+  children: React.ReactNode;
+}
+
+const PageTemplate: React.FC<Props> = ({ children }) => (
   <StyledWrapper>
     <Navigation />
     <GridTemplate>{children}</GridTemplate>
   </StyledWrapper>
 );
 
-PageTemplate.propTypes = {
-  children: PropTypes.any.isRequired,
-};
 export default PageTemplate;
