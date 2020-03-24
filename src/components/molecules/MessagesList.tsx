@@ -8,7 +8,7 @@ const StyledArticle = styled.article`
 
 interface Props {
   messages: [];
-  currentUser: {};
+  currentUser: {} | null;
 }
 
 const MessagesList: React.FC<Props> = ({ messages, currentUser }) => {

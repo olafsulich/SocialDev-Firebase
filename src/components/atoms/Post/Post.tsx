@@ -165,8 +165,8 @@ interface Props {
   };
   isLink?: boolean;
   user: {
-    name: string;
-    photoURL: string;
+    name?: string;
+    photoURL?: string;
   };
 }
 

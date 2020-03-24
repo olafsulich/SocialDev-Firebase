@@ -16,15 +16,15 @@ const StyledDiv = styled.div`
 `;
 
 const Home = () => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState<{} | null>(null);
+  const [posts, setPosts] = useState<any>([]);
 
   const postRef = firestore.collection('posts');
 
   useUser(setCurrentUser);
   useSubscription(postRef, setPosts, 'desc');
 
-  const handleCreate = postToAdd => {
+  const handleCreate = (postToAdd: {}) => {
     postsRef.add(postToAdd);
     setPosts([postToAdd, ...posts]);
   };
@@ -33,7 +33,7 @@ const Home = () => {
     <PageTemplate>
       <StyledDiv>
         <HeadingWrapper headingName="Home" />
-        <AddPost user={currentUser} handleCreate={handleCreate} />
+        <AddPost handleCreate={handleCreate} />
         <Suspense fallback={<Loader />}>
           <PostsList posts={posts} />
         </Suspense>

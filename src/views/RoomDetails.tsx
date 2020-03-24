@@ -34,12 +34,12 @@ const StyledChatWrapper = styled.div`
 `;
 
 const RoomDetails = () => {
-  const [room, setRoom] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [room, setRoom] = useState<{ title: string } | null>(null);
+  const [messages, setMessages] = useState<[]>([]);
 
   const { id } = useParams();
 
-  const chatRef = useRef(null);
+  const chatRef = useRef<HTMLDivElement>(null);
 
   const roomRef = firestore.doc(`rooms/${id}`);
   const messageRef = roomRef.collection(`messages`);

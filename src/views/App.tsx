@@ -15,7 +15,7 @@ const PostDetails = lazy(() => import('./PostDetails'));
 const RoomDetails = lazy(() => import('./RoomDetails'));
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<{}>({});
   const { home, account, notifications, messenger, post, room } = routes;
   useUser(setCurrentUser);
 
@@ -43,11 +43,7 @@ const App = () => {
                   path={post}
                   render={props => <PostDetails {...props} user={currentUser} />}
                 />
-                <Route
-                  exact
-                  path={room}
-                  render={props => <RoomDetails {...props} user={currentUser} />}
-                />
+                <Route exact path={room} component={RoomDetails} />
               </Suspense>
             </Switch>
           )}

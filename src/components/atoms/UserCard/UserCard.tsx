@@ -46,22 +46,22 @@ interface TextProps {
 
 interface Props {
   textName: string;
-  textValue: {
+  createdAt?: {
     toDate: () => {};
   };
-  createdAt: {};
-  styledText: boolean;
+  styledText?: boolean;
+  email?: string;
 }
 
-const UserCard: React.FC<Props> = ({ textName, textValue, createdAt }) => {
+const UserCard: React.FC<Props> = ({ textName, createdAt, email }) => {
   return (
     <StyledWrapper>
       <StyledUserCard>
         <StyledText>{textName}</StyledText>
         {createdAt ? (
-          <StyledDate>{textValue ? moment(textValue.toDate()).calendar() : 'date'}</StyledDate>
+          <StyledDate>{createdAt ? moment(createdAt.toDate()).calendar() : 'date'}</StyledDate>
         ) : (
-          <StyledText styledText>{textValue}</StyledText>
+          <StyledText styledText>{email}</StyledText>
         )}
       </StyledUserCard>
     </StyledWrapper>

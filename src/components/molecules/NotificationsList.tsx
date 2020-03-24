@@ -2,7 +2,7 @@ import React from 'react';
 import Notification from '../atoms/Notification/Notification';
 
 interface Props {
-  notifications: [];
+  notifications: never[];
 }
 
 const NotificationsList: React.FC<Props> = ({ notifications }) => {

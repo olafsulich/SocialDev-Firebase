@@ -2,7 +2,7 @@ import React from 'react';
 import Comment from '../atoms/Comment/Comment';
 
 interface Props {
-  comments: [];
+  comments: never[];
 }
 
 const CommentsList: React.FC<Props> = ({ comments }) => {

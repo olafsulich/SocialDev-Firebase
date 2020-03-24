@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from 'react';
 import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
 import { auth } from '../firebase/firebase';
 import PageTemplate from '../templates/PageTemplate';
 import Loader from '../components/atoms/Loader/Loader';
@@ -14,7 +13,7 @@ const StyledDiv = styled.div`
   max-height: 90vh;
 `;
 
-const StyledAccountWrapper = styled.div`
+const StyledAccountWrapper = styled.div<{ heading?: boolean }>`
   width: 90%;
   height: 5%;
   display: flex;
@@ -73,30 +72,41 @@ const StyledButtonLogout = styled.button`
   }
 `;
 
-const Account = ({ currentUser }) => {
-  const { userName, email, photoURL, createdAt } = currentUser.authUser;
+interface Props {
+  currentUser: {
+    authUser?: {
+      userName: string;
+      email: string;
+      photoURL: string;
+      createdAt: {
+        toDate: () => {};
+      };
+    };
+  };
+}
 
-  return (
-    <PageTemplate>
-      <StyledDiv>
-        <Suspense fallback={<Loader />}>
-          <StyledAccountWrapper heading>
-            <Heading as="h1">Account</Heading>
-          </StyledAccountWrapper>
-          <EditProfile photoURL={photoURL} nameOfUser={userName} />
-          <UserCard textName="Email" textValue={email} />
-          <UserCard textName="Created at" textValue={createdAt} createdAt />
-          <StyledButtonWrapper>
-            <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
-          </StyledButtonWrapper>
-        </Suspense>
-      </StyledDiv>
-    </PageTemplate>
-  );
-};
-
-Account.propTypes = {
-  currentUser: PropTypes.object.isRequired,
+const Account: React.FC<Props> = ({ currentUser }) => {
+  if (currentUser.authUser) {
+    const { userName, email, photoURL, createdAt } = currentUser.authUser;
+    return (
+      <PageTemplate>
+        <StyledDiv>
+          <Suspense fallback={<Loader />}>
+            <StyledAccountWrapper heading>
+              <Heading as="h1">Account</Heading>
+            </StyledAccountWrapper>
+            <EditProfile photoURL={photoURL} nameOfUser={userName} />
+            <UserCard textName="Email" email={email} />
+            <UserCard textName="Created at" createdAt={createdAt} />
+            <StyledButtonWrapper>
+              <StyledButtonLogout onClick={() => auth.signOut()}>Log out</StyledButtonLogout>
+            </StyledButtonWrapper>
+          </Suspense>
+        </StyledDiv>
+      </PageTemplate>
+    );
+  }
+  return <div>error</div>;
 };
 
 export default Account;

@@ -21,7 +21,7 @@ const Messenger = () => {
 
   useSubscription(roomsRef, setRooms, 'desc');
 
-  const handleCreate = roomToAdd => {
+  const handleCreate = (roomToAdd: never) => {
     roomsRef.add(roomToAdd);
     setRooms([roomToAdd, ...rooms]);
   };

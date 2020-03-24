@@ -66,7 +66,7 @@ const StyledAuthorImage = styled.figure`
 `;
 
 interface Props {
-  handleCreate: ({}) => void;
+  handleCreate: any;
 }
 
 interface User {
