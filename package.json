@@ -19,6 +19,7 @@
     "firebase-admin": "^8.9.2",
     "firebase-functions": "^3.3.0",
     "firebase-tools": "^7.12.1",
+    "formik": "^2.1.4",
     "modern-normalize": "^0.5.0",
     "moment": "^2.24.0",
     "react": "^16.8.4",
@@ -73,7 +74,6 @@
   "lint-staged": {
     "*.js": [
       "prettier --config .prettierrc --write",
-      "eslint --fix",
       "git add"
     ]
   }

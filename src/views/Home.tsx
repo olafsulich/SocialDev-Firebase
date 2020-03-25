@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense, useEffect } from 'react';
 import styled from 'styled-components';
 import AddPost from '../components/molecules/AddPost';
 import useUser from '../hooks/useUser';
@@ -7,6 +7,7 @@ import { postsRef } from '../firebase/firestoreRefs';
 import PageTemplate from '../templates/PageTemplate';
 import { firestore } from '../firebase/firebase';
 import Loader from '../components/atoms/Loader/Loader';
+import PreLoader from '../components/molecules/PreLoader';
 
 const PostsList = lazy(() => import('../components/molecules/PostsList'));
 const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));

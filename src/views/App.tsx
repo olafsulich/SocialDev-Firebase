@@ -5,9 +5,9 @@ import { routes } from '../routes/routes';
 import useUser from '../hooks/useUser';
 import Loader from '../components/atoms/Loader/Loader';
 import ErrorBoundary from '../components/organisms/ErrorBoundary';
+import Login from './Login';
 
 const Home = lazy(() => import('./Home'));
-const Login = lazy(() => import('./Login'));
 const Notifications = lazy(() => import('./Notifications'));
 const Messenger = lazy(() => import('./Messenger'));
 const Account = lazy(() => import('./Account'));
@@ -24,9 +24,7 @@ const App = () => {
       <BrowserRouter>
         <ErrorBoundary>
           {!currentUser ? (
-            <Suspense fallback={<Loader />}>
-              <Login />
-            </Suspense>
+            <Login />
           ) : (
             <Switch>
               <Suspense fallback={<Loader />}>

@@ -1,10 +1,11 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
 import { auth, createUserDoc } from '../firebase/firebase';
+import PreLoader from '../components/molecules/PreLoader';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -139,6 +140,15 @@ const StyledButtonSecondary = styled.button`
 const Login = () => {
   const { register, handleSubmit, errors } = useForm();
   const [newAccount, setNewAccount] = useState(false);
+  const [isLoaderVisible, setLoaderVisibility] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoaderVisibility(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  });
+
   const [inputsContent, setInputsContent] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -165,11 +175,6 @@ const Login = () => {
       .signInWithEmailAndPassword(email, password)
       /* eslint-disable */
       .catch(error => alert(`Your email or password is incorrect, please check your data`));
-    // setInputsContent({
-    //   email: '',
-    //   password: '',
-    //   displayName: '',
-    // });
   };
 
   const handleSignUp = async e => {
@@ -180,82 +185,88 @@ const Login = () => {
   };
 
   return (
-    <StyledWrapper>
-      <StyledHeading>Social Dev</StyledHeading>
-      <StyledForm onSubmit={handleSubmit(newAccount ? handleSignUp : handleSignIn)}>
-        <StyledInputsWrapper>
-          <StyledInputLabelWrapper>
-            <StyledInput
-              id="displayName"
-              placeholder="name"
-              type="text"
-              onChange={handleInputChange}
-              name="displayName"
-              value={displayName}
-              aria-label="displayName"
-              aria-required="true"
-              aria-invalid={errors.displayName ? 'true' : 'false'}
-              ref={register({
-                required: true,
-              })}
-            />
-            <StyledLabel htmlFor="displayName">Name</StyledLabel>
-          </StyledInputLabelWrapper>
-          {errors.displayName ? <Text errorMessage>User name is required</Text> : null}
-          <StyledInputLabelWrapper>
-            <StyledInput
-              id="email"
-              placeholder="email"
-              type="email"
-              onChange={handleInputChange}
-              name="email"
-              value={email}
-              aria-label="email"
-              aria-invalid={errors.email ? 'true' : 'false'}
-              aria-required="true"
-              ref={register({
-                required: true,
-                // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-              })}
-            />
-            <StyledLabel>Email</StyledLabel>
-          </StyledInputLabelWrapper>
+    <>
+      {isLoaderVisible ? (
+        <PreLoader />
+      ) : (
+        <StyledWrapper>
+          <StyledHeading>Social Dev</StyledHeading>
+          <StyledForm onSubmit={handleSubmit(newAccount ? handleSignUp : handleSignIn)}>
+            <StyledInputsWrapper>
+              <StyledInputLabelWrapper>
+                <StyledInput
+                  id="displayName"
+                  placeholder="name"
+                  type="text"
+                  onChange={handleInputChange}
+                  name="displayName"
+                  value={displayName}
+                  aria-label="displayName"
+                  aria-required="true"
+                  aria-invalid={errors.displayName ? 'true' : 'false'}
+                  ref={register({
+                    required: true,
+                  })}
+                />
+                <StyledLabel htmlFor="displayName">Name</StyledLabel>
+              </StyledInputLabelWrapper>
+              {errors.displayName ? <Text errorMessage>User name is required</Text> : null}
+              <StyledInputLabelWrapper>
+                <StyledInput
+                  id="email"
+                  placeholder="email"
+                  type="email"
+                  onChange={handleInputChange}
+                  name="email"
+                  value={email}
+                  aria-label="email"
+                  aria-invalid={errors.email ? 'true' : 'false'}
+                  aria-required="true"
+                  ref={register({
+                    required: true,
+                    // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                  })}
+                />
+                <StyledLabel>Email</StyledLabel>
+              </StyledInputLabelWrapper>
 
-          {errors.email ? <Text errorMessage>Email is invalid please add @</Text> : null}
-          <StyledInputLabelWrapper>
-            <StyledInput
-              id="password"
-              placeholder="password"
-              type="password"
-              onChange={handleInputChange}
-              name="password"
-              value={password}
-              aria-label="password"
-              aria-required="true"
-              aria-invalid={errors.password ? 'true' : 'false'}
-              ref={register({
-                required: true,
-                pattern: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/,
-              })}
-            />
-            <StyledLabel>Password</StyledLabel>
-          </StyledInputLabelWrapper>
+              {errors.email ? <Text errorMessage>Email is invalid please add @</Text> : null}
+              <StyledInputLabelWrapper>
+                <StyledInput
+                  id="password"
+                  placeholder="password"
+                  type="password"
+                  onChange={handleInputChange}
+                  name="password"
+                  value={password}
+                  aria-label="password"
+                  aria-required="true"
+                  aria-invalid={errors.password ? 'true' : 'false'}
+                  ref={register({
+                    required: true,
+                    pattern: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+                  })}
+                />
+                <StyledLabel>Password</StyledLabel>
+              </StyledInputLabelWrapper>
 
-          {errors.password ? (
-            <Text errorMessage>
-              Password should contain min. 6 characters and at least one number
-            </Text>
-          ) : null}
-          <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
-        </StyledInputsWrapper>
-        <StyledText>
-          {newAccount ? 'Have account?' : "Haven't got account?"}
-          <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
-            {newAccount ? 'Sign in' : 'Sign up'}
-          </StyledButtonSecondary>
-        </StyledText>
-      </StyledForm>
-    </StyledWrapper>
+              {errors.password ? (
+                <Text errorMessage>
+                  Password should contain min. 6 characters and at least one number
+                </Text>
+              ) : null}
+              <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
+            </StyledInputsWrapper>
+            <StyledText>
+              {newAccount ? 'Have account?' : "Haven't got account?"}
+              <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
+                {newAccount ? 'Sign in' : 'Sign up'}
+              </StyledButtonSecondary>
+            </StyledText>
+          </StyledForm>
+        </StyledWrapper>
+      )}
+    </>
   );
 };
 
