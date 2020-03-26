@@ -1,11 +1,11 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
 import Text from '../components/atoms/Text/Text';
 import { auth, createUserDoc } from '../firebase/firebase';
 import PreLoader from '../components/molecules/PreLoader';
+import { Formik } from 'formik';
 
 const StyledWrapper = styled.section`
   width: 100%;
@@ -138,7 +138,6 @@ const StyledButtonSecondary = styled.button`
 `;
 
 const Login = () => {
-  const { register, handleSubmit, errors } = useForm();
   const [newAccount, setNewAccount] = useState(false);
   const [isLoaderVisible, setLoaderVisibility] = useState(true);
 
@@ -149,124 +148,127 @@ const Login = () => {
     return () => clearTimeout(timer);
   });
 
-  const [inputsContent, setInputsContent] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      email: '',
-      password: '',
-      displayName: '',
-    },
-  );
-  const { email, password, displayName } = inputsContent;
-
-  const handleInputChange = e => {
-    setInputsContent({
-      [e.target.name]: e.target.value,
-    });
-  };
-
   const handleNewAccount = e => {
     e.preventDefault();
     setNewAccount(prevState => !prevState);
   };
 
-  const handleSignIn = e => {
+  const handleSignIn = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
       /* eslint-disable */
-      .catch(error => alert(`Your email or password is incorrect, please check your data`));
+      .catch(() => alert(`Your email or password is incorrect, please check your data`));
   };
 
-  const handleSignUp = async e => {
+  const handleSignUp = async (email, password, displayName) => {
     const { user } = await auth
       .createUserWithEmailAndPassword(email, password)
-      .catch(error => alert(`Email is already in use, sign in or use other email`));
+      .catch(() => alert(`Email is already in use, sign in or use other email`));
     createUserDoc(user, displayName);
   };
 
   return (
-    <>
-      {isLoaderVisible ? (
-        <PreLoader />
-      ) : (
-        <StyledWrapper>
-          <StyledHeading>Social Dev</StyledHeading>
-          <StyledForm onSubmit={handleSubmit(newAccount ? handleSignUp : handleSignIn)}>
-            <StyledInputsWrapper>
-              <StyledInputLabelWrapper>
-                <StyledInput
-                  id="displayName"
-                  placeholder="name"
-                  type="text"
-                  onChange={handleInputChange}
-                  name="displayName"
-                  value={displayName}
-                  aria-label="displayName"
-                  aria-required="true"
-                  aria-invalid={errors.displayName ? 'true' : 'false'}
-                  ref={register({
-                    required: true,
-                  })}
-                />
-                <StyledLabel htmlFor="displayName">Name</StyledLabel>
-              </StyledInputLabelWrapper>
-              {errors.displayName ? <Text errorMessage>User name is required</Text> : null}
-              <StyledInputLabelWrapper>
-                <StyledInput
-                  id="email"
-                  placeholder="email"
-                  type="email"
-                  onChange={handleInputChange}
-                  name="email"
-                  value={email}
-                  aria-label="email"
-                  aria-invalid={errors.email ? 'true' : 'false'}
-                  aria-required="true"
-                  ref={register({
-                    required: true,
-                    // pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  })}
-                />
-                <StyledLabel>Email</StyledLabel>
-              </StyledInputLabelWrapper>
+    <Formik
+      initialValues={{ email: '', password: '', displayName: '' }}
+      validate={({ email, password, displayName }) => {
+        const errors = {};
+        if (!email) {
+          errors.email = 'Email is required';
+        } else if (!password) {
+          errors.password = 'Password is required';
+        } else if (!displayName) {
+          errors.password = 'Name is required';
+        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+          errors.email = 'Invalid email address';
+        } else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/i.test(password)) {
+          errors.password = 'Password should contain min. 6 characters and one number';
+        }
+        return errors;
+      }}
+      onSubmit={({ email, password, displayName }) =>
+        newAccount ? handleSignUp(email, password, displayName) : handleSignIn(email, password)
+      }
+    >
+      {({
+        values: { email, password, displayName },
+        errors,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+      }) => (
+        <>
+          {isLoaderVisible ? (
+            <PreLoader />
+          ) : (
+            <StyledWrapper>
+              <StyledHeading>Social Dev</StyledHeading>
+              <StyledForm onSubmit={handleSubmit}>
+                <StyledInputsWrapper>
+                  <StyledInputLabelWrapper>
+                    <StyledInput
+                      id="displayName"
+                      placeholder="name"
+                      type="text"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="displayName"
+                      value={displayName}
+                      aria-label="displayName"
+                      aria-required="true"
+                      autoComplete="new-password"
+                    />
+                    <StyledLabel htmlFor="displayName">Name</StyledLabel>
+                  </StyledInputLabelWrapper>
+                  {errors.displayName && <Text errorMessage>{errors.displayName}</Text>}
 
-              {errors.email ? <Text errorMessage>Email is invalid please add @</Text> : null}
-              <StyledInputLabelWrapper>
-                <StyledInput
-                  id="password"
-                  placeholder="password"
-                  type="password"
-                  onChange={handleInputChange}
-                  name="password"
-                  value={password}
-                  aria-label="password"
-                  aria-required="true"
-                  aria-invalid={errors.password ? 'true' : 'false'}
-                  ref={register({
-                    required: true,
-                    pattern: /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{6,}$/,
-                  })}
-                />
-                <StyledLabel>Password</StyledLabel>
-              </StyledInputLabelWrapper>
+                  <StyledInputLabelWrapper>
+                    <StyledInput
+                      id="email"
+                      placeholder="email"
+                      type="email"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="email"
+                      value={email}
+                      aria-label="email"
+                      aria-required="true"
+                      autoComplete="new-password"
+                    />
+                    <StyledLabel>Email</StyledLabel>
+                  </StyledInputLabelWrapper>
+                  {errors.email && <Text errorMessage>{errors.email}</Text>}
 
-              {errors.password ? (
-                <Text errorMessage>
-                  Password should contain min. 6 characters and at least one number
-                </Text>
-              ) : null}
-              <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
-            </StyledInputsWrapper>
-            <StyledText>
-              {newAccount ? 'Have account?' : "Haven't got account?"}
-              <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
-                {newAccount ? 'Sign in' : 'Sign up'}
-              </StyledButtonSecondary>
-            </StyledText>
-          </StyledForm>
-        </StyledWrapper>
+                  <StyledInputLabelWrapper>
+                    <StyledInput
+                      id="password"
+                      placeholder="password"
+                      type="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="password"
+                      value={password}
+                      aria-label="password"
+                      aria-required="true"
+                      autoComplete="new-password"
+                    />
+                    <StyledLabel>Password</StyledLabel>
+                  </StyledInputLabelWrapper>
+                  {errors.password && <Text errorMessage>{errors.password}</Text>}
+
+                  <StyledButton type="submit">{newAccount ? 'Sign up' : 'Sign in'}</StyledButton>
+                </StyledInputsWrapper>
+                <StyledText>
+                  {newAccount ? 'Have account?' : "Haven't got account?"}
+                  <StyledButtonSecondary aria-label="sign in/sign up" onClick={handleNewAccount}>
+                    {newAccount ? 'Sign in' : 'Sign up'}
+                  </StyledButtonSecondary>
+                </StyledText>
+              </StyledForm>
+            </StyledWrapper>
+          )}
+        </>
       )}
-    </>
+    </Formik>
   );
 };
 
