@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Heading from '../components/atoms/Heading/Heading';
 import Input from '../components/atoms/Input/Input';
