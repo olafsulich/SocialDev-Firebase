@@ -17,4 +17,4 @@ const useCollection = (
     };
   }, [dependency]);
 };
-export default useCollection;
+export default ;
