@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import documentsCollection from '../utils/documentsCollection';
 
-const useCollection = (ref: { onSnapshot: any }, dataSetter: any, dependency = null) => {
+const useCollection = (
+  ref: any,
+  dataSetter: React.Dispatch<React.SetStateAction<any>>,
+  dependency?: object | null,
+) => {
   useEffect(() => {
-    const unsubscribe = ref.onSnapshot((snapshot: any) => {
-      const dataFromCollection = documentsCollection(snapshot);
+    const unsubscribe = ref.onSnapshot((snapshot: {}) => {
+      const dataFromCollection: object[] = documentsCollection(snapshot);
       dataSetter(dataFromCollection);
     });
 
