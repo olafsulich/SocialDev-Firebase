@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '../src/theme/MainTheme';
 
 function loadStories() {
-  const req = require.context('../src/components', true, /\.stories\.js$/);
+  const req = require.context('../src/components', true, /\.stories\.tsx$/);
   req.keys().forEach(filename => req(filename));
 }
 
