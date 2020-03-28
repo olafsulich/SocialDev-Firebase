@@ -50,11 +50,9 @@ const StyledInputLabelWrapper = styled.div`
   position: relative;
   margin-bottom: 1.5rem;
   margin-top: 1.5rem;
-
   :first-of-type {
     margin-top: 0;
   }
-
   input + label {
     line-height: 1;
     height: 4rem;
@@ -62,7 +60,6 @@ const StyledInputLabelWrapper = styled.div`
     transform-origin: 0 0;
     transform: translate(20px, 50%);
     position: absolute;
-
     @media (min-width: 1000px) {
       transform: translate(20px, 55%);
     }
@@ -82,13 +79,11 @@ const StyledInput = styled(Input)`
   ::placeholder {
     color: transparent;
   }
-
   :not(:placeholder-shown) + label,
   :focus + label {
     transform: translate(10px, -15%);
     cursor: pointer;
   }
-
   @media (min-width: 1000px) {
     :not(:placeholder-shown) + label,
     :focus + label {
@@ -96,11 +91,9 @@ const StyledInput = styled(Input)`
       cursor: pointer;
     }
   }
-
   :focus + ::placeholder {
     color: inherit;
   }
-
   :focus {
     outline: 0;
   }

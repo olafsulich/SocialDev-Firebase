@@ -15,7 +15,7 @@ const PostDetails = lazy(() => import('./PostDetails'));
 const RoomDetails = lazy(() => import('./RoomDetails'));
 
 const App = () => {
-  const [currentUser, setCurrentUser] = useState<{}>({});
+  const [currentUser, setCurrentUser] = useState<object>({});
   const { home, account, notifications, messenger, post, room } = routes;
   useUser(setCurrentUser);
 

@@ -31,10 +31,7 @@ export const getUserDoc = async (uid: string | undefined) => {
   }
 };
 
-export const createUserDoc = async (
-  user: { uid: string | undefined; email: string | null },
-  userName?: string,
-) => {
+export const createUserDoc = async (user: any, userName?: string) => {
   const userRef = await firestore.doc(`users/${user.uid}`);
   const snapshot = await userRef.get();
   if (!snapshot.exists) {
@@ -56,3 +53,5 @@ export const createUserDoc = async (
 };
 
 export default firebase;
+
+window.firebase = firebase;

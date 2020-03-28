@@ -1,4 +1,4 @@
-import React, { ErrorInfo } from 'react';
+import React from 'react';
 import StyledHeading from '../atoms/Heading/Heading';
 
 class ErrorBoundary extends React.Component {

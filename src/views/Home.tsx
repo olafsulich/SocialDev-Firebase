@@ -7,7 +7,7 @@ import { postsRef } from '../firebase/firestoreRefs';
 import PageTemplate from '../templates/PageTemplate';
 import { firestore } from '../firebase/firebase';
 import Loader from '../components/atoms/Loader/Loader';
-import PreLoader from '../components/molecules/PreLoader';
+import { auth } from 'firebase';
 
 const PostsList = lazy(() => import('../components/molecules/PostsList'));
 const HeadingWrapper = lazy(() => import('../components/atoms/HeadingWrapper/HeadingWrapper'));
@@ -17,8 +17,10 @@ const StyledDiv = styled.div`
 `;
 
 const Home = () => {
-  const [currentUser, setCurrentUser] = useState<{} | null>(null);
+  const [currentUser, setCurrentUser] = useState<object | null>(null);
   const [posts, setPosts] = useState<any>([]);
+
+  console.log(currentUser);
 
   const postRef = firestore.collection('posts');
 
