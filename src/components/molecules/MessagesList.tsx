@@ -6,8 +6,14 @@ const StyledArticle = styled.article`
   width: 100%;
 `;
 
+interface Messages {
+  user: {};
+  message: string;
+  id: number;
+}
+
 interface Props {
-  messages: [];
+  messages: Messages[];
   currentUser: {} | null;
 }
 
