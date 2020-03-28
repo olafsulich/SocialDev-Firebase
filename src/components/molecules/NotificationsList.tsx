@@ -1,7 +1,7 @@
 import React from 'react';
 import Notification from '../atoms/Notification/Notification';
 
-interface Notifi {
+interface Notifications {
   content: string;
   id: number;
   userName: string;
@@ -13,25 +13,23 @@ interface Notifi {
 }
 
 interface Props {
-  notifications: Notifi[];
+  notifications: Notifications[];
 }
 
 const NotificationsList: React.FC<Props> = ({ notifications }) => {
   return (
     <>
-      {notifications.map(({ content, id, userName, photoURL, type, createdAt }) => {
-        return (
-          <Notification
-            content={content}
-            id={id}
-            userName={userName}
-            type={type}
-            photoURL={photoURL}
-            createdAt={createdAt}
-            key={id}
-          />
-        );
-      })}
+      {notifications.map(({ content, id, userName, photoURL, type, createdAt }) => (
+        <Notification
+          content={content}
+          id={id}
+          userName={userName}
+          type={type}
+          photoURL={photoURL}
+          createdAt={createdAt}
+          key={id}
+        />
+      ))}
     </>
   );
 };
