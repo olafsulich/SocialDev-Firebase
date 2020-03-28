@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import documentsCollection from '../utils/documentsCollection';
 
 const useCollection = (
-  ref: any,
+  ref: firebase.firestore.DocumentReference,
   dataSetter: React.Dispatch<React.SetStateAction<any>>,
   dependency?: object | null,
 ) => {
