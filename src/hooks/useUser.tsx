@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { auth, createUserDoc } from '../firebase/firebase';
 
-const useUser = (handler: any, currentUser = null) => {
+const useUser = (
+  handler: React.Dispatch<React.SetStateAction<any>>,
+  currentUser?: object | null,
+) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async user => {
       if (user) {
