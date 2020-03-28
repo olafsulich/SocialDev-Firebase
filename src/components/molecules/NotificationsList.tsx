@@ -1,8 +1,19 @@
 import React from 'react';
 import Notification from '../atoms/Notification/Notification';
 
+interface Notifi {
+  content: string;
+  id: number;
+  userName: string;
+  photoURL: string;
+  type: string;
+  createdAt: {
+    toDate: () => {};
+  };
+}
+
 interface Props {
-  notifications: never[];
+  notifications: Notifi[];
 }
 
 const NotificationsList: React.FC<Props> = ({ notifications }) => {

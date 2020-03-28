@@ -16,7 +16,7 @@ const StyledDiv = styled.div`
 `;
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<[]>([]);
 
   useSubscription(notificationsRef, setNotifications, 'desc');
 
