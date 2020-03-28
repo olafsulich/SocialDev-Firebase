@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 
-const useRefScroll = (ref: any, dependency?: {}) => {
+const useRefScroll = (ref: React.RefObject<HTMLDivElement>, dependency?: {}) => {
   useEffect(() => {
     const currentRef = ref.current;
-    currentRef.scrollTop = currentRef.scrollHeight;
+    if (currentRef) {
+      currentRef.scrollTop = currentRef.scrollHeight;
+    }
   }, [dependency]);
 };
 export default useRefScroll;
