@@ -2,6 +2,8 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/storage';
+import defaultPic from '../assets/default-pic.png';
+
 const firebaseConfig = {
   apiKey: 'AIzaSyAO3f-YAKCeZUKsEGrzIrTp5mu67tICYNE',
   authDomain: 'social-dev-dcf2d.firebaseapp.com',
@@ -41,7 +43,7 @@ export const createUserDoc = async (user: any, userName?: string) => {
       await userRef.set({
         uid,
         email,
-        photoURL: 'https://abridgetohope.org/wp-content/uploads/2018/12/Unknown.png',
+        photoURL: defaultPic,
         createdAt,
         userName: userName,
       });

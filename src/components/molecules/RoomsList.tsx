@@ -2,8 +2,14 @@ import React from 'react';
 import Room from '../atoms/Room/Room';
 import { roomsRef } from '../../firebase/firestoreRefs';
 
+interface Rooms {
+  title: string;
+  id: string | undefined;
+  user: object;
+}
+
 interface Props {
-  rooms: never[];
+  rooms: Rooms[];
 }
 
 const RoomsList: React.FC<Props> = ({ rooms }) => {
