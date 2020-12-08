@@ -2,9 +2,9 @@
 
 <br>
 
-<p align="center">
-<img src="https://i.ibb.co/LxbZZbb/socialdev-seo.png"  alt="Social dev">
-</p>
+
+<img src="https://i.ibb.co/LxbZZbb/socialdev-seo.png" width="100%" alt="Social dev">
+
 
 <br>
 
