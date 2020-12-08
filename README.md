@@ -3,7 +3,7 @@
 <br>
 
 <p align="center">
-<img src="https://i.ibb.co/d25vqJ9/4576.jpg"  alt="Social dev">
+<img src="https://i.ibb.co/LxbZZbb/socialdev-seo.png"  alt="Social dev">
 </p>
 
 <br>
